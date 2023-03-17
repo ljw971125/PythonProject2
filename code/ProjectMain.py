@@ -14,6 +14,7 @@ window.resizable(True,True) # 화면 크기 조절(가로, 세로)
 count = 0
 
 def countUP(): # 실행됫을 때 숫자가 1씩 증가하는 함수
+    
     global image
     image = tk.PhotoImage(file="1085477793720172606.png")
     label.config(image=image,width=150,height=150)
