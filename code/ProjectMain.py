@@ -1,7 +1,8 @@
 from tkinter import *
-import tkinter
-import csv
-import os
+import tkinter # 인터페이스를 만들 때 사용합니다.
+import csv # csv 파일을 불러올 때 사용합니다.
+import os 
+
 PATH = os.path.dirname(os.path.realpath(__file__))
 os.chdir(PATH)
 
