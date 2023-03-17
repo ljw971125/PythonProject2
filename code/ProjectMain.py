@@ -1,65 +1,24 @@
-import tkinter.ttk as ttk
 from tkinter import *
-import csv
-import os
+import tkinter
 
-PATH = os.path.dirname(os.path.realpath(__file__)) #현재 경로로 불러옴
-os.chdir(PATH)
+root = Tk()
 
-f = open('서울시 구별건.csv')
-data=csv.reader(f)
-next(data)
-next(data)
-next(data)
-seoul_list=[]
-year_list=['2017','2018','2019','2020','2021']
-for row in data:
-    seoul_list.append(row[1])
-#print(seoul_list)
+frame = Frame(root) # 프레임 생성
+frame.pack(side=LEFT) # 프레임을 윈도우에 배치
 
+scrollbar = Scrollbar(frame) # 스크롤바 생성
+scrollbar.pack(side=RIGHT, fill=Y) # 스크롤바를 프레임의 오른쪽에 붙임
 
-root =Tk()
-root.title(" GUI")
-root.geometry("640x480")
+districts = ['강남구', '강동구', '강북구', '강서구', '관악구', '광진구', '구로 구','금천 구',
+             '노원 구','도봉 구','동대문 구','동작 구','마포 구','서대문 구','서초 구',
+             '성동 구','성북 구','송파 구','양천 구','영등포 구','용산 구','은평 구',
+             '종로 구','중 구','중랑 구']
 
+mylist = Listbox(frame, yscrollcommand=scrollbar.set, height=0) # 리스트바 생성, 스크롤바 연결, 높이 0으로 설정
+for district in districts:
+    mylist.insert(tkinter.END, district)
+mylist.pack(side=LEFT) # 리스트바를 프레임의 왼쪽에 붙임
 
-seoul_combobox = ttk.Combobox(root, height =5, values =seoul_list)
-seoul_combobox.place(x=3, y= 240)
-seoul_combobox.set("구를 선택하세요") # 최초 목록 제목 설정
+scrollbar.config(command=mylist.yview) # 스크롤바에 리스트바의 y축 이동을 연결
 
-
-
-year_combobox = ttk.Combobox(root, height =10, values =year_list, state ="readonly")
-year_combobox.set("연도를 선택하세요") # 최초 목록 제목 설정
-year_combobox.pack()
-
-
-
-
-def btncmd():
-    data_1 = 0
-    f=open('서울시 구별건.csv',encoding='cp949')
-    data=csv.reader(f)
-    next(data)
-    next(data)
-    next(data)
-
-    for row in data:
-        if row[1] == seoul_combobox.get():
-
-            test = row[-2009+int(year_combobox.get())]
-
-    print(seoul_combobox.get())
-    print(year_combobox.get())
-
-    # 수정된 부분
-    print(test)
-    f.close()
-
-
-
-btn = Button(root, text ="선택", command =btncmd)
-btn.pack()
-
-root.mainloop()
-f.close()
+mainloop()
