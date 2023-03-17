@@ -1,31 +1,65 @@
-# #프로젝트 시작
+import tkinter.ttk as ttk
+from tkinter import *
+import csv
 import os
-import tkinter as tk
 
 PATH = os.path.dirname(os.path.realpath(__file__)) #현재 경로로 불러옴
 os.chdir(PATH)
 
-window = tk.Tk()
-
-window.title("ㅅㅅ") # 제목
-window.geometry("240x150") # 해상도("너비x높이+x좌표+y좌표")
-window.resizable(True,True) # 화면 크기 조절(가로, 세로)
-
-count = 0
-
-def countUP(): # 실행됫을 때 숫자가 1씩 증가하는 함수
-    
-    global image
-    image = tk.PhotoImage(file="1085477793720172606.png")
-    label.config(image=image,width=150,height=150)
+f = open('서울시 구별건.csv')
+data=csv.reader(f)
+next(data)
+next(data)
+next(data)
+seoul_list=[]
+year_list=['2017','2018','2019','2020','2021']
+for row in data:
+    seoul_list.append(row[1])
+#print(seoul_list)
 
 
+root =Tk()
+root.title(" GUI")
+root.geometry("640x480")
 
-label = tk.Label(window, fg = "red",cursor="umbrella") # 화면에 출력할 문자(윈도우 창, 매개변수1, 매개변수2, 매개변수3)
-label.place(x=3,y=5)
+
+seoul_combobox = ttk.Combobox(root, height =5, values =seoul_list)
+seoul_combobox.pack()
+seoul_combobox.set("구를 선택하세요") # 최초 목록 제목 설정
 
 
-button = tk.Button(window,text= "쪼물쪼물", overrelief="solid", command=countUP, repeatdelay=1000,repeatinterval=1000) # 버튼 설정(윈도우, 창, 매개변수1, 매개변수2, 매개변수3)
-button.place(x=180,y=100)
 
-window.mainloop() # 창을 띄어줌
+year_combobox = ttk.Combobox(root, height =10, values =year_list, state ="readonly")
+year_combobox.set("연도를 선택하세요") # 최초 목록 제목 설정
+year_combobox.pack()
+
+
+
+
+def btncmd():
+    data_1 = 0
+    f=open('서울시 구별건.csv',encoding='cp949')
+    data=csv.reader(f)
+    next(data)
+    next(data)
+    next(data)
+
+    for row in data:
+        if row[1] == seoul_combobox.get():
+
+            test = row[2025-int(year_combobox.get())]
+
+    print(seoul_combobox.get())
+    print(year_combobox.get())
+
+    # 수정된 부분
+    print(test)
+    f.close()
+
+
+
+btn = Button(root, text ="선택", command =btncmd)
+btn.pack()
+
+root.mainloop()
+f.close()
