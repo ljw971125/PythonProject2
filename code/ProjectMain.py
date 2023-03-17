@@ -24,7 +24,7 @@ root.geometry("640x480")
 
 
 seoul_combobox = ttk.Combobox(root, height =5, values =seoul_list)
-seoul_combobox.pack()
+seoul_combobox.place(x=3, y= 240)
 seoul_combobox.set("구를 선택하세요") # 최초 목록 제목 설정
 
 
@@ -47,7 +47,7 @@ def btncmd():
     for row in data:
         if row[1] == seoul_combobox.get():
 
-            test = row[2025-int(year_combobox.get())]
+            test = row[-2009+int(year_combobox.get())]
 
     print(seoul_combobox.get())
     print(year_combobox.get())
