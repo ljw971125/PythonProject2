@@ -14,17 +14,21 @@ window.resizable(True,True) # 화면 크기 조절(가로, 세로)
 count = 0
 
 def countUP(): # 실행됫을 때 숫자가 1씩 증가하는 함수
+    
     global image
-    image = tkinter.PhotoImage(file="1085477793720172606.png")
-    label.config(image=image,width=150,height=150)
+    for i in range(1,400,50):
+        image = tkinter.PhotoImage(file="1085477793720172606.png")
+        label.config(image=image,width=i,height=150)
 
 
 
 label = tkinter.Label(window, fg = "red",cursor="umbrella") # 화면에 출력할 문자(윈도우 창, 매개변수1, 매개변수2, 매개변수3)
-label.place(x=-1000, y= -1000)
-label.pack()
+label.place(x=50, y= 30)
+
 
 button = tkinter.Button(window,text= "쪼물쪼물", overrelief="solid", command=countUP, repeatdelay=1000,repeatinterval=1000) # 버튼 설정(윈도우, 창, 매개변수1, 매개변수2, 매개변수3)
-button.pack()
+button.place(x=3,y=5)
 
 window.mainloop() # 창을 띄어줌
+
+#브랜치 실험1
