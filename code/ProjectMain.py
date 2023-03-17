@@ -29,8 +29,3 @@ button = tk.Button(window,text= "쪼물쪼물", overrelief="solid", command=coun
 button.place(x=180,y=100)
 
 window.mainloop() # 창을 띄어줌
-<<<<<<< HEAD
-
-=======
-#브랜치 생성
->>>>>>> b859e26cf70872b04ba6a86856b6b3d30daca1ca
