@@ -16,7 +16,7 @@ def selection():
 
 f = open('서울시.csv') # csv 파일을 불러오기
 reader = csv.reader(f) 
-data = [row[1] for row in reader] #csv 파일에서 2열부터의 값을 가져오기
+data = [row[2] for row in reader] #csv 파일에서 2열부터의 값을 가져오기
 
 window = tk.Tk() 
 photo = ImageTk.PhotoImage(Image.open(icon)) # ui 아이콘 불러오기
