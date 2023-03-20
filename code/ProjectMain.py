@@ -31,10 +31,12 @@ var.set("1")
 
 frame = tk.Frame(window) # 프레임 생성
 frame2 = tk.Frame(window)
+frame3 = tk.Frame(window)
 
 
 frame.pack(side=LEFT) # 프레임을 왼쪽 정렬
 frame2.pack(side=RIGHT)
+frame3.pack(side=TOP,fill="x")
 
 scrollbar = Scrollbar(frame) # 스크롤바 생성
 scrollbar.pack(side=RIGHT, fill=Y) # 스크롤바를 프레임의 오른쪽에 붙임
@@ -55,6 +57,14 @@ R4 = Radiobutton(frame2, text='과속',variable=var, value="4",command=selection
 R4.pack(anchor='w')
 R5 = Radiobutton(frame2, text='신호위반',variable=var, value="5",command=selection)
 R5.pack(anchor='w')
+
+
+bt=tk.Button(frame3,text="버튼1")
+bt.pack(side=LEFT)
+bt2=tk.Button(frame3,text="버튼2")
+bt2.pack(side=LEFT)
+bt3=tk.Button(frame3,text="버튼3")
+bt3.pack(side=LEFT)
 
 
 # 레이블 생성
