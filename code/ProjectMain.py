@@ -7,6 +7,7 @@ from PIL import Image, ImageTk
 PATH = os.path.dirname(os.path.realpath(__file__)) # 현재 디렉토리로 이동
 os.chdir(PATH)
 
+
 def selection():
     label.config(text="You selected " + var.get())
 
@@ -15,11 +16,11 @@ reader = csv.reader(f)
 data = [row[2] for row in reader] #csv 파일에서 2열부터의 값을 가져오기
 
 window = tk.Tk() 
-photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
-window.wm_iconphoto(False, photo) # ui 아이콘 적용하기
+#photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
+#window.wm_iconphoto(False, photo) # ui 아이콘 적용하기
 window.title("서울시 사고유형 분석") # ui 제목
-window.geometry("870x450") # ui 크기
-window.resizable(False,False)
+#window.geometry("870x450") # ui 크기
+#window.resizable(True,True)
 
 var = StringVar()
 var.set("1")
@@ -29,7 +30,7 @@ frame1 = tk.Frame(window)
 frame2 = tk.Frame(window) # 프레임 생성
 frame3 = tk.Frame(window)
 
-frame1.pack(anchor='nw')
+frame1.pack(fill=BOTH)
 frame2.pack(side=LEFT) # 프레임을 왼쪽 정렬
 frame3.pack(side=RIGHT)
 
@@ -56,11 +57,11 @@ R5.pack(anchor='w')
 
 
 bt=tk.Button(frame1,text="버튼1",width=40,height=4)
-bt.pack(side=LEFT,fill=BOTH)
+bt.pack(side=LEFT,expand=True,fill=BOTH)
 bt2=tk.Button(frame1,text="버튼2",width=40,height=4)
-bt2.pack(side=LEFT,fill=BOTH)
+bt2.pack(side=LEFT,expand=True,fill=BOTH)
 bt3=tk.Button(frame1,text="버튼3",width=40,height=4)
-bt3.pack(side=LEFT,fill=BOTH)
+bt3.pack(side=LEFT,expand=True,fill=BOTH)
 
 
 # 레이블 생성
