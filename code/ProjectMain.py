@@ -6,13 +6,18 @@ from PIL import Image, ImageTk
 
 PATH = os.path.dirname(os.path.realpath(__file__)) # 현재 디렉토리로 이동
 os.chdir(PATH)
-<<<<<<< HEAD
-
+print(PATH)
+icon = "car.png"
+    
 class SampleApp(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
         self._frame = None
         self.switch_frame(StartPage)
+        self.title("서울시 사고유형 분석")
+        self.geometry("680x470")
+        photo = ImageTk.PhotoImage(Image.open(icon)) # ui 아이콘 불러오기
+        self.wm_iconphoto(False, photo) # ui 아이콘 적용하기
 
     def switch_frame(self, frame_class):
         new_frame = frame_class(self)
@@ -21,36 +26,34 @@ class SampleApp(tk.Tk):
         self._frame = new_frame
         self._frame.pack()
 
-    
 class StartPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         tk.Label(self, text="Start page", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
         tk.Button(self, text="Go to page one",
                   command=lambda: master.switch_frame(PageOne)).pack()
+        
 
 class PageOne(tk.Frame):
-    def __init__(self, master):
+    def __init__(self,master):
+        tk.Frame.__init__(self, master)
+        # 콜백 함수 정의
         f = open('서울시.csv') # csv 파일을 불러오기
         reader = csv.reader(f) 
         data = [row[2] for row in reader] #csv 파일에서 2열부터의 값을 가져오기
-
-        window = tk.Tk() 
-        #photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
-        #window.wm_iconphoto(False, photo) # ui 아이콘 적용하기
-        window.title("서울시 사고유형 분석") # ui 제목
-        window.geometry("870x450") # ui 크기
-        #window.resizable(True,True)
-
-        var = StringVar()
-        var.set("1")
+        
+        var=StringVar()
+        var.set(NONE)
+        def selection():  
+            label.config(text="You selected " + var.get())
+ 
 
         # 프레임 생성
-        frame1 = tk.Frame(window)
-        frame2 = tk.Frame(window) # 프레임 생성
-        frame3 = tk.Frame(window)
+        frame1 = tk.Frame()
+        frame2 = tk.Frame() # 프레임 생성
+        frame3 = tk.Frame()
 
-        frame1.pack(fill=BOTH)  
+        frame1.pack(fill=BOTH)
         frame2.pack(side=LEFT) # 프레임을 왼쪽 정렬
         frame3.pack(side=RIGHT)
 
@@ -63,39 +66,6 @@ class PageOne(tk.Frame):
         for data in data[3:]: # csv 파일의 3행부터 불러옴
             mylist.insert(tk.END, data)
         mylist.pack(side=LEFT) # 리스트바를 프레임의 왼쪽에 붙임
-=======
-print(PATH)
-
-
-def selection():
-    label.config(text="You selected " + var.get())
-
-f = open('서울시.csv') # csv 파일을 불러오기
-reader = csv.reader(f) 
-data = [row[2] for row in reader] #csv 파일에서 2열부터의 값을 가져오기
-
-window = tk.Tk() 
-photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
-window.wm_iconphoto(False, photo) # ui 아이콘 적용하기
-window.title("서울시 사고유형 분석") # ui 제목
-window.geometry("900x500") # ui 크기
-
-var = StringVar()
-var.set("1")
-
-# 프레임 생성
-
-frame = tk.Frame(window) # 프레임 생성
-frame2 = tk.Frame(window)
-frame3 = tk.Frame(window)
-frame4 = tk.Frame(window)
-
-
-frame.grid(row=1,column=0,sticky='w') # 프레임을 왼쪽 정렬
-frame2.grid(row=1,column=2,sticky='e')
-frame3.grid(row=0,column=0)
-frame4.grid(row=1,column=1)
->>>>>>> 0e009cc0abd26775a4bde40b257e8076a28d753b
 
         R1 = Radiobutton(frame3, text='음주운전',variable=var, value="1",command=selection) # 오른쪽 프레임 체크박스 추가
         R1.pack(anchor='w') # 왼쪽으로 정렬
@@ -108,21 +78,19 @@ frame4.grid(row=1,column=1)
         R5 = Radiobutton(frame3, text='신호위반',variable=var, value="5",command=selection)
         R5.pack(anchor='w')
 
-        bt=tk.Button(frame1,text="버튼1",width=40,height=4)
+
+        bt=Button(frame1,text="버튼1",width=40,height=4)
         bt.pack(side=LEFT,expand=True,fill=BOTH)
-        bt2=tk.Button(frame1,text="버튼2",width=40,height=4)
+        bt2=Button(frame1,text="버튼2",width=40,height=4)
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
-        bt3=tk.Button(frame1,text="버튼3",width=40,height=4)
+        bt3=Button(frame1,text="버튼3",width=40,height=4)
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
 
-        # 레이블 생성
-        def selection():
-            label.config(text="You selected " + var.get())
-        label = tk.Label(window)
-        label.pack()
-        
 
-        # 콜백 함수 정의
+        # 레이블 생성
+        label = tk.Label()
+        label.pack()
+
         def show_info(event):
             # 선택된 항목의 인덱스와 정보를 레이블에 표시
             index = mylist.curselection()[0]
@@ -131,34 +99,9 @@ frame4.grid(row=1,column=1)
 
         # 리스트박스에 콜백 함수 연결
         mylist.bind("<<ListboxSelect>>", show_info)
-        window.mainloop()
 
-<<<<<<< HEAD
+        #window.mainloop()
+
 if __name__ == "__main__":
     app = SampleApp()
     app.mainloop()
-=======
-bt=tk.Button(frame3,text="버튼1",width=20)
-bt.pack(side=LEFT,fill=BOTH)
-bt2=tk.Button(frame3,text="버튼2",width=20)
-bt2.pack(side=LEFT)
-bt3=tk.Button(frame3,text="버튼3",width=20)
-bt3.pack(side=LEFT)
-
-
-# 레이블 생성
-label = tk.Label(window)
-label.grid(row=5,column=1)
-
-# 콜백 함수 정의
-def show_info(event):
-    # 선택된 항목의 인덱스와 정보를 레이블에 표시
-    index = mylist.curselection()[0]
-    info = mylist.get(index)
-    label.config(text=f"선택한 지역: {info}")
-
-# 리스트박스에 콜백 함수 연결
-mylist.bind("<<ListboxSelect>>", show_info)
-
-window.mainloop()
->>>>>>> 0e009cc0abd26775a4bde40b257e8076a28d753b
