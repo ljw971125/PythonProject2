@@ -97,6 +97,7 @@ class PageOne(tk.Frame):
 
         # 리스트박스에 콜백 함수 연결
         mylist.bind("<<ListboxSelect>>", show_info)
+        window.mainloop()
 
 if __name__ == "__main__":
     app = SampleApp()
