@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import tkinter.ttk as ttk
 from tkinter import *
 import csv
@@ -88,5 +89,24 @@ def btncmd():
 
 btn = Button(root, text ="선택", command =btncmd)
 btn.grid(row=4, column=0)
+=======
+from tkinter import *
+
+root = Tk()
+var = StringVar()
+var.set("1")
+
+def selection():
+    label.config(text="You selected " + var.get())
+
+R1 = Radiobutton(root, text="Option 1", ,variable=var value="1", command=selection)
+R1.pack()
+
+R2 = Radiobutton(root, text="Option 2", variable=var, value="2", command=selection)
+R2.pack()
+
+label = Label(root)
+label.pack()
+>>>>>>> 15f09108687646d1ad1eef46f3bbcf416d4e7bc4
 
 root.mainloop()
