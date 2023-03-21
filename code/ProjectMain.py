@@ -7,8 +7,6 @@ from PIL import Image, ImageTk
 PATH = os.path.dirname(os.path.realpath(__file__)) # 현재 디렉토리로 이동
 os.chdir(PATH)
 print(PATH)
-icon = "car.png"
-
 
 
 def selection():
@@ -19,7 +17,7 @@ reader = csv.reader(f)
 data = [row[2] for row in reader] #csv 파일에서 2열부터의 값을 가져오기
 
 window = tk.Tk() 
-photo = ImageTk.PhotoImage(Image.open(icon)) # ui 아이콘 불러오기
+photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
 window.wm_iconphoto(False, photo) # ui 아이콘 적용하기
 window.title("서울시 사고유형 분석") # ui 제목
 window.geometry("900x500") # ui 크기
@@ -32,11 +30,13 @@ var.set("1")
 frame = tk.Frame(window) # 프레임 생성
 frame2 = tk.Frame(window)
 frame3 = tk.Frame(window)
+frame4 = tk.Frame(window)
 
 
-frame.pack(side=LEFT) # 프레임을 왼쪽 정렬
-frame2.pack(side=RIGHT)
-frame3.pack(side=TOP,fill="x")
+frame.grid(row=1,column=0,sticky='w') # 프레임을 왼쪽 정렬
+frame2.grid(row=1,column=2,sticky='e')
+frame3.grid(row=0,column=0)
+frame4.grid(row=1,column=1)
 
 scrollbar = Scrollbar(frame) # 스크롤바 생성
 scrollbar.pack(side=RIGHT, fill=Y) # 스크롤바를 프레임의 오른쪽에 붙임
@@ -59,17 +59,17 @@ R5 = Radiobutton(frame2, text='신호위반',variable=var, value="5",command=sel
 R5.pack(anchor='w')
 
 
-bt=tk.Button(frame3,text="버튼1")
-bt.pack(side=LEFT)
-bt2=tk.Button(frame3,text="버튼2")
+bt=tk.Button(frame3,text="버튼1",width=20)
+bt.pack(side=LEFT,fill=BOTH)
+bt2=tk.Button(frame3,text="버튼2",width=20)
 bt2.pack(side=LEFT)
-bt3=tk.Button(frame3,text="버튼3")
+bt3=tk.Button(frame3,text="버튼3",width=20)
 bt3.pack(side=LEFT)
 
 
 # 레이블 생성
 label = tk.Label(window)
-label.pack()
+label.grid(row=5,column=1)
 
 # 콜백 함수 정의
 def show_info(event):
