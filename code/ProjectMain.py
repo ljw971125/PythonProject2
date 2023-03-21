@@ -92,11 +92,11 @@ class PageOne(tk.Frame):
         R5.pack(anchor='w')
 
 
-        bt=Button(frame1,text="버튼1",width=40,height=4)
+        bt=Button(frame1,text="버튼1",width=40,height=3)
         bt.pack(side=LEFT,expand=True,fill=BOTH)
-        bt2=Button(frame1,text="버튼2",width=40,height=4)
+        bt2=Button(frame1,text="버튼2",width=40,height=3)
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
-        bt3=Button(frame1,text="버튼3",width=40,height=4)
+        bt3=Button(frame1,text="버튼3",width=40,height=3)
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
 
 
