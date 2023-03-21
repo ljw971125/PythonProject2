@@ -6,10 +6,6 @@ from PIL import Image, ImageTk
 
 PATH = os.path.dirname(os.path.realpath(__file__)) # 현재 디렉토리로 이동
 os.chdir(PATH)
-print(PATH)
-icon = "car.png"
-
-
 
 def selection():
     label.config(text="You selected " + var.get())
@@ -19,10 +15,10 @@ reader = csv.reader(f)
 data = [row[2] for row in reader] #csv 파일에서 2열부터의 값을 가져오기
 
 window = tk.Tk() 
-photo = ImageTk.PhotoImage(Image.open(icon)) # ui 아이콘 불러오기
+photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
 window.wm_iconphoto(False, photo) # ui 아이콘 적용하기
 window.title("서울시 사고유형 분석") # ui 제목
-window.geometry("870x470") # ui 크기
+window.geometry("870x450") # ui 크기
 window.resizable(False,False)
 
 var = StringVar()
