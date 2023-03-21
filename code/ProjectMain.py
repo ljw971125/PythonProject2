@@ -8,16 +8,26 @@ PATH = os.path.dirname(os.path.realpath(__file__)) # 현재 디렉토리로 이�
 os.chdir(PATH)
 print(PATH)
 icon = "car.png"
-    
+
+
+
 class SampleApp(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
         self._frame = None
         self.switch_frame(StartPage)
         self.title("서울시 사고유형 분석")
-        self.geometry("680x470")
+        self.geometry("800x480")
         photo = ImageTk.PhotoImage(Image.open(icon)) # ui 아이콘 불러오기
         self.wm_iconphoto(False, photo) # ui 아이콘 적용하기
+        menubar = Menu(self)
+        menu=Menu(menubar, tearoff=0)
+
+        menu.add_command(label="사용 설명서")
+        menu.add_command(label="종료",command=quit)
+        menu.add_separator()
+        menubar.add_cascade(label="도움말", menu=menu)
+        self.config(menu=menubar)
 
     def switch_frame(self, frame_class):
         new_frame = frame_class(self)
@@ -29,9 +39,12 @@ class SampleApp(tk.Tk):
 class StartPage(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        tk.Label(self, text="Start page", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
-        tk.Button(self, text="Go to page one",
-                  command=lambda: master.switch_frame(PageOne)).pack()
+        tk.Label(self, text="서울시 교통사고 조사", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
+        self.photo = ImageTk.PhotoImage(Image.open(icon)) # ui 아이콘 불러오기
+        tk.Label(self,image=self.photo).pack()
+        tk.Label(self, text="2팀 : 김민수, 이지운, 장기헌, 장윤종, 전장현", font=('Helvetica', 10, "bold")).pack(side="top", fill="x", pady=5)
+        tk.Button(self, text="start",width=20,height=2,
+                  command=lambda: master.switch_frame(PageOne)).pack(side=BOTTOM)
         
 
 class PageOne(tk.Frame):
@@ -105,3 +118,4 @@ class PageOne(tk.Frame):
 if __name__ == "__main__":
     app = SampleApp()
     app.mainloop()
+    
