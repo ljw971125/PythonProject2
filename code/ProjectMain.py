@@ -13,37 +13,38 @@ class Accident(tk.Tk):
         tk.Tk.__init__(self)
         self._frame = None
         self.switch_frame(StartMenu)
-        self.title("서울시 사고유형 분석")
-        self.geometry("1200x480")
+        self.title("서울시 사고유형 분석") # ui 제목
+        self.geometry("1200x480") # ui 시작 해상도
         photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
         self.wm_iconphoto(False, photo) # ui 아이콘 적용하기
+
+        # 메뉴 바
         menubar = Menu(self)
         menu=Menu(menubar, tearoff=0)
-
-        menu.add_command(label="사용 설명서")
+        menu.add_command(label="사용 설명서") # 하위 메뉴
         menu.add_command(label="종료",command=quit)
-        menu.add_separator()
-        menubar.add_cascade(label="도움말", menu=menu)
+        menubar.add_cascade(label="도움말", menu=menu) # 상단 메뉴바 이름
         self.config(menu=menubar)
 
-    def switch_frame(self, frame_class):
+    # 프레임 이동 함수
+    def switch_frame(self, frame_class): 
         new_frame = frame_class(self)
         if self._frame is not None:
             self._frame.destroy()
         self._frame = new_frame
         self._frame.pack()
 
+# 시작 화면
 class StartMenu(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        tk.Label(self, text="서울시 교통사고 조사", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5)
+        tk.Label(self, text="서울시 교통사고 조사", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5) # 시작 화면 상단 라벨
         self.photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
-        tk.Label(self,image=self.photo).pack()
-        tk.Label(self, text="2팀 : 김민수, 이지운, 장기헌, 장윤종, 전장현", font=('Helvetica', 10, "bold")).pack(side="top", fill="x", pady=5)
-        tk.Button(self, text="start",width=20,height=2,
-                  command=lambda: master.switch_frame(MainMenu1)).pack(side=BOTTOM)
+        tk.Label(self,image=self.photo).pack() # 이미지 라벨
+        tk.Label(self, text="2팀 : 김민수, 이지운, 장기헌, 장윤종, 전장현", font=('Helvetica', 10, "bold")).pack(side="top", fill="x", pady=5) #시작 화면 팀 라벨
+        tk.Button(self, text="start",width=20,height=2,command=lambda: master.switch_frame(MainMenu1)).pack(side=BOTTOM) # 시작 버튼
         
-
+# 사고 유형 분석 메뉴
 class MainMenu1(tk.Frame):
     def __init__(self,master):
         tk.Frame.__init__(self, master)
