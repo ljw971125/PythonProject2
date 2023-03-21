@@ -17,7 +17,7 @@ class SampleApp(tk.Tk):
         self._frame = None
         self.switch_frame(StartPage)
         self.title("서울시 사고유형 분석")
-        self.geometry("800x480")
+        self.geometry("880x480")
         photo = ImageTk.PhotoImage(Image.open(icon)) # ui 아이콘 불러오기
         self.wm_iconphoto(False, photo) # ui 아이콘 적용하기
         menubar = Menu(self)
@@ -92,11 +92,11 @@ class PageOne(tk.Frame):
         R5.pack(anchor='w')
 
 
-        bt=Button(frame1,text="버튼1",width=40,height=3)
+        bt=Button(frame1,text="사고 유형 분석",width=40,height=3)
         bt.pack(side=LEFT,expand=True,fill=BOTH)
-        bt2=Button(frame1,text="버튼2",width=40,height=3)
+        bt2=Button(frame1,text="사고 유형 상세 분석",width=40,height=3)
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
-        bt3=Button(frame1,text="버튼3",width=40,height=3)
+        bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3)
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
 
 
