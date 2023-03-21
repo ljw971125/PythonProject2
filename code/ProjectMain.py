@@ -92,11 +92,11 @@ class PageOne(tk.Frame):
         R5.pack(anchor='w')
 
 
-        bt=Button(frame1,text="사고 유형 분석",width=40,height=3)
+        bt=Button(frame1,text="사고 유형 분석",width=40,height=3,background='white')
         bt.pack(side=LEFT,expand=True,fill=BOTH)
-        bt2=Button(frame1,text="사고 유형 상세 분석",width=40,height=3)
+        bt2=Button(frame1,text="사고 유형 상세 분석",width=40,height=3,background='white')
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
-        bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3)
+        bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='white')
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
 
 
