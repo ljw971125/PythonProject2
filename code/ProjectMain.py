@@ -92,7 +92,7 @@ class MainMenu1(tk.Frame):
         R4.pack(anchor='w')
         R5 = Radiobutton(frame3, text='신호위반',variable=var, value="신호위반",command=selection,font=20)
         R5.pack(anchor='w')
-
+        # 버튼을 눌럿을때 나오는 그래프 추가
         def graph():
             try:
                 global canvas
