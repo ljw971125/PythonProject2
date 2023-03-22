@@ -3,6 +3,9 @@ import tkinter as tk # 인터페이스를 만들 때
 import csv # csv 파일을 불러올 때 사용합니다
 import os 
 from PIL import Image, ImageTk
+import pandas as pd # 데이터 프레임을 만들 수 있는 모듈
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 PATH = os.path.dirname(os.path.realpath(__file__)) # 현재 디렉토리로 이동
 os.chdir(PATH)
@@ -73,11 +76,12 @@ class MainMenu1(tk.Frame):
         scrollbar.pack(side=RIGHT, fill=Y) # 스크롤바를 프레임의 오른쪽에 붙임
 
         mylist = Listbox(frame2, yscrollcommand=scrollbar.set, height=0, selectbackground='pink', selectforeground='black',font=20) # 리스트바 생성, 스크롤바 연결, 높이 0으로 설정
-        for data in data[3:]: # csv 파일의 3행부터 불러옴
+        for data in data[2:]: # csv 파일의 3행부터 불러옴
             mylist.insert(tk.END, data)
         mylist.pack(side=LEFT,anchor='n',fill=BOTH) # 리스트바를 프레임의 왼쪽에 붙임
         scrollbar.config(command=mylist.yview)
-
+        
+        
         R1 = Radiobutton(frame3, text='음주운전',variable=var, value="음주운전",command=selection,font=20) # 오른쪽 프레임 체크박스 추가
         R1.pack(anchor='w') # 왼쪽으로 정렬
         R2 = Radiobutton(frame3, text='무면허',variable=var, value="무면허",command=selection,font=20)
@@ -89,10 +93,98 @@ class MainMenu1(tk.Frame):
         R5 = Radiobutton(frame3, text='신호위반',variable=var, value="신호위반",command=selection,font=20)
         R5.pack(anchor='w')
 
+        def graph():
+            try:
+                global canvas
+                canvas.get_tk_widget().pack_forget()
+                df1=pd.read_csv('서울시.csv',encoding='cp949')
+                df1=df1.iloc[:,1:]
+                index = mylist.curselection()[0]
+                info = mylist.get(index)
+                for i in range(1,26):
+                    if(info == df1.iloc[i,1]):
+                        if(var.get()=='신호위반'):   
+                            fig=plt.figure(figsize=(7,3),dpi=300)
+                            ax=fig.add_subplot(111)
+                            ax.plot(df1.columns[4::5],list(map(int,df1.iloc[i,4::5])))
+                            #ax.set_title(info+"의 신호위반")
+                            canvas = FigureCanvasTkAgg(fig,master=self)
+                            canvas.get_tk_widget().pack()
+                        elif(var.get()=='과속'):
+                            fig=plt.figure(figsize=(7,3),dpi=300)
+                            ax=fig.add_subplot(111)
+                            ax.plot(df1.columns[3::5],list(map(int,df1.iloc[i,3::5])))
+                            canvas = FigureCanvasTkAgg(fig,master=self)
+                            canvas.get_tk_widget().pack()
+                        elif(var.get()=='스쿨존'):
+                            fig=plt.figure(figsize=(7,3),dpi=300)
+                            ax=fig.add_subplot(111)
+                            ax.plot(df1.columns[6::5],list(map(int,df1.iloc[i,6::5])))
+                            canvas = FigureCanvasTkAgg(fig,master=self)
+                            canvas.draw()
+                            canvas.get_tk_widget().pack()
+                        elif(var.get()=='무면허'):
+                            fig=plt.figure(figsize=(7,3),dpi=300)
+                            ax=fig.add_subplot(111)
+                            ax.plot(df1.columns[7::5],list(map(int,df1.iloc[i,7::5])))
+                            canvas = FigureCanvasTkAgg(fig,master=self)
+                            canvas.get_tk_widget().pack()
+                        elif(var.get()=='음주운전'):
+                            fig=plt.figure(figsize=(7,3),dpi=300)
+                            ax=plt.plot(df1.columns[5::5],list(map(int,df1.iloc[i,5::5])))
+                            #ax=fig.add_subplot(111)
+                            #ax.plot(df1.columns[5::5],list(map(int,df1.iloc[i,5::5])))
+                            canvas = FigureCanvasTkAgg(fig,master=self)         
+                            canvas.get_tk_widget().pack()
+                        else:
+                            continue
+            except:
+                df1=pd.read_csv('서울시.csv',encoding='cp949')
+                df1=df1.iloc[:,1:]
+                index = mylist.curselection()[0]
+                info = mylist.get(index)
+                for i in range(1,26):
+                    if(info == df1.iloc[i,1]):
+                        if(var.get()=='신호위반'):   
+                            fig=plt.figure(figsize=(7,3),dpi=300)
+                            ax=fig.add_subplot(111)
+                            ax.plot(df1.columns[4::5],list(map(int,df1.iloc[i,4::5])))
+                            #ax.set_title(info+"의 신호위반")
+                            canvas = FigureCanvasTkAgg(fig,master=self)
+                            canvas.get_tk_widget().pack()
+                        elif(var.get()=='무면허'):
+                            fig=plt.figure(figsize=(7,3),dpi=300)
+                            ax=fig.add_subplot(111)
+                            ax.plot(df1.columns[3::5],list(map(int,df1.iloc[i,3::5])))
+                            canvas = FigureCanvasTkAgg(fig,master=self)
+                            canvas.get_tk_widget().pack()
+                        elif(var.get()=='스쿨존'):
+                            fig=plt.figure(figsize=(7,3),dpi=300)
+                            ax=fig.add_subplot(111)
+                            ax.plot(df1.columns[6::5],list(map(int,df1.iloc[i,6::5])))
+                            canvas = FigureCanvasTkAgg(fig,master=self)
+                            canvas.draw()
+                            canvas.get_tk_widget().pack()
+                        elif(var.get()=='과속'):
+                            fig=plt.figure(figsize=(7,3),dpi=300)
+                            ax=fig.add_subplot(111)
+                            ax.plot(df1.columns[7::5],list(map(int,df1.iloc[i,7::5])))
+                            canvas = FigureCanvasTkAgg(fig,master=self)
+                            canvas.get_tk_widget().pack()
+                        elif(var.get()=='신호위반'):
+                            fig=plt.figure(figsize=(7,3),dpi=300)
+                            ax=plt.plot(df1.columns[5::5],list(map(int,df1.iloc[i,5::5])))
+                            #ax=fig.add_subplot(111)
+                            #ax.plot(df1.columns[5::5],list(map(int,df1.iloc[i,5::5])))
+                            canvas = FigureCanvasTkAgg(fig,master=self)         
+                            canvas.get_tk_widget().pack()
+                        else:
+                            continue
 
-        bt=Button(frame1,text="사고 유형 분석",width=40,height=3,background='white',font=20)
+
+        bt=Button(frame1,text="사고 유형 분석",command=graph,width=40,height=3,background='white',font=20)
         bt.pack(side=LEFT,expand=True,fill=BOTH)
-        bt2=Button(frame1,text="사고 유형 상세 분석",width=40,height=3,background='white',font=20)
+        bt2=Button(frame1,text="사고 유형 상세 분석" ,width=40,height=3,background='white',font=20)
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
         bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='white',font=20)
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
@@ -116,4 +208,3 @@ class MainMenu1(tk.Frame):
 if __name__ == "__main__":
     app = Accident()
     app.mainloop()
-    
