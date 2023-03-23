@@ -1,34 +1,36 @@
-# 필요한 모듈 임포트
-import tkinter as tk
-import pandas as pd
-import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+import pandas as pd
+import tkinter as tk
 
-# 샘플 데이터프레임 생성
-data = {
-    "Year": [2010, 2011, 2012, 2013, 2014],
-    "Sales": [10, 20, 30, 40, 50]
-}
+# 임의의 데이터프레임 생성
+df = pd.DataFrame({'x': [1, 2, 3, 4], 'y': [2, 4, 6, 8]})
 
-df = pd.DataFrame(data)
+# 기본 윈도우 생성
+root = tk.Tk()
 
-# 메인 윈도우 생성
-win = tk.Tk()
+# 버튼 클릭 시 실행될 함수 정의
+def show_plot():
+    # 새 프레임 생성
+    new_frame = tk.Frame(root)
+    new_frame.grid(row=0, column=1)
 
-# 그래프를 그릴 피규어 객체 생성
-figure = plt.Figure(figsize=(5, 4), dpi=100)
+    # 그래프 그리기 위한 figure와 axes 객체 생성
+    fig = Figure(figsize=(5, 4), dpi=100)
+    ax = fig.add_subplot(111)
 
-# 피규어에 서브플롯 추가
-ax = figure.add_subplot(111)
+    # 판다스 plot 메소드에 axes 객체 전달
+    df.plot(x='x', y='y', ax=ax)
 
-# 데이터프레임으로 선 그래프 그리기
-df.plot(kind="line", x="Year", y="Sales", ax=ax)
+    # 새 프레임에 그래프 임베딩하기
+    canvas = FigureCanvasTkAgg(fig, master=new_frame)
+    canvas.draw()
+    canvas.get_tk_widget().grid(row=0, column=0)
 
-# 피규어를 캔버스에 연결하기
-canvas = FigureCanvasTkAgg(figure, win)
+# 버튼 생성 및 배치
+button = tk.Button(root, text="Show plot", command=show_plot)
+button.grid(row=0, column=0)
 
-# 캔버스를 윈도우에 배치하기
-canvas.get_tk_widget().pack()
-
-# 메인 루프 실행
-win.mainloop()
+root.mainloop()
