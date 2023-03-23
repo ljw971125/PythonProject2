@@ -1,36 +1,79 @@
-import matplotlib
-matplotlib.use('TkAgg')
+from tkinter import *
+import tkinter as tk # 인터페이스를 만들 때import os 
+from PIL import Image, ImageTk
+import pandas as pd # 데이터 프레임을 만들 수 있는 모듈
+import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.figure import Figure
-import pandas as pd
-import tkinter as tk
+import os 
 
-# 임의의 데이터프레임 생성
-df = pd.DataFrame({'x': [1, 2, 3, 4], 'y': [2, 4, 6, 8]})
+PATH = os.path.dirname(os.path.realpath(__file__))
+os.chdir(PATH)
 
-# 기본 윈도우 생성
-root = tk.Tk()
+class Accident(tk.Tk):
+    def __init__(self):
+        tk.Tk.__init__(self)
+        self._frame = None
+        self.switch_frame(StartMenu)
+        self.title("서울시 사고유형 분석") # ui 제목
+        self.geometry("1200x700") # ui 시작 해상도
+        photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
+        self.wm_iconphoto(False, photo) # ui 아이콘 적용하기
 
-# 버튼 클릭 시 실행될 함수 정의
-def show_plot():
-    # 새 프레임 생성
-    new_frame = tk.Frame(root)
-    new_frame.grid(row=0, column=1)
+    def switch_frame(self, frame_class): 
+        new_frame = frame_class(self)
+        if self._frame is not None:
+            self._frame.destroy()
+        self._frame = new_frame
+        self._frame.pack()
 
-    # 그래프 그리기 위한 figure와 axes 객체 생성
-    fig = Figure(figsize=(5, 4), dpi=100)
-    ax = fig.add_subplot(111)
+# 시작 화면
+class StartMenu(tk.Frame):
+    def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        tk.Label(self, text="서울시 교통사고 조사", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5) # 시작 화면 상단 라벨
+        self.photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
+        tk.Label(self,image=self.photo).pack() # 이미지 라벨
+        tk.Label(self, text="2팀 : 김민수, 이지운, 장기헌, 장윤종, 전장현", font=('Helvetica', 10, "bold")).pack(side="top", fill="x", pady=5) #시작 화면 팀 라벨
+        tk.Button(self, text="start",width=20,height=2,command=lambda: master.switch_frame(MainMenu)).pack(side=BOTTOM) # 시작 버튼
 
-    # 판다스 plot 메소드에 axes 객체 전달
-    df.plot(x='x', y='y', ax=ax)
+class MainMenu(tk.Frame):
+     def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        frame = tk.Frame()
+        frame.pack(fill=BOTH)
+        bt=Button(self,text="사고 유형 분석",width=40,height=3,background='white',font=20,command=lambda: master.switch_frame(Menu1))
+        bt.pack(side=LEFT,expand=True,fill=BOTH)
+        bt2=Button(self,text="사고 유형 상세 분석",width=40,height=3,background='white',font=20,command=lambda: master.switch_frame(Menu2))
+        bt2.pack(side=LEFT,expand=True,fill=BOTH)
+        bt3=Button(self,text="유형별 최다 사고",width=40,height=3,background='white',font=20,command=lambda: master.switch_frame(Menu3))
+        bt3.pack(side=LEFT,expand=True,fill=BOTH)
 
-    # 새 프레임에 그래프 임베딩하기
-    canvas = FigureCanvasTkAgg(fig, master=new_frame)
-    canvas.draw()
-    canvas.get_tk_widget().grid(row=0, column=0)
+class Menu1(tk.Frame):
+     def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        bt=Button(self,text="사고 유형 분석",width=40,height=3,background='grey',font=20)
+        bt.pack(side=LEFT,expand=True,fill=BOTH)
+        bt2=Button(self,text="사고 유형 상세 분석",width=40,height=3,background='white',font=20,command=lambda: master.switch_frame(Menu2))
+        bt2.pack(side=LEFT,expand=True,fill=BOTH)
+        bt3=Button(self,text="상세 분석",width=40,height=3,background='white',font=20)
+        bt3.pack(side=LEFT,expand=True,fill=BOTH)
+        listbox = tk.Listbox(self, selectmode='extended', height=0)
 
-# 버튼 생성 및 배치
-button = tk.Button(root, text="Show plot", command=show_plot)
-button.grid(row=0, column=0)
+        df1=pd.read_csv('서울시 사고유형.csv',encoding='cp949')
+        for i in range(0,25):
+            listbox.insert(tk.END, df1.loc[i][0])
+        listbox.pack(side=LEFT,expand=True,fill=BOTH)
+        
+class Menu2(tk.Frame):
+     def __init__(self, master):
+        tk.Frame.__init__(self, master)
+        bt=Button(self,text="사고 유형 분석",width=40,height=3,background='white',font=20,command=lambda: master.switch_frame(Menu1))
+        bt.pack(side=LEFT,expand=True,fill=BOTH)
+        bt2=Button(self,text="사고 유형 상세 분석",width=40,height=3,background='grey',font=20)
+        bt2.pack(side=LEFT,expand=True,fill=BOTH)
 
-root.mainloop()
+
+
+if __name__ == "__main__":
+    app = Accident()
+    app.mainloop()
