@@ -52,11 +52,11 @@ class Menu1(tk.Frame):
      def __init__(self, master):
         tk.Frame.__init__(self, master)
         bt=Button(self,text="사고 유형 분석",width=40,height=3,background='grey',font=20)
-        bt.grid(row=0,column=0)
+        bt.grid(row=0,column=0,sticky='NSEW')
         bt2=Button(self,text="사고 유형 상세 분석",width=40,height=3,background='white',font=20,command=lambda: master.switch_frame(Menu2))
-        bt2.grid(row=0,column=1)
+        bt2.grid(row=0,column=1,sticky='NSEW')
         bt3=Button(self,text="상세 분석",width=40,height=3,background='white',font=20)
-        bt3.grid(row=0,column=2)
+        bt3.grid(row=0,column=2,sticky='NSEW')
         listbox = tk.Listbox(self, selectmode='extended', height=0)
 
         df1=pd.read_csv('서울시 사고유형.csv',encoding='cp949')
