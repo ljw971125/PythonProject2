@@ -56,7 +56,7 @@ class Menu1(tk.Frame):
         bt2=Button(self,text="사고 유형 상세 분석",width=40,height=3,background='white',font=20,command=lambda: master.switch_frame(Menu2))
         bt2.grid(row=0,column=1)
         bt3=Button(self,text="상세 분석",width=40,height=3,background='white',font=20)
-        bt3.grid(row=0,column=2,padx=40)
+        bt3.grid(row=0,column=2)
         listbox = tk.Listbox(self, selectmode='extended', height=0)
 
         df1=pd.read_csv('서울시 사고유형.csv',encoding='cp949')
