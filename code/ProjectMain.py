@@ -1,6 +1,5 @@
 from tkinter import *
 import tkinter as tk # 인터페이스를 만들 때
-import csv # csv 파일을 불러올 때 사용합니다
 import os 
 from PIL import Image, ImageTk
 import pandas as pd # 데이터 프레임을 만들 수 있는 모듈
@@ -202,50 +201,7 @@ class Accident(tk.Tk):
                         continue
                 else:
                     continue
-    def graph(self,mylist):
-            try:
-                global canvas
-                canvas.get_tk_widget().pack_forget()
-                df1=pd.read_csv('1번.csv',encoding='cp949')
-                index = mylist.curselection()[0]
-                info = mylist.get(index)
-                year_list=['2017','2018','2019','2020','2021']
-                for i in range(1,26):
-                    if(info == df1.loc[i][2]):
-                        title_name=df1.loc[i][2]
-                        fig=plt.figure()
-                        plt.rc('font', family='Malgun Gothic')
-                        plt.bar(range(4,19,3),list(map(int,df1.iloc[i,4::3])),color='grey',label='음주운전')
-                        plt.bar(range(5,19,3),list(map(int,df1.iloc[i,5::3])),color='royalblue',label='스쿨존 사고')
-                        plt.bar(range(6,19,3),list(map(int,df1.iloc[i,6::3])),color='skyblue',label='무면허')
-                        plt.xticks(range(5,19,3),year_list)
-                        plt.legend()
-                        plt.title(title_name+' 사고 유형 연도별 분석')
-                        canvas = FigureCanvasTkAgg(fig,master=self)         
-                        canvas.get_tk_widget().pack(side=LEFT)
-                    else:
-                        continue
-            except:
-                df1=pd.read_csv('1번.csv',encoding='cp949')
-                index = mylist.curselection()[0]
-                info = mylist.get(index)
-                year_list=['2017','2018','2019','2020','2021']
-                for i in range(1,26):
-                    if(info == df1.loc[i][2]):
-                        title_name=df1.loc[i][2]
-                        fig=plt.figure()
-                        plt.rc('font', family='Malgun Gothic')
-                        plt.bar(range(4,19,3),list(map(int,df1.iloc[i,4::3])),color='grey',label='음주운전')
-                        plt.bar(range(5,19,3),list(map(int,df1.iloc[i,5::3])),color='royalblue',label='스쿨존 사고')
-                        plt.bar(range(6,19,3),list(map(int,df1.iloc[i,6::3])),color='skyblue',label='무면허')
-                        plt.xticks(range(5,19,3),year_list)
-
-                        plt.legend()
-                        plt.title(title_name+' 사고 유형 연도별 분석')
-                        canvas = FigureCanvasTkAgg(fig,master=self)         
-                        canvas.get_tk_widget().pack(sid=LEFT)
-                    else:
-                        continue
+    
     def save_image(self,mylist):
         # 이미지 저장 대화상자 띄우기
         file_path = filedialog.asksaveasfilename(defaultextension='.png')
@@ -319,12 +275,56 @@ class Menu1(tk.Frame):
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
         bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='white',font=20,command=lambda:[master.del_frame(),master.switch_frame(Menu3)])
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
-        bt3=Button(frame3,text="그래프 보기",width=40,height=3,background='white',font=20,command=lambda: [master.graph(mylist),self.show_info(mylist)])
-        bt3.pack(side=LEFT,expand=True,fill=BOTH)
         bt4=Button(frame3,text="그래프 저장",width=40,height=3,background='white',font=20,command=lambda: [master.save_image(mylist)])
         bt4.pack(side=LEFT,expand=True,fill=BOTH)
         tk.Label(frame4,textvariable=self.text,font=('Helvetica', 10, "bold")).pack(side=RIGHT,padx=10)
-        
+        mylist.bind("<<ListboxSelect>>", lambda event : [self.graph(mylist,event),self.show_info(mylist)])
+
+    def graph(self,mylist,event):
+        try:
+            global canvas
+            canvas.get_tk_widget().pack_forget()
+            df1=pd.read_csv('1번.csv',encoding='cp949')
+            index = mylist.curselection()[0]
+            info = mylist.get(index)
+            year_list=['2017','2018','2019','2020','2021']
+            for i in range(1,26):
+                if(info == df1.loc[i][2]):
+                    title_name=df1.loc[i][2]
+                    fig=plt.figure()
+                    plt.rc('font', family='Malgun Gothic')
+                    plt.bar(range(4,19,3),list(map(int,df1.iloc[i,4::3])),color='grey',label='음주운전')
+                    plt.bar(range(5,19,3),list(map(int,df1.iloc[i,5::3])),color='royalblue',label='스쿨존 사고')
+                    plt.bar(range(6,19,3),list(map(int,df1.iloc[i,6::3])),color='skyblue',label='무면허')
+                    plt.xticks(range(5,19,3),year_list)
+                    plt.legend()
+                    plt.title(title_name+' 사고 유형 연도별 분석')
+                    canvas = FigureCanvasTkAgg(fig,master=self)         
+                    canvas.get_tk_widget().pack()
+                else:
+                    continue
+        except:
+            df1=pd.read_csv('1번.csv',encoding='cp949')
+            index = mylist.curselection()[0]
+            info = mylist.get(index)
+            year_list=['2017','2018','2019','2020','2021']
+            for i in range(1,26):
+                if(info == df1.loc[i][2]):
+                    title_name=df1.loc[i][2]
+                    fig=plt.figure()
+                    plt.rc('font', family='Malgun Gothic')
+                    plt.bar(range(4,19,3),list(map(int,df1.iloc[i,4::3])),color='grey',label='음주운전')
+                    plt.bar(range(5,19,3),list(map(int,df1.iloc[i,5::3])),color='royalblue',label='스쿨존 사고')
+                    plt.bar(range(6,19,3),list(map(int,df1.iloc[i,6::3])),color='skyblue',label='무면허')
+                    plt.xticks(range(5,19,3),year_list)
+
+                    plt.legend()
+                    plt.title(title_name+' 사고 유형 연도별 분석')
+                    canvas = FigureCanvasTkAgg(fig,master=self)         
+                    canvas.get_tk_widget().pack()
+                else:
+                    continue
+    
     def show_info(self,mylist):
         df=pd.read_csv('1번.csv',encoding='cp949')
         df1=df.iloc[1:,4:].astype(int)
