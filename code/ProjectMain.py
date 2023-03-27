@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt # 그래프 그려주는 모듈
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg # Tkinter 모듈과 matplotlib 모듈을 이어주는 모듈
 from tkinter import filedialog # 파일 저장 창을 만들어 주는 모듈
 import sys # 파이썬의 인터프리터를 제어할 수 있는 모듈
+import dataframe_image as dfi
+from pandastable import Table
 #import time
 
 PATH = os.path.dirname(os.path.realpath(__file__)) # 현재 디렉토리로 이동
@@ -205,27 +207,48 @@ class Accident(tk.Tk):
                     continue
     # 이미지를 저장하는 함수
     def save_image(self,mylist):
+        index = mylist.curselection()[0] # 리스트박스의 선택된 항목의 인덱스를 반환하는 메소드
+        info = mylist.get(index) # 인덱스에 해당하는 항목의 값을 반환하는 메소드
+        if info != None :
         # 이미지 저장 대화상자 띄우기
-        file_path = filedialog.asksaveasfilename(defaultextension='.png') # 파일을 저장할 경로를 선택할 수 있는 창을 띄워주는 함수
+            file_path = filedialog.asksaveasfilename(defaultextension='.png') # 파일을 저장할 경로를 선택할 수 있는 창을 띄워주는 함수
 
-        # 이미지 저장하기
-        if file_path:
-            TrafficAccident=pd.read_csv('1번.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수 
-            index = mylist.curselection()[0] # 리스트박스의 선택된 항목의 인덱스를 반환하는 메소드
-            info = mylist.get(index) # 인덱스에 해당하는 항목의 값을 반환하는 메소드
-            year_list=['2017','2018','2019','2020','2021'] #그래프 x축에 표시할 연도
-            for i in range(1,26):
-                if(info == TrafficAccident.loc[i][2]):
-                    title_name=TrafficAccident.loc[i][2] #타이틀의 이름을 리스트박스에서 선택한 항목으로 지정
-                    fig=plt.figure() #그래프를 그릴 figure 객체 생성
-                    plt.rc('font', family='Malgun Gothic')
-                    plt.bar(range(4,19,3),list(map(int,TrafficAccident.iloc[i,4::3])),color='grey',label='음주운전')
-                    plt.bar(range(5,19,3),list(map(int,TrafficAccident.iloc[i,5::3])),color='royalblue',label='스쿨존 사고')
-                    plt.bar(range(6,19,3),list(map(int,TrafficAccident.iloc[i,6::3])),color='skyblue',label='무면허')
-                    plt.xticks(range(5,19,3),year_list)
-                    plt.legend() #범례 표시
-                    plt.title(title_name+' 사고 유형 연도별 분석')
-                    plt.savefig(file_path) # 경로를 지정하는 창을 띄워 원하는 위치에 그래프 이미지를 저장
+            # 이미지 저장하기
+            if file_path != None:
+                TrafficAccident=pd.read_csv('1번.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수 
+
+                year_list=['2017','2018','2019','2020','2021'] #그래프 x축에 표시할 연도
+                for i in range(1,26):
+                    if(info == TrafficAccident.loc[i][2]):
+                        title_name=TrafficAccident.loc[i][2] #타이틀의 이름을 리스트박스에서 선택한 항목으로 지정
+                        fig=plt.figure() #그래프를 그릴 figure 객체 생성
+                        plt.rc('font', family='Malgun Gothic')
+                        plt.bar(range(4,19,3),list(map(int,TrafficAccident.iloc[i,4::3])),color='grey',label='음주운전')
+                        plt.bar(range(5,19,3),list(map(int,TrafficAccident.iloc[i,5::3])),color='royalblue',label='스쿨존 사고')
+                        plt.bar(range(6,19,3),list(map(int,TrafficAccident.iloc[i,6::3])),color='skyblue',label='무면허')
+                        plt.xticks(range(5,19,3),year_list)
+                        plt.legend() #범례 표시
+                        plt.title(title_name+' 사고 유형 연도별 분석')
+                        plt.savefig(file_path) # 경로를 지정하는 창을 띄워 원하는 위치에 그래프 이미지를 저장
+                            
+    def save_data_image(self,mylist):
+        # 이미지 저장 대화상자 띄우기
+        df1=pd.read_csv('1번.csv',encoding='cp949')
+        index = mylist.curselection()[0]
+        info = mylist.get(index)
+        if info != None :
+            file_path = filedialog.asksaveasfilename(defaultextension='.png')
+
+            # 이미지 저장하기
+            if file_path != None:
+                for i in range(1,26):
+                    if(info == df1.loc[i][2]):
+                        df = pd.DataFrame({'음주운전':[df1.loc[i][4], df1.loc[i][7], df1.loc[i][10],df1.loc[i][13],df1.loc[i][16]],
+                                         '스쿨존사고':[df1.loc[i][5], df1.loc[1][8], df1.loc[i][11],df1.loc[i][14],df1.loc[i][17]],
+                                         '무면허':[df1.loc[i][6], df1.loc[i][9], df1.loc[i][12],df1.loc[i][15],df1.loc[i][18]]},
+                                        index=['2017','2018','2019','2020','2021'])
+                
+            dfi.export(df,file_path,os.getcwd()+'\\code\\'+'df.png',max_cols = -1, max_rows = -1)
 # 시작메뉴 설정
 class StartMenu(tk.Frame):
     def __init__(self, master):
@@ -253,6 +276,11 @@ class MainMenu(tk.Frame):
 class Menu1(tk.Frame):
     def __init__(self,master):
         tk.Frame.__init__(self,master)
+        menu = tk.Menu(self)
+        menu.add_command(label="그래프 저장",command=lambda: [master.save_image(mylist)])
+        menu.add_command(label="데이터 프레임 보기",command=lambda :self.open_new_window(mylist))
+        menu.add_command(label="데이터 프레임 저장",command=lambda :master.save_data_image(mylist))
+        master.config(menu=menu)
         frame1=tk.Frame() # 프레임 생성
         frame1.pack(fill='both') # 프레임의 위치 지정
         frame2=tk.Frame()
@@ -279,6 +307,25 @@ class Menu1(tk.Frame):
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
         tk.Label(frame4,textvariable=self.text,font=('Helvetica', 10, "bold")).pack(side=RIGHT,padx=10)
         mylist.bind("<<ListboxSelect>>", lambda event : [self.graph(mylist,event),self.show_info(mylist)]) # 리스트바에서 값을 선택 할 때 바로 그래프가 출력 되도록 해줌
+    
+ 
+    
+    def open_new_window(self,mylist):
+        new_window = tk.Toplevel(self.master)
+        df1=pd.read_csv('1번.csv',encoding='cp949')
+        index = mylist.curselection()[0]
+        info = mylist.get(index)
+        new_window.title(info+' 사고유형 데이터 프레임')
+        for i in range(1,26):
+            if(info == df1.loc[i][2]):
+                df = pd.DataFrame({'음주운전':[df1.loc[i][4], df1.loc[i][7], df1.loc[i][10],df1.loc[i][13],df1.loc[i][16]],
+                                         '스쿨존사고':[df1.loc[i][5], df1.loc[1][8], df1.loc[i][11],df1.loc[i][14],df1.loc[i][17]],
+                                         '무면허':[df1.loc[i][6], df1.loc[i][9], df1.loc[i][12],df1.loc[i][15],df1.loc[i][18]],},
+                                        )
+                df=df.rename_axis('연도')
+        table=Table(new_window,dataframe=df,rows=['2017','2018','2019','2020','2021'])
+        table.show()
+        
     # 그래프 생성 함수
     def graph(self,mylist,event):
         try:
