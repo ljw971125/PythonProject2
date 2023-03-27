@@ -418,4 +418,3 @@ class Menu3(tk.Frame):
 if __name__ == "__main__":
     app = Accident()
     app.mainloop() # Ui를 윈도우 창을 띄어 표시
-    #brchA
