@@ -25,7 +25,7 @@ class Accident(tk.Tk):
 
         # 메뉴 바
         menubar = Menu(self)
-        menu=Menu(menubar, tearoff=0) # 메뉴바 추가(tearoff = 메뉴바를 새 창으로 분리 할 수 있는가(1=예, 2 아니오))
+        menu=Menu(menubar, tearoff=0) # 메뉴바 추가(tearoff = 메뉴바를 새 창으로 분리 할 수 있는가(1=예, 2=아니오))
         menu.add_command(label="사용 설명서") # 하위 메뉴에 사용 설명서 추가
         menu.add_command(label="종료",command=sys.exit)  #하위 메뉴에 종료 추가
         menubar.add_cascade(label="도움말", menu=menu) # 상단 메뉴바 이름
