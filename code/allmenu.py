@@ -15,7 +15,7 @@ import seaborn as sns
 
 PATH = os.path.dirname(os.path.realpath(__file__)) # 현재 디렉토리로 이동
 os.chdir(PATH)
-
+# 시작메뉴 설정
 class StartMenu(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)

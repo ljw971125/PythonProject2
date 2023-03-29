@@ -7,7 +7,7 @@ import seaborn as sns
 
 PATH = os.path.dirname(os.path.realpath(__file__)) # 현재 디렉토리로 이동
 os.chdir(PATH)
-
+# 이미지를 저장하는 함수
 class SaveImg(): 
     def save_image(self,mylist,value,var):
         if value==1 or value==2:

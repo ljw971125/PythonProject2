@@ -4,9 +4,6 @@ import os # 운영체제와 상호 작용을 하기 위한 모듈
 from PIL import Image, ImageTk # 파이썬으로 이미지를 다룰 수 있게 해주는 모듈
 import pandas as pd # 데이터 프레임을 만들 수 있는 모듈
 import sys # 파이썬의 인터프리터를 제어할 수 있는 모듈
-from pandastable import Table # tkinter ui에서 pandas 모양으로 데이터 프레임을 만들어주는 모듈
-import graph
-import saveimg
 import allmenu
 
 PATH = os.path.dirname(os.path.realpath(__file__)) # 현재 디렉토리로 이동
@@ -44,26 +41,6 @@ class Accident(tk.Tk):
     def del_frame(self):
         for widget in self.winfo_children(): # 윈도우의 모든 자식 위젯을 지움
             widget.destroy()
-    
-    # 데이터를 분석 정제하고 그래프를 출력하는 함수
-    
-
-    
-    # 이미지를 저장하는 함수
-    
-
-# 시작메뉴 설정
-
-# 메인메뉴 설정
-
-
-
-# 사고 유형 분석 메뉴
-
-# 사고 유형 상세 분석 메뉴 설정
-
-
-# 유형별 최다 사고 메뉴 설정
 
 
 if __name__ == "__main__":
