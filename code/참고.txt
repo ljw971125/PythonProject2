@@ -1,1 +1,0 @@
-pyinstaller -w -F --add-data "car.png;." --add-data "1번.csv;." ProjectMain.py
