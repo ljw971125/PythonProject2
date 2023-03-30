@@ -29,9 +29,9 @@ class Menu1(tk.Frame):
     def __init__(self,master):
         tk.Frame.__init__(self,master)
         menu = tk.Menu(self)
-        menu.add_command(label="그래프 저장",command=lambda: [saveimg.SaveImg.save_image(self,mylist)])
+        menu.add_command(label="그래프 저장",command=lambda: [saveimg.SaveImg.save_image(self,mylist,1,None,None,None,None,None,None,None,None)])
         menu.add_command(label="데이터 프레임 보기",command=lambda :self.open_new_window(mylist))
-        menu.add_command(label="데이터 프레임 저장",command=lambda :saveimg.SaveImg.save_data_image(self,mylist))
+        menu.add_command(label="데이터 프레임 저장",command=lambda :saveimg.SaveImg.save_data_image(self,mylist,1))
         master.config(menu=menu)
         frame1=tk.Frame() # 프레임 생성
         frame1.pack(fill='both') # 프레임의 위치 지정
@@ -46,7 +46,7 @@ class Menu1(tk.Frame):
         scrollbar = Scrollbar(frame2) # 스크롤바 생성
         scrollbar.pack(side=RIGHT, fill=Y) # 스크롤바를 프레임의 오른쪽에 붙임
         mylist = Listbox(frame2, yscrollcommand=scrollbar.set, height=0, selectbackground='pink', selectforeground='black',font=20) # 리스트바 생성, 스크롤바 연결, 높이 0으로 설정
-        TrafficAccident=pd.read_csv('1번.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
+        TrafficAccident=pd.read_csv('All_TrafficAccident.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
         for i in range(1,26):
             mylist.insert(tk.END, TrafficAccident.loc[i][2])
         mylist.pack(side=LEFT,anchor='n',fill=BOTH,expand=True) # 리스트바를 프레임의 왼쪽에 붙임
@@ -64,14 +64,14 @@ class Menu1(tk.Frame):
     
     def open_new_window(self,mylist):
         new_window = tk.Toplevel(self.master)
-        df1=pd.read_csv('1번.csv',encoding='cp949')
+        df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
         index = mylist.curselection()[0]
         info = mylist.get(index)
         new_window.title(info+' 사고유형 데이터 프레임')
         for i in range(1,26):
             if(info == df1.loc[i][2]):
                 df = pd.DataFrame({'음주운전':[df1.loc[i][4], df1.loc[i][7], df1.loc[i][10],df1.loc[i][13],df1.loc[i][16]],
-                                         '스쿨존사고':[df1.loc[i][5], df1.loc[1][8], df1.loc[i][11],df1.loc[i][14],df1.loc[i][17]],
+                                         '스쿨존사고':[df1.loc[i][5], df1.loc[i][8], df1.loc[i][11],df1.loc[i][14],df1.loc[i][17]],
                                          '무면허':[df1.loc[i][6], df1.loc[i][9], df1.loc[i][12],df1.loc[i][15],df1.loc[i][18]]}
                                         )
         table=Table(new_window,dataframe=df)
@@ -82,7 +82,7 @@ class Menu1(tk.Frame):
         try:
             global canvas
             canvas.get_tk_widget().pack_forget()
-            TrafficAccident=pd.read_csv('1번.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
+            TrafficAccident=pd.read_csv('All_TrafficAccident.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
             index = mylist.curselection()[0] # 리스트박스의 선택된 항목의 인덱스를 반환하는 메소드
             info = mylist.get(index) # 인덱스에 해당하는 항목의 값을 반환하는 메소드
             year_list=['2017','2018','2019','2020','2021'] #그래프 x축에 표시할 연도
@@ -102,7 +102,7 @@ class Menu1(tk.Frame):
                 else:
                     continue
         except:
-            TrafficAccident=pd.read_csv('1번.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
+            TrafficAccident=pd.read_csv('All_TrafficAccident.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
             index = mylist.curselection()[0] # 리스트박스의 선택된 항목의 인덱스를 반환하는 메소드
             info = mylist.get(index) # 인덱스에 해당하는 항목의 값을 반환하는 메소드
             year_list=['2017','2018','2019','2020','2021'] #그래프 x축에 표시할 연도
@@ -124,7 +124,7 @@ class Menu1(tk.Frame):
                     continue
     # 자료의 발생 건수를 모두 더하고 순위를 보여주는 함수
     def show_info(self,mylist):
-        df=pd.read_csv('1번.csv',encoding='cp949')
+        df=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
         TrafficAccident=df.iloc[1:,4:].astype(int)
         result1=TrafficAccident.iloc[:,0::3].sum(axis=1) # csv파일에서 음주운전의 값을 모두 더함
         result2=TrafficAccident.iloc[:,1::3].sum(axis=1) # csv파일에서 스쿨존의 값을 모두 더함
@@ -144,6 +144,11 @@ class Menu1(tk.Frame):
 class Menu2(tk.Frame):
     def __init__(self,master):
         tk.Frame.__init__(self, master)
+        menu = tk.Menu(self)
+        menu.add_command(label="그래프 저장",command=lambda:saveimg.SaveImg.save_image(self,mylist,2,var.get(),var1.get(),var2.get(),var3.get(),var4.get(),var5.get(),bt5.cget('text'),bt6.cget('text')))
+        menu.add_command(label="데이터 프래임 보기",command=lambda :self.open_data_Frame2())
+        menu.add_command(label="데이터 프래임 저장",command=lambda :saveimg.SaveImg.save_data_image(self,None,3))
+        master.config(menu=menu)
         frame1=tk.Frame()
         frame1.pack(fill='both')
         frame2=tk.Frame()
@@ -154,12 +159,12 @@ class Menu2(tk.Frame):
         frame4.pack(side=RIGHT)
         var=StringVar()
         var.set(NONE)
-
+        
         scrollbar = Scrollbar(frame2) # 스크롤바 생성
         scrollbar.pack(side=RIGHT, fill=Y) # 스크롤바를 프레임의 오른쪽에 붙임
 
         mylist = Listbox(frame2, yscrollcommand=scrollbar.set, height=0, selectbackground='pink' ,selectforeground='black',font=20) # 리스트바 생성, 스크롤바 연결, 높이 0으로 설정
-        df1=pd.read_csv('1번.csv',encoding='cp949')
+        df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
         for i in range(1,26): 
             mylist.insert(tk.END, df1.loc[i][2])
               
@@ -172,11 +177,11 @@ class Menu2(tk.Frame):
         R2.pack(anchor='w')
         R3 = Radiobutton(frame4, text='스쿨존',variable=var, value="스쿨존",font=20)
         R3.pack(anchor='w')
-        bt3=Button(frame4,text="연령별",width=10,height=5,background='white',font=20,cursor='hand2',command=lambda: [self.hide_widget(option_menu4),self.hide_widget(label2),self.hide_widget(option_menu5),self.hide_widget(bt6),self.show_widget(option_menu1),self.show_widget(option_menu2),self.show_widget(label1),self.show_widget(option_menu3),self.show_widget(bt5)])
+        bt3=Button(frame4,text="연령별",width=10,height=5,background='white',font=20,cursor='hand2',command=lambda: [self.hide_widget(option_menu4),self.hide_widget(label2),self.hide_widget(option_menu5),self.hide_widget(bt6),self.show_widget(option_menu1),self.show_widget(option_menu2),self.show_widget(label1),self.show_widget(option_menu3),self.change_text1(bt6),self.change_text1(bt5),self.show_widget(bt5),self.show_graph1(mylist,var.get())])
         bt3.pack()
-        bt4=Button(frame4,text="시간별",width=10,height=5,background='white',font=20,cursor='hand2',command=lambda: [self.hide_widget(option_menu2),self.hide_widget(label1),self.hide_widget(option_menu3),self.hide_widget(bt5),self.show_widget(option_menu1),self.show_widget(option_menu4),self.show_widget(label2),self.show_widget(option_menu5),self.show_widget(bt6)])
+        bt4=Button(frame4,text="시간별",width=10,height=5,background='white',font=20,cursor='hand2',command=lambda: [self.hide_widget(option_menu2),self.hide_widget(label1),self.hide_widget(option_menu3),self.hide_widget(bt5),self.show_widget(option_menu1),self.show_widget(option_menu4),self.show_widget(label2),self.show_widget(option_menu5),self.change_text2(bt6),self.change_text2(bt5),self.show_widget(bt6),self.show_graph2(mylist,var.get())])
         bt4.pack()
-
+    
         bt=Button(frame1,text="사고 유형 분석",width=40,height=3,background='white',font=20,cursor='hand2',command=lambda: [master.del_frame(),master.switch_frame(Menu1)])
         bt.pack(side=LEFT,expand=True,fill=BOTH)
         bt1=Button(frame1,text="사고 유형 상세 분석" ,width=40,height=3,background='grey',font=20,cursor='hand2',command=lambda:[master.del_frame(),master.switch_frame(Menu2)])
@@ -185,36 +190,42 @@ class Menu2(tk.Frame):
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
 
         var1 = tk.StringVar()
-        var1.set('2017')
+        var1.set('연도')
         option_menu1 = tk.OptionMenu(frame3, var1, '2017', '2018', '2019', '2020', '2021')
         option_menu1.config(width=8)
 
         var2=tk.StringVar()
-        var2.set('20세이하')
+        var2.set('연령대')
         option_menu2 = tk.OptionMenu(frame3, var2, '20세이하','21세','31세','41세','51세','61세','65세이상')
         option_menu2.config(width=8)
 
         label1 = tk.Label(frame3, text="~")
 
         var3=tk.StringVar()
-        var3.set('20세이하')
+        var3.set('연령대')
         option_menu3 = tk.OptionMenu(frame3, var3, '20세이하','30세','40세','50세','60세','64세','65세이상')
         option_menu3.config(width=8)
 
         var4=tk.StringVar()
-        var4.set('00:00')
+        var4.set('시간대')
         option_menu4 = tk.OptionMenu(frame3, var4, '00:00','02:00','04:00','06:00','08:00','10:00','12:00','14:00','16:00','18:00','20:00','22:00')
         option_menu4.config(width=8)
 
         label2 = tk.Label(frame3, text="~")
 
         var5=tk.StringVar()
-        var5.set('24:00')
+        var5.set('시간대')
         option_menu5 = tk.OptionMenu(frame3, var5, '02:00','04:00','06:00','08:00','10:00','12:00','14:00','16:00','18:00','20:00','22:00','24:00')
         option_menu5.config(width=8)
 
-        bt5=Button(frame3,text="그래프 보기",width=8,font=10,command=lambda: self.show_graph1(mylist,var.get(),var1.get(),var2.get(),var3.get()))
-        bt6=Button(frame3,text="그래프 보기",width=8,font=10,command=lambda: self.show_graph2(mylist,var.get(),var1.get(),var4.get(),var5.get()))
+        bt5=Button(frame3,text="나이",width=8,font=10,cursor='hand2',command=lambda: self.show_graph3(mylist,var.get(),var1.get(),var2.get(),var3.get()))
+        bt6=Button(frame3,text="시간",width=8,font=10,cursor='hand2',command=lambda: self.show_graph4(mylist,var.get(),var1.get(),var4.get(),var5.get()))
+    
+    def change_text1(self,bt):
+        bt['text'] = '나이'
+
+    def change_text2(self,bt):
+        bt['text'] = '시간'
 
     def hide_widget(self,widget):
         try:
@@ -227,9 +238,122 @@ class Menu2(tk.Frame):
     def del_frame(self,master):
         for widget in master.winfo_children():
             widget.destroy()
-            
+    def show_graph1(self,mylist,var):
+        if not mylist.curselection():
+            messagebox.showinfo("리스트 박스 선택", "리스트박스 선택을 확인해 주세요.")
+
+        global canvas
+        index = mylist.curselection()[0]
+        info = mylist.get(index)
+        if(var=='음주운전'):
+            df=pd.read_csv('연도_나이_음주.csv',encoding='cp949')         
+        elif(var=='무면허'):
+            df=pd.read_csv('연도_나이_무면허.csv',encoding='cp949')
+        elif(var=='스쿨존'):
+            df=pd.read_csv('연도_나이_음주.csv',encoding='cp949')
+        else:
+            messagebox.showinfo("라디오 박스 선택", "라디오박스 체크를 확인해 주세요.")
+
+        df.iloc[1:,3:]=df.iloc[1:,3:].astype(int)
+
+        try:
+            canvas.get_tk_widget().pack_forget()
+            for i in range(2,27):
+                if(info == df.loc[i][2]):
+                    title_name=df.loc[i][2]
+                    fig=plt.figure()
+                    plt.rc('font', family='Malgun Gothic')
+                    sum_list=[]
+                    sum_list.append([df.iloc[i,3::7].sum(),df.iloc[i,4::7].sum(),
+                              df.iloc[i,5::7].sum(),df.iloc[i,6::7].sum(),
+                            df.iloc[i,7::7].sum(),df.iloc[i,8::7].sum(),
+                            df.iloc[i,9::7].sum()])
+                    plt.barh(range(7),sum_list[0],color='grey',label=var)
+                    plt.yticks(range(7),df.iloc[0,3:10])
+                    plt.title(title_name+'의 전체 나이별 '+var+' 분석')
+                    canvas = FigureCanvasTkAgg(fig,master=self)         
+                    canvas.get_tk_widget().pack()
+                else:
+                    continue
+        except:
+            for i in range(2,27):
+                if(info == df.loc[i][2]):
+                    title_name=df.loc[i][2]
+                    fig=plt.figure()
+                    plt.rc('font', family='Malgun Gothic')
+                    sum_list=[]
+                    sum_list.append([df.iloc[i,3::7].sum(),df.iloc[i,4::7].sum(),
+                              df.iloc[i,5::7].sum(),df.iloc[i,6::7].sum(),
+                            df.iloc[i,7::7].sum(),df.iloc[i,8::7].sum(),
+                            df.iloc[i,9::7].sum()])
+                    plt.barh(range(7),sum_list[0],color='grey',label=var)
+                    plt.yticks(range(7),df.iloc[0,3:10])
+                    plt.title(title_name+'의 전체 나이별 '+var+' 분석')
+                    canvas = FigureCanvasTkAgg(fig,master=self)         
+                    canvas.get_tk_widget().pack()
+                else:
+                    continue
+    def show_graph2(self,mylist,var):
+        if not mylist.curselection():
+            messagebox.showinfo("리스트 박스 선택", "리스트박스 선택을 확인해 주세요.")
+
+        global canvas
+        index = mylist.curselection()[0]
+        info = mylist.get(index)
+        if(var=='음주운전'):
+            df=pd.read_csv('음주_시간별_re.csv',encoding='cp949')         
+        elif(var=='무면허'):
+            df=pd.read_csv('무면허_시간별_re.csv',encoding='cp949')
+        elif(var=='스쿨존'):
+            df=pd.read_csv('음주_시간별_re.csv',encoding='cp949')
+        else:
+            messagebox.showinfo("라디오 박스 선택", "라디오박스 체크를 확인해 주세요.")
+
+        df.iloc[1:,3:]=df.iloc[1:,3:].astype(int)
+
+        try:
+            canvas.get_tk_widget().pack_forget()
+            for i in range(2,27):
+                if(info == df.loc[i][2]):
+                    title_name=df.loc[i][2]
+                    fig=plt.figure()
+                    plt.rc('font', family='Malgun Gothic')
+                    sum_list=[]
+                    sum_list.append([df.iloc[i,3::12].sum(),df.iloc[i,4::12].sum(),
+                            df.iloc[i,5::12].sum(),df.iloc[i,6::12].sum(),
+                            df.iloc[i,7::12].sum(),df.iloc[i,8::12].sum(),
+                            df.iloc[i,9::12].sum(),df.iloc[i,10::12].sum(),
+                            df.iloc[i,11::12].sum(),df.iloc[i,12::12].sum(),
+                            df.iloc[i,13::12].sum(),df.iloc[i,14::12].sum()])
+                    plt.barh(range(12),sum_list[0],color='grey',label='무면허')
+                    plt.yticks(range(12),df.iloc[0,3:15])
+                    plt.title(title_name+'의 시간별 '+var+' 분석')
+                    canvas = FigureCanvasTkAgg(fig,master=self)         
+                    canvas.get_tk_widget().pack()
+                else:
+                    continue
+        except:
+            for i in range(2,27):
+                if(info == df.loc[i][2]):
+                    title_name=df.loc[i][2]
+                    fig=plt.figure()
+                    plt.rc('font', family='Malgun Gothic')
+                    sum_list=[]
+                    sum_list.append([df.iloc[i,3::12].sum(),df.iloc[i,4::12].sum(),
+                            df.iloc[i,5::12].sum(),df.iloc[i,6::12].sum(),
+                            df.iloc[i,7::12].sum(),df.iloc[i,8::12].sum(),
+                            df.iloc[i,9::12].sum(),df.iloc[i,10::12].sum(),
+                            df.iloc[i,11::12].sum(),df.iloc[i,12::12].sum(),
+                            df.iloc[i,13::12].sum(),df.iloc[i,14::12].sum()])
+                    plt.barh(range(12),sum_list[0],color='grey',label='무면허')
+                    plt.yticks(range(12),df.iloc[0,3:15])
+                    plt.title(title_name+'의 시간별 '+var+' 분석')
+                    canvas = FigureCanvasTkAgg(fig,master=self)         
+                    canvas.get_tk_widget().pack()
+                else:
+                    continue
     #연령 그래프        
-    def show_graph1(self,mylist,var,var1,var2,var3):
+    def show_graph3(self,mylist,var,var1,var2,var3):
 
         if not mylist.curselection():
             messagebox.showinfo("리스트 박스 선택", "리스트박스 선택을 확인해 주세요.")
@@ -304,7 +428,7 @@ class Menu2(tk.Frame):
             year='2021년 '
 
         if(var2+var3 >= 7):
-            messagebox.showinfo("범위를 잘못 설정하셨습니다.", "처음 년도가 두번째 년도보다 작아야 합니다.")
+            messagebox.showinfo("범위를 잘못 설정하셨습니다.", "처음 나이가 두번째 나이보다 작아야 합니다.")
         else:
             try:
                 canvas.get_tk_widget().pack_forget()
@@ -335,7 +459,7 @@ class Menu2(tk.Frame):
                         continue
 
     # 시간 그래프
-    def show_graph2(self,mylist,var,var1,var4,var5):
+    def show_graph4(self,mylist,var,var1,var4,var5):
         # var : 라디오박스선택값
         # var1 : 연도 선택
         # var6 : 나이 선택
@@ -409,24 +533,24 @@ class Menu2(tk.Frame):
             var5=11
 
         if(var1=='2017'):
-            var1=4+var4
-            max_var=5+var5
+            var1=3+var4
+            max_var=4+var5
             year='2017년 '
         elif(var1=='2018'):
-            var1=16+var4
-            max_var=17+var5
+            var1=15+var4
+            max_var=16+var5
             year='2018년 '
         elif(var1=='2019'):
-            var1=28+var4
-            max_var=29+var5
+            var1=27+var4
+            max_var=28+var5
             year='2019년 '
         elif(var1=='2020'):
-            var1=40+var4
-            max_var=41+var5
+            var1=39+var4
+            max_var=40+var5
             year='2020년 '
         elif(var1=='2021'):
-            var1=52+var4
-            max_var=53+var5
+            var1=51+var4
+            max_var=52+var5
             year='2021년 '
 
 
@@ -436,7 +560,7 @@ class Menu2(tk.Frame):
             try:
                 canvas.get_tk_widget().pack_forget()
                 for i in range(2,27):
-                    if(info == df.loc[i][3]):
+                    if(info == df.loc[i][2]):
                         title_name=year+df.loc[i][2]
                         fig=plt.figure()
                         plt.rc('font', family='Malgun Gothic')
@@ -449,7 +573,7 @@ class Menu2(tk.Frame):
                         continue
             except:
                 for i in range(2,27):
-                    if(info == df.loc[i][3]):
+                    if(info == df.loc[i][2]):
                         title_name=year+df.loc[i][2]
                         fig=plt.figure()
                         plt.rc('font', family='Malgun Gothic')
@@ -459,14 +583,14 @@ class Menu2(tk.Frame):
                         canvas = FigureCanvasTkAgg(fig,master=self)         
                         canvas.get_tk_widget().pack()
                     else:
-                        continue          
+                        continue   
 class Menu3(tk.Frame):
     def __init__(self,master):
         tk.Frame.__init__(self, master)
         menu = tk.Menu(self)
-        menu.add_command(label="그래프 저장",command=lambda:saveimg.SaveImg.save_image(self,None,3,var.get()))
-        menu.add_command(label="데이터 프래임 보기",command=lambda :self.open_data_Frame3(self))
-        menu.add_command(label="데이터 프래임 저장",command=lambda :saveimg.SaveImg.save_data_image(self,None,3,var.get()))
+        menu.add_command(label="그래프 저장",command=lambda:saveimg.SaveImg.save_image(self,None,3,var.get(),None,None,None,None,None,None,None))
+        menu.add_command(label="데이터 프래임 보기",command=lambda :self.open_data_Frame3())
+        menu.add_command(label="데이터 프래임 저장",command=lambda :saveimg.SaveImg.save_data_image(self,None,3))
         master.config(menu=menu)
 
         frame1=tk.Frame()
@@ -496,11 +620,12 @@ class Menu3(tk.Frame):
             
  
     def graphBubble(self,var):
+        plt.rc('font', family='Malgun Gothic')
         if var == '음주운전':
             try:
                 global canvas
                 canvas.get_tk_widget().pack_forget()
-                df1=pd.read_csv('1번.csv',encoding='cp949')
+                df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
                 df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
                 seoul_list = ['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구', '도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
                 colors = ['#FF5733', '#C70039', '#900C3F', '#581845', '#2E294E',
@@ -528,7 +653,7 @@ class Menu3(tk.Frame):
                 canvas = FigureCanvasTkAgg(fig,master=self)         
                 canvas.get_tk_widget().pack()
             except:
-                df1=pd.read_csv('1번.csv',encoding='cp949')
+                df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
                 df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
                 seoul_list = ['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구', '도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
                 colors = ['#FF5733', '#C70039', '#900C3F', '#581845', '#2E294E',
@@ -558,7 +683,7 @@ class Menu3(tk.Frame):
         elif var == '어린이 보호구역':
             try:
                 canvas.get_tk_widget().pack_forget()
-                df1=pd.read_csv('1번.csv',encoding='cp949')
+                df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
                 df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
                 seoul_list = ['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구', '도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
                 colors = ['#FF5733', '#C70039', '#900C3F', '#581845', '#2E294E',
@@ -585,7 +710,7 @@ class Menu3(tk.Frame):
                 canvas = FigureCanvasTkAgg(fig,master=self)         
                 canvas.get_tk_widget().pack()
             except:
-                df1=pd.read_csv('1번.csv',encoding='cp949')
+                df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
                 df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
                 seoul_list = ['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구', '도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
                 colors = ['#FF5733', '#C70039', '#900C3F', '#581845', '#2E294E',
@@ -615,7 +740,7 @@ class Menu3(tk.Frame):
         elif var == '무면허':
             try:
                 canvas.get_tk_widget().pack_forget()
-                df1=pd.read_csv('1번.csv',encoding='cp949')
+                df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
                 df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
                 seoul_list = ['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구', '도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
                 colors = ['#FF5733', '#C70039', '#900C3F', '#581845', '#2E294E',
@@ -644,7 +769,7 @@ class Menu3(tk.Frame):
                 canvas = FigureCanvasTkAgg(fig,master=self)         
                 canvas.get_tk_widget().pack()
             except:
-                df1=pd.read_csv('1번.csv',encoding='cp949')
+                df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
                 df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
                 seoul_list = ['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구', '도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
                 colors = ['#FF5733', '#C70039', '#900C3F', '#581845', '#2E294E',
@@ -676,7 +801,7 @@ class Menu3(tk.Frame):
     def open_data_Frame3(self):
         new_window = tk.Toplevel(self.master)
         new_window.title('사고유형 데이터 프레임')
-        df1=pd.read_csv('1번.csv',encoding='cp949')
+        df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
         #구 ,발생건수
         df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
         seoul_list=['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구', '도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']

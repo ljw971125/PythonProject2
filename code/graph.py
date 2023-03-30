@@ -9,7 +9,7 @@ class Graph():
         try:
             global canvas
             canvas.get_tk_widget().pack_forget()
-            TrafficAccident=pd.read_csv('1번.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수 
+            TrafficAccident=pd.read_csv('All_TrafficAccident.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수 
             index = mylist.curselection()[0] # 리스트박스의 선택된 항목의 인덱스를 반환하는 메소드
             info = mylist.get(index) # 인덱스에 해당하는 항목의 값을 반환하는 메소드
             year_list=['2017','2018','2019','2020','2021'] #그래프 x축에 표시할 연도
@@ -48,7 +48,7 @@ class Graph():
                 else:
                     continue
         except:
-            TrafficAccident=pd.read_csv('1번.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
+            TrafficAccident=pd.read_csv('All_TrafficAccident.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
             index = mylist.curselection()[0] # 리스트박스의 선택된 항목의 인덱스를 반환하는 메소드
             info = mylist.get(index) # 인덱스에 해당하는 항목의 값을 반환하는 메소드
             year_list=['2017','2018','2019','2020','2021'] #그래프 x축에 표시할 연도 
@@ -90,7 +90,7 @@ class Graph():
             try:
                 global canvas
                 canvas.get_tk_widget().pack_forget() # ui에 그려져 있는 그래프를 지움
-                TrafficAccident=pd.read_csv('1번.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
+                TrafficAccident=pd.read_csv('All_TrafficAccident.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
                 index = mylist.curselection()[0] # 리스트박스의 선택된 항목의 인덱스를 반환하는 메소드
                 info = mylist.get(index) # 인덱스에 해당하는 항목의 값을 반환하는 메소드
                 year_list=['2017','2018','2019','2020','2021'] #그래프 x축에 표시할 연도
@@ -129,7 +129,7 @@ class Graph():
                     else:
                         continue
             except:
-                TrafficAccident=pd.read_csv('1번.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
+                TrafficAccident=pd.read_csv('All_TrafficAccident.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
                 index = mylist.curselection()[0] # 리스트박스의 선택된 항목의 인덱스를 반환하는 메소드
                 info = mylist.get(index) # 인덱스에 해당하는 항목의 값을 반환하는 메소드
                 year_list=['2017','2018','2019','2020','2021'] #그래프 x축에 표시할 연도
@@ -172,7 +172,7 @@ class Graph():
             try:
                 global canvas
                 canvas.get_tk_widget().pack_forget()
-                TrafficAccident=pd.read_csv('1번.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
+                TrafficAccident=pd.read_csv('All_TrafficAccident.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
                 index = mylist.curselection()[0] # 리스트박스의 선택된 항목의 인덱스를 반환하는 메소드
                 info = mylist.get(index) # 인덱스에 해당하는 항목의 값을 반환하는 메소드
                 year_list=['2017','2018','2019','2020','2021'] #그래프 x축에 표시할 연도
@@ -192,7 +192,7 @@ class Graph():
                     else:
                         continue
             except:
-                TrafficAccident=pd.read_csv('1번.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
+                TrafficAccident=pd.read_csv('All_TrafficAccident.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
                 index = mylist.curselection()[0] # 리스트박스의 선택된 항목의 인덱스를 반환하는 메소드
                 info = mylist.get(index) # 인덱스에 해당하는 항목의 값을 반환하는 메소드
                 year_list=['2017','2018','2019','2020','2021'] #그래프 x축에 표시할 연도
