@@ -1,36 +1,63 @@
 import tkinter as tk # 인터페이스를 만들 때
-import saveimg
-from tkinter import *
-import pandas as pd
-import graph
+import saveimg #그래프 이미지 저장 모듈
+from tkinter import * #파이썬 GUI 화면 설정 모듈
+import pandas as pd #데이터 프래임 모듈
+import graph #그래프 보여주는 모듈
 from pandastable import Table # tkinter ui에서 pandas 모양으로 데이터 프레임을 만들어주는 모듈
-import os
+import os #os 설정 모듈
 from PIL import Image, ImageTk # 파이썬으로 이미지를 다룰 수 있게 해주는 모듈
-import image
+import image #이미지 불러오는 모듈 
 
 PATH = os.path.dirname(os.path.realpath(__file__)) # 현재 디렉토리로 이동
 os.chdir(PATH)
 # 시작메뉴 설정
+           
 class StartMenu(tk.Frame):
+    '''
+    함수명:_init__
+                변수명    자료형    설명
+    매개변수 :support_menu menu
+    반환값 : 없음
+    기능설명: 클래스에 대한 인자값을 받아 GUI화면 구성
+    '''  
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        menu = tk.Menu(self)
-        menu.add_command(label='도움말',command=lambda :self.open_help_window())    
-        master.config(menu=menu)
+        ex_menu = tk.Menu(self)
+        ex_menu.add_command(label='도움말',command=lambda :self.openHelpWindow())    
+        master.config(menu=ex_menu)
         tk.Label(self, text="서울시 교통사고 조사", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5) # 시작 화면 상단 라벨
         self.photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
         tk.Label(self,image=self.photo).pack() # 이미지 라벨
         tk.Label(self, text="2팀 : 김민수, 이지운, 장기헌, 장윤종, 전장현", font=('Helvetica', 10, "bold")).pack(side="top", fill="x", pady=5) #시작 화면 팀 라벨
         tk.Button(self, text="start",width=20,height=2,command=lambda: master.switch_frame(Menu1)).pack(side=BOTTOM) # 시작 버튼
 
-    def open_help_window(self):
+    '''
+    함수명:openHelpWindow__
+                변수명          자료형      설명
+    매개변수 :  image_viewer   Toplevel   새창을 띄우는 기능
+    매개변수 :  image_list     list       사용설명서에  띄울 사진 리스트
+    매개변수 :  app               새창을 띄우는 기능
+    반환값 : 없음
+    기능설명: 사용설명서 새창을 띄우는 함수
+    '''  
+
+    def openHelpWindow(self):
         image_viewer = tk.Toplevel(self)
-        image_paths = ["1.png", "2.png", "3.png", "4.png", "5.png"]
-        app = image.ImageViewer(image_viewer, image_paths)
+        image_list = ["1.png", "2.png", "3.png", "4.png", "5.png"]
+        app = image.ImageViewer(image_viewer, image_list)
 
 
 # 메인메뉴 설정
 class Menu1(tk.Frame):
+    '''
+    함수명:openHelpWindow__
+                변수명          자료형      설명
+    매개변수 :  image_viewer   Toplevel   새창을 띄우는 기능
+    매개변수 :  image_list     list       사용설명서에  띄울 사진 리스트
+    매개변수 :  app               새창을 띄우는 기능
+    반환값 : 없음
+    기능설명: 사용설명서 새창을 띄우는 함수
+    '''  
     def __init__(self,master):
         tk.Frame.__init__(self,master)
         menu = tk.Menu(self)
