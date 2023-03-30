@@ -6,12 +6,6 @@ import graph
 from pandastable import Table # tkinter ui에서 pandas 모양으로 데이터 프레임을 만들어주는 모듈
 import os
 from PIL import Image, ImageTk # 파이썬으로 이미지를 다룰 수 있게 해주는 모듈
-import allmenu
-import ProjectMain
-from matplotlib import pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from tkinter import messagebox
-import seaborn as sns
 import image
 
 PATH = os.path.dirname(os.path.realpath(__file__)) # 현재 디렉토리로 이동
@@ -33,7 +27,7 @@ class StartMenu(tk.Frame):
         image_viewer = tk.Toplevel(self)
         image_paths = ["1.png", "2.png", "3.png", "4.png", "5.png"]
         app = image.ImageViewer(image_viewer, image_paths)
-        
+
 
 # 메인메뉴 설정
 class Menu1(tk.Frame):
@@ -70,9 +64,8 @@ class Menu1(tk.Frame):
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
         tk.Label(frame4,textvariable=self.text,font=('Helvetica', 18, "bold")).pack(side=RIGHT,padx=10)
         mylist.bind("<<ListboxSelect>>", lambda event : [graph.Graph.graph(self,mylist,event),self.show_info(mylist)]) # 리스트바에서 값을 선택 할 때 바로 그래프가 출력 되도록 해줌
-    
- 
-    
+
+
     def open_new_window(self,mylist):
         new_window = tk.Toplevel(self.master)
         df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
@@ -134,7 +127,7 @@ class Menu2(tk.Frame):
         df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
         for i in range(1,26): 
             mylist.insert(tk.END, df1.loc[i][2])
-              
+
         mylist.pack(side=LEFT,anchor='n',fill=BOTH) # 리스트바를 프레임의 왼쪽에 붙임
         scrollbar.config(command=mylist.yview)
         
@@ -214,9 +207,7 @@ class Menu2(tk.Frame):
         for widget in master.winfo_children():
             widget.destroy()
 
-    
 
-    
     def open_data_Frame2(self,mylist,var,var1,var2,var3,var4,var5,bt1,bt2):
 
         index = mylist.curselection()[0]
@@ -584,7 +575,7 @@ class Menu3(tk.Frame):
         var=StringVar()
         var.set(NONE)
 
-        
+
         R1 = Radiobutton(frame2, text='음주운전',variable=var, value="음주운전",font=20,command=lambda:graph.Graph.graphBubble(self,var.get())) # 오른쪽 프레임 체크박스 추가
         R1.pack(anchor='w') # 왼쪽으로 정렬
         R2 = Radiobutton(frame2, text='무면허',variable=var, value="무면허",font=20,command=lambda:graph.Graph.graphBubble(self,var.get()))
@@ -601,9 +592,7 @@ class Menu3(tk.Frame):
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
         
 
-            
- 
-    
+
     def open_data_Frame3(self):
         new_window = tk.Toplevel(self.master)
         new_window.title('사고유형 데이터 프레임')
