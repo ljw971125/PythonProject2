@@ -1,36 +1,63 @@
 import tkinter as tk # 인터페이스를 만들 때
-import saveimg
-from tkinter import *
-import pandas as pd
-import graph
+import saveimg #그래프 이미지 저장 모듈
+from tkinter import * #파이썬 GUI 화면 설정 모듈
+import pandas as pd #데이터 프래임 모듈
+import graph #그래프 보여주는 모듈
 from pandastable import Table # tkinter ui에서 pandas 모양으로 데이터 프레임을 만들어주는 모듈
-import os
+import os #os 설정 모듈
 from PIL import Image, ImageTk # 파이썬으로 이미지를 다룰 수 있게 해주는 모듈
-import image
+import image #이미지 불러오는 모듈 
 
 PATH = os.path.dirname(os.path.realpath(__file__)) # 현재 디렉토리로 이동
 os.chdir(PATH)
 # 시작메뉴 설정
+           
 class StartMenu(tk.Frame):
+    '''
+    함수명:_init__
+                변수명    자료형    설명
+    매개변수 : ep_menu     menu
+    반환값 : 없음
+    기능설명: 클래스에 대한 인자값을 받아 GUI화면 구성
+    '''  
     def __init__(self, master):
         tk.Frame.__init__(self, master)
-        menu = tk.Menu(self)
-        menu.add_command(label='도움말',command=lambda :self.open_help_window())    
-        master.config(menu=menu)
+        ep_menu = tk.Menu(self)
+        ep_menu.add_command(label='도움말',command=lambda :self.openExplainWindow())    
+        master.config(menu=ep_menu)
         tk.Label(self, text="서울시 교통사고 조사", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5) # 시작 화면 상단 라벨
         self.photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
         tk.Label(self,image=self.photo).pack() # 이미지 라벨
         tk.Label(self, text="2팀 : 김민수, 이지운, 장기헌, 장윤종, 전장현", font=('Helvetica', 10, "bold")).pack(side="top", fill="x", pady=5) #시작 화면 팀 라벨
         tk.Button(self, text="start",width=20,height=2,command=lambda: master.switch_frame(Menu1)).pack(side=BOTTOM) # 시작 버튼
 
-    def open_help_window(self):
+    '''
+    함수명:openExplainWindow
+                변수명          자료형      설명
+    매개변수 :  image_viewer   Toplevel   새창을 띄우는 기능
+    매개변수 :  image_list     list       사용설명서에  띄울 사진 리스트
+    매개변수 :  app               새창을 띄우는 기능
+    반환값 : 없음
+    기능설명: 사용설명서 새창을 띄우는 함수
+    '''  
+
+    def openExplainWindow(self):
         image_viewer = tk.Toplevel(self)
-        image_paths = ["1.png", "2.png", "3.png", "4.png", "5.png"]
-        app = image.ImageViewer(image_viewer, image_paths)
+        image_list = ["1.png", "2.png", "3.png", "4.png", "5.png"]
+        app = image.ImageViewer(image_viewer, image_list)
 
 
 # 메인메뉴 설정
 class Menu1(tk.Frame):
+    '''
+    함수명:__init__
+                변수명          자료형      설명
+    매개변수 :  frame1,2,3,4    Frame     위젯 위치설정 기능
+    매개변수 :  scrollbar       Scrolbar  스크롤바 생성
+    매개변수 :  mylist          Listbox   리스트박스 생성          
+    반환값 : 없음
+    기능설명: GUI 화면 생성 및 위젯 설정
+    '''  
     def __init__(self,master):
         tk.Frame.__init__(self,master)
         menu = tk.Menu(self)
@@ -51,9 +78,9 @@ class Menu1(tk.Frame):
         scrollbar = Scrollbar(frame2) # 스크롤바 생성
         scrollbar.pack(side=RIGHT, fill=Y) # 스크롤바를 프레임의 오른쪽에 붙임
         mylist = Listbox(frame2, yscrollcommand=scrollbar.set, height=0, selectbackground='pink', selectforeground='black',font=20) # 리스트바 생성, 스크롤바 연결, 높이 0으로 설정
-        TrafficAccident=pd.read_csv('All_TrafficAccident.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
+        ta_df_int=pd.read_csv('All_TrafficAccident.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
         for i in range(1,26):
-            mylist.insert(tk.END, TrafficAccident.loc[i][2])
+            mylist.insert(tk.END, ta_df_int.loc[i][2])
         mylist.pack(side=LEFT,anchor='n',fill=BOTH,expand=True) # 리스트바를 프레임의 왼쪽에 붙임
         scrollbar.config(command=mylist.yview) #스크롤바와 리스트 박스를 연결하는 함수
         bt=Button(frame1,text="사고 유형 분석",width=40,height=3,background='grey',cursor='hand2',font=20)
@@ -63,42 +90,64 @@ class Menu1(tk.Frame):
         bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='white',font=20,cursor='hand2',command=lambda:[master.del_frame(),master.switch_frame(Menu3)])
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
         tk.Label(frame4,textvariable=self.text,font=('Helvetica', 18, "bold")).pack(side=RIGHT,padx=10)
-        mylist.bind("<<ListboxSelect>>", lambda event : [graph.Graph.graph(self,mylist,event),self.show_info(mylist)]) # 리스트바에서 값을 선택 할 때 바로 그래프가 출력 되도록 해줌
+        mylist.bind("<<ListboxSelect>>", lambda event : [graph.Graph.graph(self,mylist,event),self.showRank(mylist)]) # 리스트바에서 값을 선택 할 때 바로 그래프가 출력 되도록 해줌
 
 
-    def open_new_window(self,mylist):
+    '''
+    함수명: openDataWindow
+                변수명          자료형      설명
+    매개변수 :  new_window      Toplevel   새창 생성
+    매개변수 :  ta_df           DataFrame  구별 사고 발생 건수 데이터 프래임
+    매개변수 :  mylist_index    int         리스트박스에 선택한 인덱스 반환
+    매개변수 :  mylist_selection str        리스트박스에 선택값 반환
+    반환값 : 없음
+    기능설명: 데이터프래임 값 보여주는 기능
+    '''  
+
+    def openDataWindiw(self,mylist):
         new_window = tk.Toplevel(self.master)
-        df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
-        index = mylist.curselection()[0]
-        info = mylist.get(index)
-        new_window.title(info+' 사고유형 데이터 프레임')
+        ta_df=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
+        mylist_index = mylist.curmylist_selection()[0]
+        mylist_selection = mylist.get(mylist_index)
+        new_window.title(mylist_selection+' 사고유형 데이터 프레임')
         for i in range(1,26):
-            if(info == df1.loc[i][2]):
-                df = pd.DataFrame({'음주운전':[df1.loc[i][4], df1.loc[i][7], df1.loc[i][10],df1.loc[i][13],df1.loc[i][16]],
-                                         '스쿨존사고':[df1.loc[i][5], df1.loc[i][8], df1.loc[i][11],df1.loc[i][14],df1.loc[i][17]],
-                                         '무면허':[df1.loc[i][6], df1.loc[i][9], df1.loc[i][12],df1.loc[i][15],df1.loc[i][18]]}
+            if(mylist_selection == ta_df.loc[i][2]):
+                ta_df = pd.DataFrame({'음주운전':[ta_df.loc[i][4], ta_df.loc[i][7], ta_df.loc[i][10],ta_df.loc[i][13],ta_df.loc[i][16]],
+                                         '스쿨존사고':[ta_df.loc[i][5], ta_df.loc[i][8], ta_df.loc[i][11],ta_df.loc[i][14],ta_df.loc[i][17]],
+                                         '무면허':[ta_df.loc[i][6], ta_df.loc[i][9], ta_df.loc[i][12],ta_df.loc[i][15],ta_df.loc[i][18]]}
                                         )
-        table=Table(new_window,dataframe=df)
+        table=Table(new_window,dataframe=ta_df)
         table.show()
         
+    '''
+    함수명: showRank
+                변수명          자료형      설명
+    매개변수 :  new_window      Toplevel   새창 생성
+    매개변수 :  ta_df           DataFrame  구별 사고 발생 건수 데이터 프래임
+    매개변수 :  ta_df_int       DataFrame  데이터 프래임 정수화
+    매개변수 :  mylist_index    int        리스트박스에 선택한 인덱스 반환
+    매개변수 :  mylist_selection str       리스트박스에 선택값 반환
+    반환값 : 없음
+    기능설명: 데이터프래임 값 보여주는 기능
+    '''    
     
     # 자료의 발생 건수를 모두 더하고 순위를 보여주는 함수
-    def show_info(self,mylist):
-        df=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
-        TrafficAccident=df.iloc[1:,4:].astype(int)
-        result1=TrafficAccident.iloc[:,0::3].sum(axis=1) # csv파일에서 음주운전의 값을 모두 더함
-        result2=TrafficAccident.iloc[:,1::3].sum(axis=1) # csv파일에서 스쿨존의 값을 모두 더함
-        result3=TrafficAccident.iloc[:,2::3].sum(axis=1) # csv파일에서 무면허 사고의 값을 모두 더함
-        index = mylist.curselection()[0] # 리스트박스의 선택된 항목의 인덱스를 반환하는 메소드
-        info = mylist.get(index) # 인덱스에 해당하는 항목의 값을 반환하는 메소드
+    def showRank(self,mylist):
+        ta_df=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
+        ta_df_int=ta_df.iloc[1:,4:].astype(int)
+        result1=ta_df_int.iloc[:,0::3].sum(axis=1) # csv파일에서 음주운전의 값을 모두 더함
+        result2=ta_df_int.iloc[:,1::3].sum(axis=1) # csv파일에서 스쿨존의 값을 모두 더함
+        result3=ta_df_int.iloc[:,2::3].sum(axis=1) # csv파일에서 무면허 사고의 값을 모두 더함
+        mylist_index = mylist.curselection()[0] # 리스트박스의 선택된 항목의 인덱스를 반환하는 메소드
+        mylist_seletion = mylist.get(mylist_index) # 인덱스에 해당하는 항목의 값을 반환하는 메소드
         result1=result1.rank(ascending=False).astype(int) # 
         result2=result2.rank(ascending=False).astype(int)
         result3=result3.rank(ascending=False).astype(int)
         for i in range(1,26):
-            if(info == df.loc[i][2]):
-                self.text.set(df.loc[i][2]+'의 음주운전 사고 순위 : '+result1[i].astype(str)+'위'+'\n'
-                             +df.loc[i][2]+'의 스쿨존 사고 순위 : '+result2[i].astype(str)+'위'+'\n'
-                             +df.loc[i][2]+'의 무면허 사고 순위 : '+result3[i].astype(str)+'위')
+            if(mylist_seletion == ta_df.loc[i][2]):
+                self.text.set(ta_df.loc[i][2]+'의 음주운전 사고 순위 : '+result1[i].astype(str)+'위'+'\n'
+                             +ta_df.loc[i][2]+'의 어린이 보호구역 사고 순위 : '+result2[i].astype(str)+'위'+'\n'
+                             +ta_df.loc[i][2]+'의 무면허 사고 순위 : '+result3[i].astype(str)+'위')
 # 사고 유형 상세 분석 메뉴 설정
 
 class Menu2(tk.Frame):
@@ -135,7 +184,7 @@ class Menu2(tk.Frame):
         R1.pack(anchor='w') # 왼쪽으로 정렬
         R2 = Radiobutton(frame4, text='무면허',variable=var, value="무면허",font=20)
         R2.pack(anchor='w')
-        R3 = Radiobutton(frame4, text='스쿨존',variable=var, value="스쿨존",font=20)
+        R3 = Radiobutton(frame4, text='어린이 보호구역',variable=var, value="어린이 보호구역",font=20)
         R3.pack(anchor='w')
         bt3=Button(frame4,text="연령별",width=10,height=5,background='white',font=20,cursor='hand2',command=lambda: [self.hide_widget(option_menu4),self.hide_widget(label2),self.hide_widget(option_menu5),self.hide_widget(bt6),self.change_text(bt6,1),self.change_text(bt5,1),self.change_option(var1,1),self.change_option(var2,2),self.change_option(var3,2),self.show_widget(option_menu1),self.show_widget(option_menu2),self.show_widget(label1),self.show_widget(option_menu3),self.show_widget(bt5),graph.Graph.show_graph1(self,mylist,var.get())])
         bt3.pack()
@@ -210,15 +259,15 @@ class Menu2(tk.Frame):
 
     def open_data_Frame2(self,mylist,var,var1,var2,var3,var4,var5,bt1,bt2):
 
-        index = mylist.curselection()[0]
-        info = mylist.get(index)
+        mylist_index = mylist.curselection()[0]
+        mylist_seletion = mylist.get(mylist_index)
 
         if bt1=='나이' and bt2=='나이':
             if(var=='음주운전'):
                 df1=pd.read_csv('연도_나이_음주.csv',encoding='cp949')         
             elif(var=='무면허'):
                 df1=pd.read_csv('연도_나이_무면허.csv',encoding='cp949')
-            elif(var=='스쿨존'):
+            elif(var=='어린이 보호구역'):
                 df1=pd.read_csv('연도_나이_음주.csv',encoding='cp949')
             else:
                 pass
@@ -228,10 +277,10 @@ class Menu2(tk.Frame):
             if(var2=='연령대' or var3=='연령대'):
                 
                 new_window = tk.Toplevel(self.master)
-                new_window.title('17~21년간의 '+info+'의 '+var+'의 전체 연령 데이터 프레임')
+                new_window.title('17~21년간의 '+mylist_seletion+'의 '+var+'의 전체 연령 데이터 프레임')
                 for i in range(2,27):
-                    if(info == df1.loc[i][2]):
-                        df=pd.DataFrame([{'20세이하':df1.iloc[i,3::7].sum(),
+                    if(mylist_seletion == df1.loc[i][2]):
+                        ta_df=pd.DataFrame([{'20세이하':df1.iloc[i,3::7].sum(),
                                 '21~30세':df1.iloc[i,4::7].sum(),
                                 '31~40세':df1.iloc[i,5::7].sum(),
                                 '41~50세':df1.iloc[i,6::7].sum(),
@@ -239,7 +288,7 @@ class Menu2(tk.Frame):
                                 '61~64세':df1.iloc[i,8::7].sum(),
                                 '65세이상':df1.iloc[i,9::7].sum()}
                                 ])
-                table=Table(new_window,dataframe=df)
+                table=Table(new_window,dataframe=ta_df)
                 table.show()
 
             else:
@@ -296,37 +345,37 @@ class Menu2(tk.Frame):
 
                 if(var2+var3 < 7):
                     for i in range(2,27):
-                        if(info == df1.loc[i][2]):
+                        if(mylist_seletion == df1.loc[i][2]):
                             new_window = tk.Toplevel(self.master)
-                            new_window.title(year+info+'의 '+var+' 의 연령별 데이터 프레임')
+                            new_window.title(year+mylist_seletion+'의 '+var+' 의 연령별 데이터 프레임')
 
                             if(max_var-var1==1):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1]}])
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1]}])
 
                             elif(max_var-var1==2):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                 df1.iloc[0,var1+1]:df1.iloc[i,var1+1]}])
                                     
                             elif(max_var-var1==3):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                 df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
                                                 df1.iloc[0,var1+2]:df1.iloc[i,var1+2]}])
                                                 
                                     
                             elif(max_var-var1==4):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                 df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
                                                 df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
                                                 df1.iloc[0,var1+3]:df1.iloc[i,var1+3]}])
                                     
                             elif(max_var-var1==5):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                 df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
                                                 df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
                                                 df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
                                                 df1.iloc[0,var1+4]:df1.iloc[i,var1+4]}])
                             elif(max_var-var1==6):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                 df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
                                                 df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
                                                 df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
@@ -334,7 +383,7 @@ class Menu2(tk.Frame):
                                                 df1.iloc[0,var1+5]:df1.iloc[i,var1+5]}])
                                     
                             elif(max_var-var1==7):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                 df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
                                                 df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
                                                 df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
@@ -342,7 +391,7 @@ class Menu2(tk.Frame):
                                                 df1.iloc[0,var1+5]:df1.iloc[i,var1+5],
                                                 df1.iloc[0,var1+6]:df1.iloc[i,var1+6]}])
                     
-                            table=Table(new_window,dataframe=df)
+                            table=Table(new_window,dataframe=ta_df)
                             table.show()
 
         elif bt1=='시간' and bt2=='시간':
@@ -350,7 +399,7 @@ class Menu2(tk.Frame):
                 df1=pd.read_csv('음주_시간별_re.csv',encoding='cp949')
             elif(var=='무면허'):
                 df1=pd.read_csv('무면허_시간별_re.csv',encoding='cp949')
-            elif(var=='스쿨존'):
+            elif(var=='어린이 보호구역'):
                 df1=pd.read_csv('음주_시간별_re.csv',encoding='cp949')
             else:
                 pass
@@ -359,10 +408,10 @@ class Menu2(tk.Frame):
 
             if(var4=='시간대' or var5=='시간대'):
                 new_window = tk.Toplevel(self.master)
-                new_window.title('17~21년간의 '+info+'의 '+var+'의 전체 시간 데이터 프레임')
+                new_window.title('17~21년간의 '+mylist_seletion+'의 '+var+'의 전체 시간 데이터 프레임')
                 for i in range(2,27):
-                    if(info == df1.loc[i][2]):  
-                        df=pd.DataFrame([{'00시~02시':df1.iloc[i,3::12].sum(),
+                    if(mylist_seletion == df1.loc[i][2]):  
+                        ta_df=pd.DataFrame([{'00시~02시':df1.iloc[i,3::12].sum(),
                                         '02시~04시':df1.iloc[i,4::12].sum(),
                                         '04시~06시':df1.iloc[i,5::12].sum(),
                                         '06시~08시':df1.iloc[i,6::12].sum(),
@@ -375,7 +424,7 @@ class Menu2(tk.Frame):
                                         '20시~22시':df1.iloc[i,13::12].sum(),
                                         '22시~24시':df1.iloc[i,14::12].sum()}
                                         ])
-                table=Table(new_window,dataframe=df)
+                table=Table(new_window,dataframe=ta_df)
                 table.show()
             else:
                 if(var4=='00:00'):
@@ -450,37 +499,37 @@ class Menu2(tk.Frame):
                     year='2021년 '
 
                 new_window = tk.Toplevel(self.master)
-                new_window.title(year+info+'의 '+var+ '의 시간별 데이터 프레임')
+                new_window.title(year+mylist_seletion+'의 '+var+ '의 시간별 데이터 프레임')
                 if(var4-var5 <= 0):
                     for i in range(2,27):
-                        if(info == df1.loc[i][2]):
+                        if(mylist_seletion == df1.loc[i][2]):
                             if(var5-var4==0):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1]}])
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1]}])
 
                             elif(var5-var4==1):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                   df1.iloc[0,var1+1]:df1.iloc[i,var1+1]}])
                                 
                             elif(var5-var4==2):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                   df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
                                                   df1.iloc[0,var1+2]:df1.iloc[i,var1+2]}])
                                 
                             elif(var5-var4==3):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                   df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
                                                   df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
                                                   df1.iloc[0,var1+3]:df1.iloc[i,var1+3]}])
                                 
                             elif(var5-var4==4):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                   df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
                                                   df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
                                                   df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
                                                   df1.iloc[0,var1+4]:df1.iloc[i,var1+4]}])
                                 
                             elif(var5-var4==5):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                   df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
                                                   df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
                                                   df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
@@ -488,7 +537,7 @@ class Menu2(tk.Frame):
                                                   df1.iloc[0,var1+5]:df1.iloc[i,var1+5]}])
                                 
                             elif(var5-var4==6):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                   df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
                                                   df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
                                                   df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
@@ -497,7 +546,7 @@ class Menu2(tk.Frame):
                                                   df1.iloc[0,var1+6]:df1.iloc[i,var1+6]}])
                                 
                             elif(var5-var4==7):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                   df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
                                                   df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
                                                   df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
@@ -507,7 +556,7 @@ class Menu2(tk.Frame):
                                                   df1.iloc[0,var1+7]:df1.iloc[i,var1+7]}])
                                 
                             elif(var5-var4==8):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                   df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
                                                   df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
                                                   df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
@@ -518,7 +567,7 @@ class Menu2(tk.Frame):
                                                   df1.iloc[0,var1+8]:df1.iloc[i,var1+8]}])
                                 
                             elif(var5-var4==9):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                   df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
                                                   df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
                                                   df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
@@ -530,7 +579,7 @@ class Menu2(tk.Frame):
                                                   df1.iloc[0,var1+9]:df1.iloc[i,var1+9]}])
                                 
                             elif(var5-var4==10):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                   df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
                                                   df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
                                                   df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
@@ -543,7 +592,7 @@ class Menu2(tk.Frame):
                                                   df1.iloc[0,var1+10]:df1.iloc[i,var1+10]}])
                                 
                             elif(var5-var4==11):
-                                df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
                                                   df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
                                                   df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
                                                   df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
@@ -555,7 +604,7 @@ class Menu2(tk.Frame):
                                                   df1.iloc[0,var1+9]:df1.iloc[i,var1+9],
                                                   df1.iloc[0,var1+10]:df1.iloc[i,var1+10],
                                                   df1.iloc[0,var1+11]:df1.iloc[i,var1+11]}])
-                    table=Table(new_window,dataframe=df)
+                    table=Table(new_window,dataframe=ta_df)
                     table.show()
 
 
@@ -609,12 +658,12 @@ class Menu3(tk.Frame):
             school_list.append(df1.iloc[i,5]+df1.iloc[i,8]+df1.iloc[i,11]+df1.iloc[i,14]+df1.iloc[i,17])
         for i in range(1,26):
             drunk_list.append(df1.iloc[i,4]+df1.iloc[i,7]+df1.iloc[i,10]+df1.iloc[i,13]+df1.iloc[i,16])
-        df=pd.DataFrame({'무면허':ul_list,
+        ta_df=pd.DataFrame({'무면허':ul_list,
                         '음주운전':drunk_list,
                         '어린이 보호구역':school_list},
                         index=seoul_list)
-        df
-        df=df.rename_axis('자치구')
+        ta_df
+        ta_df=ta_df.rename_axis('자치구')
         text = tk.Text(new_window)
-        text.insert('end', df.to_markdown())
+        text.insert('end', ta_df.to_markdown())
         text.pack()
