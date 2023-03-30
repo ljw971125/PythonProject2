@@ -11,7 +11,7 @@ os.chdir(PATH)
 
 # Ui 정의
 
-class Accident(tk.Tk): 
+class Accident(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
         self._frame = None # 현재 프레임을 None으로 초기화
@@ -20,14 +20,6 @@ class Accident(tk.Tk):
         self.geometry("1200x700") # ui 시작 해상도
         photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
         self.wm_iconphoto(False, photo) # ui 아이콘 적용하기
-
-        # 메뉴 바
-        menubar = Menu(self)
-        menu=Menu(menubar, tearoff=0) # 메뉴바 추가(tearoff = 메뉴바를 새 창으로 분리 할 수 있는가(1=예, 2=아니오))
-        menu.add_command(label="사용 설명서") # 하위 메뉴에 사용 설명서 추가
-        menu.add_command(label="종료",command=sys.exit)  #하위 메뉴에 종료 추가
-        menubar.add_cascade(label="도움말", menu=menu) # 상단 메뉴바 이름
-        self.config(menu=menubar) # 메뉴바를 ui에 보이도록
 
     # 프레임 이동 함수
     def switch_frame(self, frame_class): 
