@@ -81,7 +81,10 @@ class Menu1(tk.Frame):
         ta_df_int=pd.read_csv('All_TrafficAccident.csv',encoding='cp949') #csv 파일을 cp949로 인코딩 후 파일을 불러오는 함수
         for i in range(1,26):
             mylist.insert(tk.END, ta_df_int.loc[i][2])
-        mylist.pack(side=LEFT,anchor='n',fill=BOTH,expand=True) # 리스트바를 프레임의 왼쪽에 붙임
+        header_label = tk.Label(frame2, text="서울특별시 자치구", font=("Arial", 12, "bold"))
+        header_label.pack(pady=10)
+        mylist.pack(side=LEFT,fill=BOTH,expand=True) # 리스트바를 프레임의 왼쪽에 붙임
+      
         scrollbar.config(command=mylist.yview) #스크롤바와 리스트 박스를 연결하는 함수
         bt=Button(frame1,text="사고 유형 분석",width=40,height=3,background='grey',cursor='hand2',font=20)
         bt.pack(side=LEFT,expand=True,fill=BOTH) # 버튼의 위치를 조정(side는 방향, expand는 확장 여부, fill은 공간 채움 여부)
@@ -113,7 +116,7 @@ class Menu1(tk.Frame):
         for i in range(1,26):
             if(mylist_selection == ta_df.loc[i][2]):
                 ta_df = pd.DataFrame({'음주운전':[ta_df.loc[i][4], ta_df.loc[i][7], ta_df.loc[i][10],ta_df.loc[i][13],ta_df.loc[i][16]],
-                                         '스쿨존사고':[ta_df.loc[i][5], ta_df.loc[i][8], ta_df.loc[i][11],ta_df.loc[i][14],ta_df.loc[i][17]],
+                                         '어린이 보호구역사고':[ta_df.loc[i][5], ta_df.loc[i][8], ta_df.loc[i][11],ta_df.loc[i][14],ta_df.loc[i][17]],
                                          '무면허':[ta_df.loc[i][6], ta_df.loc[i][9], ta_df.loc[i][12],ta_df.loc[i][15],ta_df.loc[i][18]]}
                                         )
         table=Table(new_window,dataframe=ta_df)
@@ -136,7 +139,7 @@ class Menu1(tk.Frame):
         ta_df=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
         ta_df_int=ta_df.iloc[1:,4:].astype(int)
         result1=ta_df_int.iloc[:,0::3].sum(axis=1) # csv파일에서 음주운전의 값을 모두 더함
-        result2=ta_df_int.iloc[:,1::3].sum(axis=1) # csv파일에서 스쿨존의 값을 모두 더함
+        result2=ta_df_int.iloc[:,1::3].sum(axis=1) # csv파일에서 어린이 보호구역의 값을 모두 더함
         result3=ta_df_int.iloc[:,2::3].sum(axis=1) # csv파일에서 무면허 사고의 값을 모두 더함
         mylist_index = mylist.curselection()[0] # 리스트박스의 선택된 항목의 인덱스를 반환하는 메소드
         mylist_seletion = mylist.get(mylist_index) # 인덱스에 해당하는 항목의 값을 반환하는 메소드
@@ -176,9 +179,11 @@ class Menu2(tk.Frame):
         df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
         for i in range(1,26): 
             mylist.insert(tk.END, df1.loc[i][2])
-
-        mylist.pack(side=LEFT,anchor='n',fill=BOTH) # 리스트바를 프레임의 왼쪽에 붙임
+        header_label = tk.Label(frame2, text="서울특별시 자치구", font=("Arial", 12, "bold"))
+        header_label.pack(pady=10)
+        mylist.pack(side=LEFT,fill=BOTH) # 리스트바를 프레임의 왼쪽에 붙임
         scrollbar.config(command=mylist.yview)
+      
         
         R1 = Radiobutton(frame4 ,text='음주운전',variable=var, value="음주운전",font=20)
         R1.pack(anchor='w') # 왼쪽으로 정렬
@@ -268,7 +273,7 @@ class Menu2(tk.Frame):
             elif(var=='무면허'):
                 df1=pd.read_csv('연도_나이_무면허.csv',encoding='cp949')
             elif(var=='어린이 보호구역'):
-                df1=pd.read_csv('연도_나이_음주.csv',encoding='cp949')
+                df1=pd.read_csv('연도_나이_어린이.csv',encoding='cp949')
             else:
                 pass
 
@@ -400,7 +405,7 @@ class Menu2(tk.Frame):
             elif(var=='무면허'):
                 df1=pd.read_csv('무면허_시간별_re.csv',encoding='cp949')
             elif(var=='어린이 보호구역'):
-                df1=pd.read_csv('음주_시간별_re.csv',encoding='cp949')
+                df1=pd.read_csv('어린이_시간별.csv',encoding='cp949')
             else:
                 pass
 
@@ -613,7 +618,7 @@ class Menu3(tk.Frame):
         tk.Frame.__init__(self, master)
         menu = tk.Menu(self)
         menu.add_command(label="그래프 저장",command=lambda:saveimg.SaveImg.save_image(self,None,3,var.get(),None,None,None,None,None,None,None))
-        menu.add_command(label="데이터 프래임 보기",command=lambda :self.open_data_Frame3())
+        menu.add_command(label="데이터 프래임 보기",command=lambda :self.open_data_Frame3(var.get()))
         menu.add_command(label="데이터 프래임 저장",command=lambda :saveimg.SaveImg.save_data_image(self,None,3,var.get(),None,None,None,None,None,None,None))
         master.config(menu=menu)
 
@@ -642,28 +647,41 @@ class Menu3(tk.Frame):
         
 
 
-    def open_data_Frame3(self):
-        new_window = tk.Toplevel(self.master)
-        new_window.title('사고유형 데이터 프레임')
-        df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
-        #구 ,발생건수
-        df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
-        seoul_list=['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구', '도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
-        drunk_list=[]
-        ul_list=[]
-        school_list=[]
-        for i in range(1,26):
-            ul_list.append(df1.iloc[i,6]+df1.iloc[i,9]+df1.iloc[i,12]+df1.iloc[i,15]+df1.iloc[i,18])
-        for i in range(1,26):
-            school_list.append(df1.iloc[i,5]+df1.iloc[i,8]+df1.iloc[i,11]+df1.iloc[i,14]+df1.iloc[i,17])
-        for i in range(1,26):
-            drunk_list.append(df1.iloc[i,4]+df1.iloc[i,7]+df1.iloc[i,10]+df1.iloc[i,13]+df1.iloc[i,16])
-        ta_df=pd.DataFrame({'무면허':ul_list,
-                        '음주운전':drunk_list,
-                        '어린이 보호구역':school_list},
-                        index=seoul_list)
-        ta_df
-        ta_df=ta_df.rename_axis('자치구')
-        text = tk.Text(new_window)
-        text.insert('end', ta_df.to_markdown())
-        text.pack()
+    def open_data_Frame3(self,var):
+        if var != None:
+            new_window = tk.Toplevel(self.master)
+            new_window.title('사고유형 데이터 프레임')
+            df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
+            #구 ,발생건수
+            df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
+            seoul_list=['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구', '도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
+            drunk_list=[]
+            ul_list=[]
+            school_list=[]
+            if var=='무면허':
+                for i in range(1,26):
+                    ul_list.append(df1.iloc[i,6]+df1.iloc[i,9]+df1.iloc[i,12]+df1.iloc[i,15]+df1.iloc[i,18])
+                df=pd.DataFrame({'무면허':ul_list},index=seoul_list)
+                df=df.rename_axis('자치구')
+                df =df.sort_values(by='무면허', ascending=False)
+                text = tk.Text(new_window)
+                text.insert('end', df.to_markdown())
+                text.pack()
+            elif var=='음주운전':
+                for i in range(1,26):
+                    drunk_list.append(df1.iloc[i,5]+df1.iloc[i,8]+df1.iloc[i,11]+df1.iloc[i,14]+df1.iloc[i,17])
+                df=pd.DataFrame({'음주운전':drunk_list},index=seoul_list)
+                df=df.rename_axis('자치구')
+                df =df.sort_values(by='음주운전', ascending=False)
+                text = tk.Text(new_window)
+                text.insert('end', df.to_markdown())
+                text.pack()
+            elif var=='어린이 보호구역':
+                for i in range(1,26):
+                    school_list.append(df1.iloc[i,4]+df1.iloc[i,7]+df1.iloc[i,10]+df1.iloc[i,13]+df1.iloc[i,16])
+                df=pd.DataFrame({'어린이 보호구역':school_list},index=seoul_list)
+                df=df.rename_axis('자치구')
+                df =df.sort_values(by='어린이 보호구역', ascending=False)
+                text = tk.Text(new_window)
+                text.insert('end', df.to_markdown())
+                text.pack()

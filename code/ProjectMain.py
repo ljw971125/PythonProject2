@@ -1,7 +1,7 @@
 from tkinter import *
 import tkinter as tk # 인터페이스를 만들 때
 import os # 운영체제와 상호 작용을 하기 위한 모듈
-from PIL import Image, ImageTk # 파이썬으로 이미지를 다룰 수 있게 해주는 모듈
+from PIL import Image, ImageTk # 파이썬으로 이미지를 다룰 수 있게 해주는 모듈   
 import allmenu
 
 PATH = os.path.dirname(os.path.realpath(__file__)) # 현재 디렉토리로 이동
