@@ -164,7 +164,7 @@ class Menu2(tk.Frame):
         frame1=tk.Frame()
         frame1.pack(fill='both')
         frame2=tk.Frame()
-        frame2.pack(side=LEFT,anchor='n')
+        frame2.pack(side=LEFT,anchor='n',fill=BOTH)
         frame3=tk.Frame()
         frame3.pack(side=BOTTOM)
         frame4=tk.Frame()
@@ -232,14 +232,14 @@ class Menu2(tk.Frame):
         option_menu5 = tk.OptionMenu(frame3, var5, '02:00','04:00','06:00','08:00','10:00','12:00','14:00','16:00','18:00','20:00','22:00','24:00')
         option_menu5.config(width=8)
 
-        bt5=Button(frame3,text="나이",width=8,font=10,cursor='hand2',command=lambda: graph.Graph.show_graph3(self,mylist,var.get(),var1.get(),var2.get(),var3.get()))
-        bt6=Button(frame3,text="시간",width=8,font=10,cursor='hand2',command=lambda: graph.Graph.show_graph4(self,mylist,var.get(),var1.get(),var4.get(),var5.get()))
+        bt5=Button(frame3,text="연령 설정",width=8,font=10,cursor='hand2',command=lambda: graph.Graph.show_graph3(self,mylist,var.get(),var1.get(),var2.get(),var3.get()))
+        bt6=Button(frame3,text="시간 설정",width=8,font=10,cursor='hand2',command=lambda: graph.Graph.show_graph4(self,mylist,var.get(),var1.get(),var4.get(),var5.get()))
     
     def change_text(self,bt,value):
         if(value==1):
-            bt['text'] = '나이'
+            bt['text'] = '나이 설정'
         else:
-            bt['text'] = '시간'
+            bt['text'] = '시간 설정'
 
     def change_option(self,var,value):
         if(value==1):
@@ -267,7 +267,7 @@ class Menu2(tk.Frame):
         mylist_index = mylist.curselection()[0]
         mylist_seletion = mylist.get(mylist_index)
 
-        if bt1=='나이' and bt2=='나이':
+        if bt1=='나이 설정' and bt2=='나이 설정':
             if(var=='음주운전'):
                 df1=pd.read_csv('연도_나이_음주.csv',encoding='cp949')         
             elif(var=='무면허'):
@@ -399,7 +399,7 @@ class Menu2(tk.Frame):
                             table=Table(new_window,dataframe=ta_df)
                             table.show()
 
-        elif bt1=='시간' and bt2=='시간':
+        elif bt1=='시간 설정' and bt2=='시간 설정':
             if(var=='음주운전'):
                 df1=pd.read_csv('음주_시간별_re.csv',encoding='cp949')
             elif(var=='무면허'):

@@ -39,7 +39,7 @@ class SaveImg():
             file_path = filedialog.asksaveasfilename(defaultextension='.png')
             index = mylist.curselection()[0]
             info = mylist.get(index)
-            if bt1=='나이' and bt2=='나이':
+            if bt1=='나이 설정' and bt2=='나이 설정':
                 if var2 == '연령대':
                     if(var=='음주운전'):
                         df=pd.read_csv('연도_나이_음주.csv',encoding='cp949')         
@@ -58,8 +58,8 @@ class SaveImg():
                                     df.iloc[i,5::7].sum(),df.iloc[i,6::7].sum(),
                                     df.iloc[i,7::7].sum(),df.iloc[i,8::7].sum(),
                                     df.iloc[i,9::7].sum()])
-                            plt.barh(range(7),sum_list[0],color='grey',label=var)
-                            plt.yticks(range(7),df.iloc[0,3:10])
+                            plt.plot(range(7),sum_list[0],color='mediumpurple',label=var,marker='o',markerfacecolor='r',markersize=10,linestyle='-')
+                            plt.xticks(range(7),df.iloc[0,3:10])
                             plt.title('17~21년간의 '+title_name+'의 전체 나이별 '+var+' 분석')
                             plt.savefig(file_path)
                 else:
@@ -135,7 +135,7 @@ class SaveImg():
                             plt.title(year+title_name+'의 나이별 '+var+' 분석')
                             plt.savefig(file_path)
 
-            elif bt1=='시간' and bt2=='시간':
+            elif bt1=='시간 설정' and bt2=='시간 설정':
                 if var4=='시간대':
                     if(var=='음주운전'):
                         df=pd.read_csv('음주_시간별_re.csv',encoding='cp949')         
@@ -147,7 +147,7 @@ class SaveImg():
                     for i in range(2,27):
                         if(info == df.loc[i][2]):
                             title_name=df.loc[i][2]
-                            fig=plt.figure()
+                            fig=plt.figure(figsize=(20,7))
                             plt.rc('font', family='Malgun Gothic')
                             sum_list=[]
                             sum_list.append([df.iloc[i,3::12].sum(),df.iloc[i,4::12].sum(),
@@ -156,8 +156,8 @@ class SaveImg():
                                     df.iloc[i,9::12].sum(),df.iloc[i,10::12].sum(),
                                     df.iloc[i,11::12].sum(),df.iloc[i,12::12].sum(),
                                     df.iloc[i,13::12].sum(),df.iloc[i,14::12].sum()])
-                            plt.barh(range(12),sum_list[0],color='grey',label='무면허')
-                            plt.yticks(range(12),df.iloc[0,3:15])
+                            plt.plot(range(12),sum_list[0],color='aquamarine',label=var,marker='o',markerfacecolor='r',markersize=10,linestyle='-')
+                            plt.xticks(range(12),df.iloc[0,3:15],fontsize=9)
                             plt.title('17~21년간의 '+title_name+'의 전체시간 '+var+' 분석')
                             plt.savefig(file_path)
                 else:
@@ -362,7 +362,7 @@ class SaveImg():
                 if file_path != None:
                     index = mylist.curselection()[0]
                     info = mylist.get(index)
-                    if bt1=='나이' and bt2=='나이':
+                    if bt1=='나이 설정' and bt2=='나이 설정':
                         if(var=='음주운전'):
                             df1=pd.read_csv('연도_나이_음주.csv',encoding='cp949')         
                         elif(var=='무면허'):
@@ -484,7 +484,7 @@ class SaveImg():
                                                             df1.iloc[0,var1+6]:df1.iloc[i,var1+6]}],index=[year])   
                                 dfi.export(df,file_path,max_cols = -1, max_rows = -1)            
 
-                    elif bt1=='시간' and bt2=='시간':
+                    elif bt1=='시간 설정' and bt2=='시간 설정':
                         if(var=='음주운전'):
                             df1=pd.read_csv('음주_시간별_re.csv',encoding='cp949')
                         elif(var=='무면허'):
