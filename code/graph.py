@@ -74,15 +74,16 @@ class Graph():
             for i in range(2,27):
                 if(info == df.loc[i][2]):
                     title_name=df.loc[i][2]
-                    fig=plt.figure()
+                    fig=plt.figure(figsize=(20,7))
                     plt.rc('font', family='Malgun Gothic')
                     sum_list=[]
                     sum_list.append([df.iloc[i,3::7].sum(),df.iloc[i,4::7].sum(),
                               df.iloc[i,5::7].sum(),df.iloc[i,6::7].sum(),
                             df.iloc[i,7::7].sum(),df.iloc[i,8::7].sum(),
                             df.iloc[i,9::7].sum()])
-                    plt.barh(range(7),sum_list[0],color='grey',label=var)
-                    plt.yticks(range(7),df.iloc[0,3:10])
+                    plt.plot(range(7),sum_list[0],color='mediumpurple',label=var,marker='o',markerfacecolor='r',markersize=10,linestyle='-')
+                    plt.xticks(range(7),df.iloc[0,3:10])
+                    
                     plt.title('17~21년간의 '+title_name+'의 전체 나이별 '+var+' 분석')
                     canvas = FigureCanvasTkAgg(fig,master=self)         
                     canvas.get_tk_widget().pack()
@@ -92,15 +93,15 @@ class Graph():
             for i in range(2,27):
                 if(info == df.loc[i][2]):
                     title_name=df.loc[i][2]
-                    fig=plt.figure()
+                    fig=plt.figure(figsize=(20,7))
                     plt.rc('font', family='Malgun Gothic')
                     sum_list=[]
                     sum_list.append([df.iloc[i,3::7].sum(),df.iloc[i,4::7].sum(),
                               df.iloc[i,5::7].sum(),df.iloc[i,6::7].sum(),
                             df.iloc[i,7::7].sum(),df.iloc[i,8::7].sum(),
                             df.iloc[i,9::7].sum()])
-                    plt.barh(range(7),sum_list[0],color='grey',label=var)
-                    plt.yticks(range(7),df.iloc[0,3:10])
+                    plt.plot(range(7),sum_list[0],color='mediumpurple',label=var,marker='o',markerfacecolor='r',markersize=10,linestyle='-')
+                    plt.xticks(range(7),df.iloc[0,3:10])
                     plt.title('17~21년간의 '+title_name+'의 전체 나이별 '+var+' 분석')
                     canvas = FigureCanvasTkAgg(fig,master=self)         
                     canvas.get_tk_widget().pack()
@@ -129,7 +130,7 @@ class Graph():
             for i in range(2,27):
                 if(info == df.loc[i][2]):
                     title_name=df.loc[i][2]
-                    fig=plt.figure()
+                    fig=plt.figure(figsize=(20,7))
                     plt.rc('font', family='Malgun Gothic')
                     sum_list=[]
                     sum_list.append([df.iloc[i,3::12].sum(),df.iloc[i,4::12].sum(),
@@ -138,8 +139,8 @@ class Graph():
                             df.iloc[i,9::12].sum(),df.iloc[i,10::12].sum(),
                             df.iloc[i,11::12].sum(),df.iloc[i,12::12].sum(),
                             df.iloc[i,13::12].sum(),df.iloc[i,14::12].sum()])
-                    plt.barh(range(12),sum_list[0],color='grey',label='무면허')
-                    plt.yticks(range(12),df.iloc[0,3:15])
+                    plt.plot(range(12),sum_list[0],color='aquamarine',label=var,marker='o',markerfacecolor='r',markersize=10,linestyle='-')
+                    plt.xticks(range(12),df.iloc[0,3:15],fontsize=9)
                     plt.title('17~21년간의 '+title_name+'의 전체 시간별 '+var+' 분석')
                     canvas = FigureCanvasTkAgg(fig,master=self)         
                     canvas.get_tk_widget().pack()
@@ -149,7 +150,7 @@ class Graph():
             for i in range(2,27):
                 if(info == df.loc[i][2]):
                     title_name=df.loc[i][2]
-                    fig=plt.figure()
+                    fig=plt.figure(figsize=(20,7))
                     plt.rc('font', family='Malgun Gothic')
                     sum_list=[]
                     sum_list.append([df.iloc[i,3::12].sum(),df.iloc[i,4::12].sum(),
@@ -158,8 +159,8 @@ class Graph():
                             df.iloc[i,9::12].sum(),df.iloc[i,10::12].sum(),
                             df.iloc[i,11::12].sum(),df.iloc[i,12::12].sum(),
                             df.iloc[i,13::12].sum(),df.iloc[i,14::12].sum()])
-                    plt.barh(range(12),sum_list[0],color='grey',label='무면허')
-                    plt.yticks(range(12),df.iloc[0,3:15])
+                    plt.plot(range(12),sum_list[0],color='aquamarine',label=var,marker='o',markerfacecolor='r',markersize=10,linestyle='-')
+                    plt.xticks(range(12),df.iloc[0,3:15],fontsize=9)
                     plt.title('17~21년간의 '+title_name+'의 전체 시간별 '+var+' 분석')
                     canvas = FigureCanvasTkAgg(fig,master=self)         
                     canvas.get_tk_widget().pack()
@@ -414,7 +415,7 @@ class Graph():
                 drunk_list=[]
                 for i in range(1,26):
                     drunk_list.append(df1.iloc[i,4]+df1.iloc[i,7]+df1.iloc[i,10]+df1.iloc[i,13]+df1.iloc[i,16])
-                fig=plt.figure(figsize=(10, 13))
+                fig=plt.figure(figsize=(20, 13))
                 # scatterplot() 함수 사용
                 sns.scatterplot(x=seoul_list, y=drunk_list, size=drunk_list, sizes=(300, 8000), hue=drunk_list, palette=colors, alpha=0.7, legend=False)
                 # 버블 안에 텍스트 삽입하기
@@ -443,7 +444,7 @@ class Graph():
                 drunk_list=[]
                 for i in range(1,26):
                     drunk_list.append(df1.iloc[i,4]+df1.iloc[i,7]+df1.iloc[i,10]+df1.iloc[i,13]+df1.iloc[i,16])
-                fig=plt.figure(figsize=(10, 13))
+                fig=plt.figure(figsize=(20, 13))
                 # scatterplot() 함수 사용
                 sns.scatterplot(x=seoul_list, y=drunk_list, size=drunk_list, sizes=(300, 8000), hue=drunk_list, palette=colors, alpha=0.7, legend=False)
                 # 버블 안에 텍스트 삽입하기
