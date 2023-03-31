@@ -62,7 +62,7 @@ class Menu1(tk.Frame):
         tk.Frame.__init__(self,master)
         menu = tk.Menu(self)
         menu.add_command(label="그래프 저장",command=lambda: [saveimg.SaveImg.save_image(self,mylist,1,None,None,None,None,None,None,None,None)])
-        menu.add_command(label="데이터 프레임 보기",command=lambda :self.open_new_window(mylist))
+        menu.add_command(label="데이터 프레임 보기",command=lambda :self.openDataWindow(mylist))
         menu.add_command(label="데이터 프레임 저장",command=lambda :saveimg.SaveImg.save_data_image(self,mylist,1,None,None,None,None,None,None,None,None))
         master.config(menu=menu)
         frame1=tk.Frame() # 프레임 생성
@@ -107,19 +107,19 @@ class Menu1(tk.Frame):
     기능설명: 데이터프래임 값 보여주는 기능
     '''  
 
-    def openDataWindiw(self,mylist):
+    def openDataWindow(self,mylist):
         new_window = tk.Toplevel(self.master)
         ta_df=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
-        mylist_index = mylist.curmylist_selection()[0]
+        mylist_index = mylist.curselection()[0]
         mylist_selection = mylist.get(mylist_index)
         new_window.title(mylist_selection+' 사고유형 데이터 프레임')
         for i in range(1,26):
             if(mylist_selection == ta_df.loc[i][2]):
-                ta_df = pd.DataFrame({'음주운전':[ta_df.loc[i][4], ta_df.loc[i][7], ta_df.loc[i][10],ta_df.loc[i][13],ta_df.loc[i][16]],
+                df = pd.DataFrame({'음주운전':[ta_df.loc[i][4], ta_df.loc[i][7], ta_df.loc[i][10],ta_df.loc[i][13],ta_df.loc[i][16]],
                                          '어린이 보호구역사고':[ta_df.loc[i][5], ta_df.loc[i][8], ta_df.loc[i][11],ta_df.loc[i][14],ta_df.loc[i][17]],
                                          '무면허':[ta_df.loc[i][6], ta_df.loc[i][9], ta_df.loc[i][12],ta_df.loc[i][15],ta_df.loc[i][18]]}
                                         )
-        table=Table(new_window,dataframe=ta_df)
+        table=Table(new_window,dataframe=df)
         table.show()
         
     '''
@@ -642,11 +642,11 @@ class Menu3(tk.Frame):
         R3.pack(anchor='w')
         
         
-        bt=Button(frame1,text="사고 유형 분석",width=40,height=3,background='white',font=20,command=lambda: [master.del_frame(),master.switch_frame(Menu1)])
+        bt=Button(frame1,text="사고 유형 분석",width=40,height=3,background='white',font=20,cursor='hand2',command=lambda: [master.del_frame(),master.switch_frame(Menu1)])
         bt.pack(side=LEFT,expand=True,fill=BOTH)
-        bt2=Button(frame1,text="사고 유형 상세 분석" ,width=40,height=3,background='white',font=20,command=lambda:[master.del_frame(),master.switch_frame(Menu2)])
+        bt2=Button(frame1,text="사고 유형 상세 분석" ,width=40,height=3,background='white',font=20,cursor='hand2',command=lambda:[master.del_frame(),master.switch_frame(Menu2)])
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
-        bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='grey',font=20)
+        bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='grey',font=20,cursor='hand2')
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
         tk.Label(frame3,textvariable=self.text,font=('Helvetica', 18, "bold")).pack(side=BOTTOM,padx=10)
 
@@ -684,24 +684,30 @@ class Menu3(tk.Frame):
                 df=pd.DataFrame({'무면허':ul_list},index=seoul_list)
                 df=df.rename_axis('자치구')
                 df =df.sort_values(by='무면허', ascending=False)
-                text = tk.Text(new_window)
-                text.insert('end', df.to_markdown())
-                text.pack()
+                # text = tk.Text(new_window)
+                # text.insert('end', df.to_markdown())
+                # text.pack()
+                table=Table(new_window,dataframe=df)
+                table.show()
             elif var=='음주운전':
                 for i in range(1,26):
                     drunk_list.append(df1.iloc[i,4]+df1.iloc[i,7]+df1.iloc[i,10]+df1.iloc[i,13]+df1.iloc[i,16])
                 df=pd.DataFrame({'음주운전':drunk_list},index=seoul_list)
                 df=df.rename_axis('자치구')
                 df =df.sort_values(by='음주운전', ascending=False)
-                text = tk.Text(new_window)
-                text.insert('end', df.to_markdown())
-                text.pack()
+                # text = tk.Text(new_window)
+                # text.insert('end', df.to_markdown())
+                # text.pack()
+                table=Table(new_window,dataframe=df)
+                table.show()
             elif var=='어린이 보호구역':
                 for i in range(1,26):
                     school_list.append(df1.iloc[i,5]+df1.iloc[i,8]+df1.iloc[i,11]+df1.iloc[i,14]+df1.iloc[i,17])
                 df=pd.DataFrame({'어린이 보호구역':school_list},index=seoul_list)
                 df=df.rename_axis('자치구')
                 df =df.sort_values(by='어린이 보호구역', ascending=False)
-                text = tk.Text(new_window)
-                text.insert('end', df.to_markdown())
-                text.pack()
+                # text = tk.Text(new_window)
+                # text.insert('end', df.to_markdown())
+                # text.pack()
+                table=Table(new_window,dataframe=df)
+                table.show()
