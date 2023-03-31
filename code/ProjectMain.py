@@ -16,6 +16,7 @@ class Accident(tk.Tk):
         self.switch_frame(allmenu.StartMenu) # StartMenu 프레임으로 전환
         self.title("서울시 사고유형 분석") # ui 제목
         self.geometry("1200x700") # ui 시작 해상도
+        self['bg'] = 'lavender'
         photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
         self.wm_iconphoto(False, photo) # ui 아이콘 적용하기
 

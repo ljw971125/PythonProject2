@@ -28,7 +28,7 @@ class StartMenu(tk.Frame):
         tk.Label(self, text="서울시 교통사고 조사", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5) # 시작 화면 상단 라벨
         self.photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
         tk.Label(self,image=self.photo).pack() # 이미지 라벨
-        tk.Label(self, text="2팀 : 김민수, 이지운, 장기헌, 장윤종, 전장현", font=('Helvetica', 10, "bold")).pack(side="top", fill="x", pady=5) #시작 화면 팀 라벨
+        tk.Label(self, text="2팀 : 김민수, 이지운, 장기헌, 장윤종, 전장현", font=('Helvetica', 10, "bold")).pack(anchor="center", fill="x", pady=5) #시작 화면 팀 라벨
         tk.Button(self, text="start",width=20,height=2,command=lambda: master.switch_frame(Menu1)).pack(side=BOTTOM) # 시작 버튼
 
     '''
@@ -83,13 +83,13 @@ class Menu1(tk.Frame):
             mylist.insert(tk.END, ta_df_int.loc[i][2])
         mylist.pack(side=LEFT,anchor='n',fill=BOTH,expand=True) # 리스트바를 프레임의 왼쪽에 붙임
         scrollbar.config(command=mylist.yview) #스크롤바와 리스트 박스를 연결하는 함수
-        bt=Button(frame1,text="사고 유형 분석",width=40,height=3,background='grey',cursor='hand2',font=20)
+        bt=Button(frame1,text="사고 유형 분석",width=40,height=3,background='LightBlue1',cursor='hand2',font=20)
         bt.pack(side=LEFT,expand=True,fill=BOTH) # 버튼의 위치를 조정(side는 방향, expand는 확장 여부, fill은 공간 채움 여부)
         bt2=Button(frame1,text="사고 유형 상세 분석" ,width=40,height=3,background='white',font=20,cursor='hand2',command=lambda:[master.del_frame(),master.switch_frame(Menu2)])
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
         bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='white',font=20,cursor='hand2',command=lambda:[master.del_frame(),master.switch_frame(Menu3)])
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
-        tk.Label(frame4,textvariable=self.text,font=('Helvetica', 18, "bold")).pack(side=RIGHT,padx=10)
+        tk.Label(frame4,textvariable=self.text,font=('Helvetica', 18, "bold"),bg='lavender').pack(side=RIGHT,padx=10)
         mylist.bind("<<ListboxSelect>>", lambda event : [graph.Graph.graph(self,mylist,event),self.showRank(mylist)]) # 리스트바에서 값을 선택 할 때 바로 그래프가 출력 되도록 해줌
 
 
@@ -164,8 +164,8 @@ class Menu2(tk.Frame):
         frame2.pack(side=LEFT,anchor='n')
         frame3=tk.Frame()
         frame3.pack(side=BOTTOM)
-        frame4=tk.Frame()
-        frame4.pack(side=RIGHT)
+        frame4=tk.Frame(bg='lavender')
+        frame4.pack(side=RIGHT, )
         var=StringVar()
         var.set(NONE)
         
@@ -180,11 +180,11 @@ class Menu2(tk.Frame):
         mylist.pack(side=LEFT,anchor='n',fill=BOTH) # 리스트바를 프레임의 왼쪽에 붙임
         scrollbar.config(command=mylist.yview)
         
-        R1 = Radiobutton(frame4 ,text='음주운전',variable=var, value="음주운전",font=20)
+        R1 = Radiobutton(frame4 ,text='음주운전',variable=var, value="음주운전",font=20,bg='lavender')
         R1.pack(anchor='w') # 왼쪽으로 정렬
-        R2 = Radiobutton(frame4, text='무면허',variable=var, value="무면허",font=20)
+        R2 = Radiobutton(frame4, text='무면허',variable=var, value="무면허",font=20,bg='lavender')
         R2.pack(anchor='w')
-        R3 = Radiobutton(frame4, text='어린이 보호구역',variable=var, value="어린이 보호구역",font=20)
+        R3 = Radiobutton(frame4, text='어린이 보호구역',variable=var, value="어린이 보호구역",font=20,bg='lavender')
         R3.pack(anchor='w')
         bt3=Button(frame4,text="연령별",width=10,height=5,background='white',font=20,cursor='hand2',command=lambda: [self.hide_widget(option_menu4),self.hide_widget(label2),self.hide_widget(option_menu5),self.hide_widget(bt6),self.change_text(bt6,1),self.change_text(bt5,1),self.change_option(var1,1),self.change_option(var2,2),self.change_option(var3,2),self.show_widget(option_menu1),self.show_widget(option_menu2),self.show_widget(label1),self.show_widget(option_menu3),self.show_widget(bt5),graph.Graph.show_graph1(self,mylist,var.get())])
         bt3.pack()
@@ -193,7 +193,7 @@ class Menu2(tk.Frame):
     
         bt=Button(frame1,text="사고 유형 분석",width=40,height=3,background='white',font=20,cursor='hand2',command=lambda: [master.del_frame(),master.switch_frame(Menu1)])
         bt.pack(side=LEFT,expand=True,fill=BOTH)
-        bt1=Button(frame1,text="사고 유형 상세 분석" ,width=40,height=3,background='grey',font=20,cursor='hand2',command=lambda:[master.del_frame(),master.switch_frame(Menu2)])
+        bt1=Button(frame1,text="사고 유형 상세 분석" ,width=40,height=3,background='LightBlue1',font=20,cursor='hand2',command=lambda:[master.del_frame(),master.switch_frame(Menu2)])
         bt1.pack(side=LEFT,expand=True,fill=BOTH)
         bt2=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='white',font=20,cursor='hand2',command=lambda:[master.del_frame(),master.switch_frame(Menu3)])
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
@@ -619,17 +619,17 @@ class Menu3(tk.Frame):
 
         frame1=tk.Frame()
         frame1.pack(fill='both')
-        frame2=tk.Frame()
+        frame2=tk.Frame(bg='lavender')
         frame2.pack(side=RIGHT)
         var=StringVar()
         var.set(NONE)
 
 
-        R1 = Radiobutton(frame2, text='음주운전',variable=var, value="음주운전",font=20,command=lambda:graph.Graph.graphBubble(self,var.get())) # 오른쪽 프레임 체크박스 추가
+        R1 = Radiobutton(frame2, text='음주운전',variable=var, value="음주운전",font=20,bg='lavender',command=lambda:graph.Graph.graphBubble(self,var.get())) # 오른쪽 프레임 체크박스 추가
         R1.pack(anchor='w') # 왼쪽으로 정렬
-        R2 = Radiobutton(frame2, text='무면허',variable=var, value="무면허",font=20,command=lambda:graph.Graph.graphBubble(self,var.get()))
+        R2 = Radiobutton(frame2, text='무면허',variable=var, value="무면허",font=20,bg='lavender',command=lambda:graph.Graph.graphBubble(self,var.get()))
         R2.pack(anchor='w')
-        R3 = Radiobutton(frame2, text='어린이 보호구역',variable=var, value="어린이 보호구역",font=20,command=lambda:graph.Graph.graphBubble(self,var.get()))
+        R3 = Radiobutton(frame2, text='어린이 보호구역',variable=var, value="어린이 보호구역",font=20,bg='lavender',command=lambda:graph.Graph.graphBubble(self,var.get()))
         R3.pack(anchor='w')
         
         
@@ -637,7 +637,7 @@ class Menu3(tk.Frame):
         bt.pack(side=LEFT,expand=True,fill=BOTH)
         bt2=Button(frame1,text="사고 유형 상세 분석" ,width=40,height=3,background='white',font=20,command=lambda:[master.del_frame(),master.switch_frame(Menu2)])
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
-        bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='grey',font=20)
+        bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='LightBlue1',font=20)
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
         
 
