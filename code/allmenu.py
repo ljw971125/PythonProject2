@@ -626,15 +626,19 @@ class Menu3(tk.Frame):
         frame1.pack(fill='both')
         frame2=tk.Frame()
         frame2.pack(side=RIGHT)
+        frame3=tk.Frame()
+        frame3.pack(side=BOTTOM)
         var=StringVar()
         var.set(NONE)
+        self.text=tk.StringVar()
+        self.text.set('')
 
 
-        R1 = Radiobutton(frame2, text='음주운전',variable=var, value="음주운전",font=20,command=lambda:graph.Graph.graphBubble(self,var.get())) # 오른쪽 프레임 체크박스 추가
+        R1 = Radiobutton(frame2, text='음주운전',variable=var, value="음주운전",font=20,command=lambda:[graph.Graph.graphBubble(self,var.get()),self.show3Rank(var.get())]) # 오른쪽 프레임 체크박스 추가
         R1.pack(anchor='w') # 왼쪽으로 정렬
-        R2 = Radiobutton(frame2, text='무면허',variable=var, value="무면허",font=20,command=lambda:graph.Graph.graphBubble(self,var.get()))
+        R2 = Radiobutton(frame2, text='무면허',variable=var, value="무면허",font=20,command=lambda:[graph.Graph.graphBubble(self,var.get()),self.show3Rank(var.get())])
         R2.pack(anchor='w')
-        R3 = Radiobutton(frame2, text='어린이 보호구역',variable=var, value="어린이 보호구역",font=20,command=lambda:graph.Graph.graphBubble(self,var.get()))
+        R3 = Radiobutton(frame2, text='어린이 보호구역',variable=var, value="어린이 보호구역",font=20,command=lambda:[graph.Graph.graphBubble(self,var.get()),self.show3Rank(var.get())])
         R3.pack(anchor='w')
         
         
@@ -644,7 +648,23 @@ class Menu3(tk.Frame):
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
         bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='grey',font=20)
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
-        
+        tk.Label(frame3,textvariable=self.text,font=('Helvetica', 18, "bold")).pack(side=BOTTOM,padx=10)
+
+    def show3Rank(self,var):
+        if var =='음주운전':
+            self.text.set('음주운전 사고 자치구 순위: 1위 강남구 1693건'+'\n'
+                                                   +        '2위 송파구 854건'+'\n'
+                                                   +        '3위 서초구 795건')
+            
+        elif var =='무면허':
+            self.text.set('무면허 사고 자치구 순위: 1위 강남구 298건'+'\n'
+                                                   +        '2위 송파구 169건'+'\n'
+                                                   +        '3위 마포구 154건')
+            
+        else:
+            self.text.set('어린이 보호구역 사고 자치구 순위: 1위 구로구 40건'+'\n'
+                                                   +        '2위 강서구 36건'+'\n'
+                                                   +        '3위 강남구 29건')
 
 
     def open_data_Frame3(self,var):
@@ -669,7 +689,7 @@ class Menu3(tk.Frame):
                 text.pack()
             elif var=='음주운전':
                 for i in range(1,26):
-                    drunk_list.append(df1.iloc[i,5]+df1.iloc[i,8]+df1.iloc[i,11]+df1.iloc[i,14]+df1.iloc[i,17])
+                    drunk_list.append(df1.iloc[i,4]+df1.iloc[i,7]+df1.iloc[i,10]+df1.iloc[i,13]+df1.iloc[i,16])
                 df=pd.DataFrame({'음주운전':drunk_list},index=seoul_list)
                 df=df.rename_axis('자치구')
                 df =df.sort_values(by='음주운전', ascending=False)
@@ -678,7 +698,7 @@ class Menu3(tk.Frame):
                 text.pack()
             elif var=='어린이 보호구역':
                 for i in range(1,26):
-                    school_list.append(df1.iloc[i,4]+df1.iloc[i,7]+df1.iloc[i,10]+df1.iloc[i,13]+df1.iloc[i,16])
+                    school_list.append(df1.iloc[i,5]+df1.iloc[i,8]+df1.iloc[i,11]+df1.iloc[i,14]+df1.iloc[i,17])
                 df=pd.DataFrame({'어린이 보호구역':school_list},index=seoul_list)
                 df=df.rename_axis('자치구')
                 df =df.sort_values(by='어린이 보호구역', ascending=False)
