@@ -27,7 +27,7 @@ class SaveImg():
                             fig=plt.figure()
                             plt.rc('font', family='Malgun Gothic')
                             plt.bar(range(4,19,3),list(map(int,df1.iloc[i,4::3])),color='grey',label='음주운전')
-                            plt.bar(range(5,19,3),list(map(int,df1.iloc[i,5::3])),color='royalblue',label='스쿨존 사고')
+                            plt.bar(range(5,19,3),list(map(int,df1.iloc[i,5::3])),color='royalblue',label='어린이 보호구역 사고')
                             plt.bar(range(6,19,3),list(map(int,df1.iloc[i,6::3])),color='skyblue',label='무면허')
                             plt.xticks(range(5,19,3),year_list)
                             plt.legend()
@@ -45,8 +45,8 @@ class SaveImg():
                         df=pd.read_csv('연도_나이_음주.csv',encoding='cp949')         
                     elif(var=='무면허'):
                         df=pd.read_csv('연도_나이_무면허.csv',encoding='cp949')
-                    elif(var=='스쿨존'):
-                        df=pd.read_csv('연도_나이_음주.csv',encoding='cp949')
+                    elif(var=='어린이 보호구역'):
+                        df=pd.read_csv('연도_나이_어린이.csv',encoding='cp949')
                     df.iloc[1:,3:]=df.iloc[1:,3:].astype(int)
                     for i in range(2,27):
                         if(info == df.loc[i][2]):
@@ -67,8 +67,8 @@ class SaveImg():
                         df=pd.read_csv('연도_나이_음주.csv',encoding='cp949')         
                     elif(var=='무면허'):
                         df=pd.read_csv('연도_나이_무면허.csv',encoding='cp949')
-                    elif(var=='스쿨존'):
-                        df=pd.read_csv('연도_나이_음주.csv',encoding='cp949')
+                    elif(var=='어린이 보호구역'):
+                        df=pd.read_csv('연도_나이_어린이.csv',encoding='cp949')
                     df.iloc[0,4:38:7]='21~30세'
                     df.iloc[0,5:38:7]='31~40세'
                     df.iloc[0,6:38:7]='41~50세'
@@ -141,8 +141,8 @@ class SaveImg():
                         df=pd.read_csv('음주_시간별_re.csv',encoding='cp949')         
                     elif(var=='무면허'):
                         df=pd.read_csv('무면허_시간별_re.csv',encoding='cp949')
-                    elif(var=='스쿨존'):
-                        df=pd.read_csv('음주_시간별_re.csv',encoding='cp949')
+                    elif(var=='어린이 보호구역'):
+                        df=pd.read_csv('어린이_시간별.csv',encoding='cp949')
                     df.iloc[1:,3:]=df.iloc[1:,3:].astype(int)
                     for i in range(2,27):
                         if(info == df.loc[i][2]):
@@ -165,8 +165,8 @@ class SaveImg():
                         df=pd.read_csv('음주_시간별_re.csv',encoding='cp949')
                     elif(var=='무면허'):
                         df=pd.read_csv('무면허_시간별_re.csv',encoding='cp949')
-                    elif(var=='스쿨존'):
-                        df=pd.read_csv('음주_시간별_re.csv',encoding='cp949')
+                    elif(var=='어린이 보호구역'):
+                        df=pd.read_csv('어린이_시간별.csv',encoding='cp949')
                     if(var4=='00:00'):
                         var4=0
                     elif(var4=='02:00'):
@@ -348,7 +348,7 @@ class SaveImg():
                      for i in range(1,26):
                         if(info == df1.loc[i][2]):
                             df = pd.DataFrame({'음주운전':[df1.loc[i][4], df1.loc[i][7], df1.loc[i][10],df1.loc[i][13],df1.loc[i][16]],
-                                             '스쿨존사고':[df1.loc[i][5], df1.loc[1][8], df1.loc[i][11],df1.loc[i][14],df1.loc[i][17]],
+                                             '어린이 보호구역사고':[df1.loc[i][5], df1.loc[1][8], df1.loc[i][11],df1.loc[i][14],df1.loc[i][17]],
                                              '무면허':[df1.loc[i][6], df1.loc[i][9], df1.loc[i][12],df1.loc[i][15],df1.loc[i][18]]},
                                             index=['2017','2018','2019','2020','2021'])
                 df=df.rename_axis('연도') 
@@ -367,8 +367,8 @@ class SaveImg():
                             df1=pd.read_csv('연도_나이_음주.csv',encoding='cp949')         
                         elif(var=='무면허'):
                             df1=pd.read_csv('연도_나이_무면허.csv',encoding='cp949')
-                        elif(var=='스쿨존'):
-                            df1=pd.read_csv('연도_나이_음주.csv',encoding='cp949')
+                        elif(var=='어린이 보호구역'):
+                            df1=pd.read_csv('연도_나이_어린이.csv',encoding='cp949')
                         else:
                             pass
 
@@ -489,8 +489,8 @@ class SaveImg():
                             df1=pd.read_csv('음주_시간별_re.csv',encoding='cp949')
                         elif(var=='무면허'):
                             df1=pd.read_csv('무면허_시간별_re.csv',encoding='cp949')
-                        elif(var=='스쿨존'):
-                            df1=pd.read_csv('음주_시간별_re.csv',encoding='cp949')
+                        elif(var=='어린이 보호구역'):
+                            df1=pd.read_csv('어린이_시간별.csv',encoding='cp949')
                         else:
                             pass
 
@@ -692,24 +692,33 @@ class SaveImg():
                                                             df1.iloc[0,var1+11]:df1.iloc[i,var1+11]}],index=[year])
                                 dfi.export(df,file_path,fontsize=8)
         else:
-            file_path = filedialog.asksaveasfilename(defaultextension='.png')
-            df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
-            #구 ,발생건수
-            df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
-            seoul_list=['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구', '도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
-            drunk_list=[]
-            ul_list=[]
-            school_list=[]
-            for i in range(1,26):
-                ul_list.append(df1.iloc[i,6]+df1.iloc[i,9]+df1.iloc[i,12]+df1.iloc[i,15]+df1.iloc[i,18])
-            for i in range(1,26):
-                school_list.append(df1.iloc[i,5]+df1.iloc[i,8]+df1.iloc[i,11]+df1.iloc[i,14]+df1.iloc[i,17])
-            for i in range(1,26):
-                drunk_list.append(df1.iloc[i,4]+df1.iloc[i,7]+df1.iloc[i,10]+df1.iloc[i,13]+df1.iloc[i,16])
-            df=pd.DataFrame({'무면허':ul_list,
-                            '음주운전':drunk_list,
-                            '어린이 보호구역':school_list},
-                            index=seoul_list)
-            df
-            df=df.rename_axis('자치구')
-            dfi.export(df,file_path,fontsize=8)
+            if var != None:
+                file_path = filedialog.asksaveasfilename(defaultextension='.png')
+                df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
+                #구 ,발생건수
+                df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
+                seoul_list=['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구', '도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
+                drunk_list=[]
+                ul_list=[]
+                school_list=[]
+                if var=='무면허':
+                    for i in range(1,26):
+                        ul_list.append(df1.iloc[i,6]+df1.iloc[i,9]+df1.iloc[i,12]+df1.iloc[i,15]+df1.iloc[i,18])
+                    df=pd.DataFrame({'무면허':ul_list},index=seoul_list)
+                    df=df.rename_axis('자치구')
+                    df =df.sort_values(by='무면허', ascending=False)
+                    dfi.export(df,file_path,max_cols = -1, max_rows = -1,fontsize=8)
+                elif var=='음주운전':
+                    for i in range(1,26):
+                        drunk_list.append(df1.iloc[i,5]+df1.iloc[i,8]+df1.iloc[i,11]+df1.iloc[i,14]+df1.iloc[i,17])
+                    df=pd.DataFrame({'음주운전':drunk_list},index=seoul_list)
+                    df=df.rename_axis('자치구')
+                    df =df.sort_values(by='음주운전', ascending=False)
+                    dfi.export(df,file_path,max_cols = -1, max_rows = -1,fontsize=8)
+                elif var=='어린이 보호구역':
+                    for i in range(1,26):
+                        school_list.append(df1.iloc[i,4]+df1.iloc[i,7]+df1.iloc[i,10]+df1.iloc[i,13]+df1.iloc[i,16])
+                    df=pd.DataFrame({'어린이 보호구역':school_list},index=seoul_list)
+                    df=df.rename_axis('자치구')
+                    df =df.sort_values(by='어린이 보호구역', ascending=False)
+                    dfi.export(df,file_path,max_cols = -1, max_rows = -1,fontsize=8)

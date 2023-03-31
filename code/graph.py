@@ -21,7 +21,7 @@ class Graph():
                     fig=plt.figure() #그래프를 그릴 figure 객체 생성
                     plt.rc('font', family='Malgun Gothic')
                     plt.bar(range(4,19,3),list(map(int,TrafficAccident.iloc[i,4::3])),color='grey',label='음주운전')
-                    plt.bar(range(5,19,3),list(map(int,TrafficAccident.iloc[i,5::3])),color='royalblue',label='스쿨존 사고')
+                    plt.bar(range(5,19,3),list(map(int,TrafficAccident.iloc[i,5::3])),color='royalblue',label='어린이 보호구역 사고')
                     plt.bar(range(6,19,3),list(map(int,TrafficAccident.iloc[i,6::3])),color='skyblue',label='무면허')
                     plt.xticks(range(5,19,3),year_list)
                     plt.legend() #범례 표시
@@ -41,7 +41,7 @@ class Graph():
                     fig=plt.figure() #그래프를 그릴 figure 객체 생성
                     plt.rc('font', family='Malgun Gothic')
                     plt.bar(range(4,19,3),list(map(int,TrafficAccident.iloc[i,4::3])),color='grey',label='음주운전')
-                    plt.bar(range(5,19,3),list(map(int,TrafficAccident.iloc[i,5::3])),color='royalblue',label='스쿨존 사고')
+                    plt.bar(range(5,19,3),list(map(int,TrafficAccident.iloc[i,5::3])),color='royalblue',label='어린이 보호구역 사고')
                     plt.bar(range(6,19,3),list(map(int,TrafficAccident.iloc[i,6::3])),color='skyblue',label='무면허')
                     plt.xticks(range(5,19,3),year_list)
 
@@ -62,8 +62,8 @@ class Graph():
             df=pd.read_csv('연도_나이_음주.csv',encoding='cp949')         
         elif(var=='무면허'):
             df=pd.read_csv('연도_나이_무면허.csv',encoding='cp949')
-        elif(var=='스쿨존'):
-            df=pd.read_csv('연도_나이_음주.csv',encoding='cp949')
+        elif(var=='어린이 보호구역'):
+            df=pd.read_csv('연도_나이_어린이.csv',encoding='cp949')
         else:
             messagebox.showinfo("라디오 박스 선택", "라디오박스 체크를 확인해 주세요.")
 
@@ -117,8 +117,8 @@ class Graph():
             df=pd.read_csv('음주_시간별_re.csv',encoding='cp949')         
         elif(var=='무면허'):
             df=pd.read_csv('무면허_시간별_re.csv',encoding='cp949')
-        elif(var=='스쿨존'):
-            df=pd.read_csv('음주_시간별_re.csv',encoding='cp949')
+        elif(var=='어린이 보호구역'):
+            df=pd.read_csv('어린이_시간별.csv',encoding='cp949')
         else:
             messagebox.showinfo("라디오 박스 선택", "라디오박스 체크를 확인해 주세요.")
 
@@ -178,8 +178,8 @@ class Graph():
             df=pd.read_csv('연도_나이_음주.csv',encoding='cp949')         
         elif(var=='무면허'):
             df=pd.read_csv('연도_나이_무면허.csv',encoding='cp949')
-        elif(var=='스쿨존'):
-            df=pd.read_csv('연도_나이_음주.csv',encoding='cp949')
+        elif(var=='어린이 보호구역'):
+            df=pd.read_csv('연도_나이_어린이.csv',encoding='cp949')
         else:
             messagebox.showinfo("라디오 박스 선택", "라디오박스 체크를 확인해 주세요.")
 
@@ -289,8 +289,8 @@ class Graph():
             df=pd.read_csv('음주_시간별_re.csv',encoding='cp949')
         elif(var=='무면허'):
             df=pd.read_csv('무면허_시간별_re.csv',encoding='cp949')
-        elif(var=='스쿨존'):
-            df=pd.read_csv('음주_시간별.csv',encoding='cp949')
+        elif(var=='어린이 보호구역'):
+            df=pd.read_csv('어린이_시간별.csv',encoding='cp949')
         else:
             messagebox.showinfo("라디오 박스 선택", "라디오박스 체크를 확인해 주세요.")
         #year_list=['2017','2018','2019','2020','2021']
@@ -427,6 +427,7 @@ class Graph():
                 plt.ylabel('음주운전 교통사고 발생 건수', fontsize=14)
                 plt.xticks([])
                 plt.yticks([])
+                plt.ylim(0,2000)
                 plt.rcParams['font.family'] = 'Malgun Gothic'
                 canvas = FigureCanvasTkAgg(fig,master=self)         
                 canvas.get_tk_widget().pack()
@@ -455,6 +456,7 @@ class Graph():
                 plt.ylabel('음주운전 교통사고 발생 건수', fontsize=14)
                 plt.xticks([])
                 plt.yticks([])
+                plt.ylim(0,2000)
                 plt.rcParams['font.family'] = 'Malgun Gothic'
                 canvas = FigureCanvasTkAgg(fig,master=self)         
                 canvas.get_tk_widget().pack()
@@ -483,6 +485,7 @@ class Graph():
                 plt.ylabel('교통사고 발생 건수', fontsize=14)
                 plt.xticks([])
                 plt.yticks([])
+                plt.ylim(0,5000)
                 plt.rcParams['font.family'] = 'Malgun Gothic'
 
                 canvas = FigureCanvasTkAgg(fig,master=self)         
@@ -511,6 +514,7 @@ class Graph():
                 plt.ylabel('교통사고 발생 건수', fontsize=14)
                 plt.xticks([])
                 plt.yticks([])
+                plt.ylim(0,5000)
                 plt.rcParams['font.family'] = 'Malgun Gothic'
 
                 canvas = FigureCanvasTkAgg(fig,master=self)         
@@ -542,6 +546,7 @@ class Graph():
                 plt.ylabel('교통사고 발생 건수', fontsize=14)
                 plt.xticks([])
                 plt.yticks([])
+                plt.ylim(0,500)
                 plt.rcParams['font.family'] = 'Malgun Gothic'
 
                 canvas = FigureCanvasTkAgg(fig,master=self)         
@@ -571,6 +576,7 @@ class Graph():
                 plt.ylabel('교통사고 발생 건수', fontsize=14)
                 plt.xticks([])
                 plt.yticks([])
+                plt.ylim(0,500)
                 plt.rcParams['font.family'] = 'Malgun Gothic'
 
                 canvas = FigureCanvasTkAgg(fig,master=self)         
