@@ -29,7 +29,8 @@ class StartMenu(tk.Frame):
         tk.Label(self, text="서울시 교통사고 조사", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5) # 시작 화면 상단 라벨
         self.photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
         tk.Label(self,image=self.photo).pack() # 이미지 라벨
-        tk.Label(self, text="2팀 : 김민수, 이지운, 장기헌, 장윤종, 전장현", font=('Helvetica', 10, "bold")).pack(side="top", fill="x", pady=5) #시작 화면 팀 라벨
+        tk.Label(self, text="2팀 : 김민수, 이지운, 장기헌, 장윤종, 전장현", font=('Helvetica', 12, "bold")).pack(side="top", fill="x", pady=5) #시작 화면 팀 라벨
+        tk.Label(self, text="*처음 이용하시는 분은 사용설명서를 참고해주세요.*", font=('Helvetica', 10, "bold")).pack(side="top", fill="x", pady=5)
         tk.Button(self, text="start",width=20,height=2,command=lambda: master.switchFrame(Menu1)).pack(side=BOTTOM) # 시작 버튼
 
     '''
@@ -674,6 +675,8 @@ class Menu3(tk.Frame):
         var.set(NONE)
         self.text=tk.StringVar()
         self.text.set('')
+        self.text2=tk.StringVar()
+        self.text2.set('')
 
 
         R1 = Radiobutton(frame2, text='음주운전',variable=var, value="음주운전",font=20,command=lambda:[graph.Graph.graphBubble(self,var.get()),self.show3Rank(var.get())]) # 오른쪽 프레임 체크박스 추가
@@ -690,8 +693,8 @@ class Menu3(tk.Frame):
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
         bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='grey',font=20,cursor='hand2')
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
-        tk.Label(frame3,textvariable=self.text,font=('Helvetica', 18, "bold"),anchor='w',justify=LEFT).pack(side=BOTTOM,padx=10,anchor='w')
-
+        tk.Label(frame3,textvariable=self.text,font=('Helvetica', 18, "bold"),anchor='w',justify=LEFT).pack(side= TOP,padx=10,anchor='w')
+        tk.Label(frame3,textvariable=self.text2,font=('Helvetica', 13, "bold"),anchor='w',justify=LEFT).pack(side=BOTTOM,padx=10,anchor='w')
     '''
     함수명: show3Rank
                 변수명          자료형      설명
@@ -701,19 +704,23 @@ class Menu3(tk.Frame):
     ''' 
     def show3Rank(self,var):
         if var =='음주운전':
-            self.text.set('음주운전 사고 자치구 순위\n1위 강남구 1693건'+'\n'
-                                                   +        '2위 송파구 854건'+'\n'
-                                                   +        '3위 서초구 795건')
+            self.text.set('음주운전 사고 자치구 순위')
+            self.text2.set('\t1위 강남구 1693건'+'\n'
+                            +'\t2위 송파구 854건'+'\n'
+                            +'\t3위 서초구 795건')
+                          
             
         elif var =='무면허':
-            self.text.set('무면허 사고 자치구 순위\n1위 강남구 298건'+'\n'
-                                                   +        '2위 송파구 169건'+'\n'
-                                                   +        '3위 마포구 154건')
+            self.text.set('음주운전 사고 자치구 순위')
+            self.text2.set('\t1위 강남구 298건'+'\n'
+                            +'\t2위 송파구 169건'+'\n'
+                            +'\t3위 마포구 154건')
             
         else:
-            self.text.set('어린이 보호구역 사고 자치구 순위\n1위 강남구 3750건'+'\n'
-                                                   +        '2위 송파구 2783건'+'\n'
-                                                   +        '3위 영등포구 2371건')
+            self.text.set('음주운전 사고 자치구 순위')
+            self.text2.set('\t1위 강남구 3750건'+'\n'
+                            +'\t2위 송파구 2783건'+'\n'
+                            +'\t3위 영등포구 2371건')
 
     '''
     함수명: openDataWindow3
