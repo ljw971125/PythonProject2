@@ -8,8 +8,24 @@ import seaborn as sns
 PATH = os.path.dirname(os.path.realpath(__file__)) # 현재 디렉토리로 이동
 os.chdir(PATH)
 # 이미지를 저장하는 함수
-class SaveImg(): 
-    def save_image(self,mylist,value,var,var1,var2,var3,var4,var5,bt1,bt2):
+class SaveImg():
+    '''
+    함수명: saveImage
+                변수명          자료형      설명
+    매개변수 :  mylist          listbox    리스트박스
+    매개변수 :  value           int        메뉴를 구분하기 위한 정수형 변수
+    매개변수 :  var             string     라디오버튼 텍스트 값
+    매개변수 :  var1            string     연도 옵션 메뉴 텍스트 값
+    매개변수 :  var2            string     나이 시작 조건 텍스트 값
+    매개변수 :  var3            string     나이 끝 조건 텍스트 값
+    매개변수 :  var4            string     시간 시작 조건 텍스트 값
+    매개변수 :  var5            string     시간 끝 조건 텍스트 값
+    매개변수 :  bt1             string     조건 버튼 텍스트 값
+    매개변수 :  bt2             string     조건 버튼 텍스트 값
+    반환값 : 없음
+    기능설명: 각 메뉴에 대한 그래프 이미지 저장 모듈
+    '''  
+    def saveImage(self,mylist,value,var,var1,var2,var3,var4,var5,bt1,bt2):
         if value==1 :
             # 이미지 저장 대화상자 띄우기
             df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
@@ -330,12 +346,23 @@ class SaveImg():
 
                 plt.savefig(file_path)
 
-            
-        
-            
-    #def save_image3(self,)                    
-    
-    def save_data_image(self,mylist,value,var,var1,var2,var3,var4,var5,bt1,bt2):
+    '''
+    함수명: saveDataImage
+                변수명          자료형      설명
+    매개변수 :  mylist          listbox    리스트박스
+    매개변수 :  value           int        메뉴를 구분하기 위한 정수형 변수
+    매개변수 :  var             string     라디오버튼 텍스트 값
+    매개변수 :  var1            string     연도 옵션 메뉴 텍스트 값
+    매개변수 :  var2            string     나이 시작 조건 텍스트 값
+    매개변수 :  var3            string     나이 끝 조건 텍스트 값
+    매개변수 :  var4            string     시간 시작 조건 텍스트 값
+    매개변수 :  var5            string     시간 끝 조건 텍스트 값
+    매개변수 :  bt1             string     조건 버튼 텍스트 값
+    매개변수 :  bt2             string     조건 버튼 텍스트 값
+    반환값 : 없음
+    기능설명: 각 메뉴에 대한 데이터테이블 이미지 저장 모듈
+    '''  
+    def saveDataImage(self,mylist,value,var,var1,var2,var3,var4,var5,bt1,bt2):
         if value==1:
             # 이미지 저장 대화상자 띄우기
             index = mylist.curselection()[0]
