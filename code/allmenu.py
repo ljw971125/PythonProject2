@@ -119,6 +119,7 @@ class Menu1(tk.Frame):
                                          '어린이 보호구역사고':[ta_df.loc[i][5], ta_df.loc[i][8], ta_df.loc[i][11],ta_df.loc[i][14],ta_df.loc[i][17]],
                                          '무면허':[ta_df.loc[i][6], ta_df.loc[i][9], ta_df.loc[i][12],ta_df.loc[i][15],ta_df.loc[i][18]]}
                                         )
+        df.insert(0,'연도',['2017','2018','2019','2020','2021'])
         table=Table(new_window,dataframe=df)
         table.show()
         
@@ -293,6 +294,7 @@ class Menu2(tk.Frame):
                                 '61~64세':df1.iloc[i,8::7].sum(),
                                 '65세이상':df1.iloc[i,9::7].sum()}
                                 ])
+                ta_df.insert(0,'연도','17~21년')
                 table=Table(new_window,dataframe=ta_df)
                 table.show()
 
@@ -395,7 +397,7 @@ class Menu2(tk.Frame):
                                                 df1.iloc[0,var1+4]:df1.iloc[i,var1+4],
                                                 df1.iloc[0,var1+5]:df1.iloc[i,var1+5],
                                                 df1.iloc[0,var1+6]:df1.iloc[i,var1+6]}])
-                    
+                            ta_df.insert(0,'연도',year)
                             table=Table(new_window,dataframe=ta_df)
                             table.show()
 
@@ -429,6 +431,7 @@ class Menu2(tk.Frame):
                                         '20시~22시':df1.iloc[i,13::12].sum(),
                                         '22시~24시':df1.iloc[i,14::12].sum()}
                                         ])
+                ta_df.insert(0,'연도','17~21년')
                 table=Table(new_window,dataframe=ta_df)
                 table.show()
             else:
@@ -609,6 +612,7 @@ class Menu2(tk.Frame):
                                                   df1.iloc[0,var1+9]:df1.iloc[i,var1+9],
                                                   df1.iloc[0,var1+10]:df1.iloc[i,var1+10],
                                                   df1.iloc[0,var1+11]:df1.iloc[i,var1+11]}])
+                    ta_df.insert(0,'연도',year)
                     table=Table(new_window,dataframe=ta_df)
                     table.show()
 
@@ -683,10 +687,8 @@ class Menu3(tk.Frame):
                     ul_list.append(df1.iloc[i,6]+df1.iloc[i,9]+df1.iloc[i,12]+df1.iloc[i,15]+df1.iloc[i,18])
                 df=pd.DataFrame({'무면허':ul_list},index=seoul_list)
                 df=df.rename_axis('자치구')
+                df.insert(0,'자치구',seoul_list)
                 df =df.sort_values(by='무면허', ascending=False)
-                # text = tk.Text(new_window)
-                # text.insert('end', df.to_markdown())
-                # text.pack()
                 table=Table(new_window,dataframe=df)
                 table.show()
             elif var=='음주운전':
@@ -694,10 +696,8 @@ class Menu3(tk.Frame):
                     drunk_list.append(df1.iloc[i,4]+df1.iloc[i,7]+df1.iloc[i,10]+df1.iloc[i,13]+df1.iloc[i,16])
                 df=pd.DataFrame({'음주운전':drunk_list},index=seoul_list)
                 df=df.rename_axis('자치구')
+                df.insert(0,'자치구',seoul_list)
                 df =df.sort_values(by='음주운전', ascending=False)
-                # text = tk.Text(new_window)
-                # text.insert('end', df.to_markdown())
-                # text.pack()
                 table=Table(new_window,dataframe=df)
                 table.show()
             elif var=='어린이 보호구역':
@@ -705,9 +705,7 @@ class Menu3(tk.Frame):
                     school_list.append(df1.iloc[i,5]+df1.iloc[i,8]+df1.iloc[i,11]+df1.iloc[i,14]+df1.iloc[i,17])
                 df=pd.DataFrame({'어린이 보호구역':school_list},index=seoul_list)
                 df=df.rename_axis('자치구')
+                df.insert(0,'자치구',seoul_list)
                 df =df.sort_values(by='어린이 보호구역', ascending=False)
-                # text = tk.Text(new_window)
-                # text.insert('end', df.to_markdown())
-                # text.pack()
                 table=Table(new_window,dataframe=df)
                 table.show()
