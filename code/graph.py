@@ -266,7 +266,7 @@ class Graph():
             year='2020년 '
         elif(var1=='2021'):
             var1=31+var2
-            max_var=38
+            max_var=38-var3
             year='2021년 '
 
         if(var2+var3 >= 7):
@@ -279,9 +279,18 @@ class Graph():
                         title_name=df.loc[i][2]
                         fig=plt.figure()
                         plt.rc('font', family='Malgun Gothic')
-                        plt.barh(range(var1,max_var),list(map(int,df.iloc[i,var1:max_var])),color='grey',label=var)
+                        xlist=[]
+                        cnt=0
+                        xlist=list(map(int,df.iloc[i,var1:max_var]))
+                        plt.barh(range(var1,max_var),xlist,color='skyblue',label=var)
                         plt.yticks(range(var1,max_var),df.iloc[0,var1:max_var])
                         plt.title(year+title_name+'의 나이별 '+var+' 분석')
+                        for i in xlist:
+                            if i==0:
+                                messagebox.showinfo('0의 값을 포함',"해당 조건에서 발생건수가 0인 값이 포함되어 있습니다.")
+                                cnt+=1
+                            if(cnt==1):
+                                break
                         canvas = FigureCanvasTkAgg(fig,master=self)         
                         canvas.get_tk_widget().pack()
                     else:
@@ -292,9 +301,19 @@ class Graph():
                         title_name=df.loc[i][2]
                         fig=plt.figure()
                         plt.rc('font', family='Malgun Gothic')
-                        plt.barh(range(var1,max_var),list(map(int,df.iloc[i,var1:max_var])),color='grey',label=var)
+                        xlist=[]
+                        cnt=0
+                        xlist=list(map(int,df.iloc[i,var1:max_var]))
+                        plt.barh(range(var1,max_var),xlist,color='skyblue',label=var)
                         plt.yticks(range(var1,max_var),df.iloc[0,var1:max_var])
                         plt.title(year+title_name+'의 나이별 '+var+' 분석')
+
+                        for i in xlist:
+                            if i==0:
+                                messagebox.showinfo('0의 값을 포함',"해당 조건에서 발생건수가 0인 값이 포함되어 있습니다.")
+                                cnt+=1
+                            if(cnt==1):
+                                break
                         canvas = FigureCanvasTkAgg(fig,master=self)         
                         canvas.get_tk_widget().pack()
                     else:
@@ -409,9 +428,18 @@ class Graph():
                         title_name=df.loc[i][2]
                         fig=plt.figure()
                         plt.rc('font', family='Malgun Gothic')
-                        plt.barh(range(var1,max_var),list(map(int,df.iloc[i,var1:max_var])),color='grey',label=var)
+                        xlist=[]
+                        cnt=0
+                        xlist=list(map(int,df.iloc[i,var1:max_var]))
+                        plt.barh(range(var1,max_var),xlist,color='violet',label=var)
                         plt.yticks(range(var1,max_var),df.iloc[0,var1:max_var])
                         plt.title(year+title_name+'의 시간별'+var+' 분석')
+                        for i in xlist:
+                            if i==0:
+                                messagebox.showinfo('0의 값을 포함',"해당 조건에서 발생건수가 0인 값이 포함되어 있습니다.")
+                                cnt+=1
+                            if(cnt==1):
+                                break
                         canvas = FigureCanvasTkAgg(fig,master=self)         
                         canvas.get_tk_widget().pack()
                     else:
@@ -422,10 +450,19 @@ class Graph():
                         title_name=df.loc[i][2]
                         fig=plt.figure()
                         plt.rc('font', family='Malgun Gothic')
-                        plt.barh(range(var1,max_var),list(map(int,df.iloc[i,var1:max_var])),color='grey',label=var)
+                        xlist=[]
+                        cnt=0
+                        xlist=list(map(int,df.iloc[i,var1:max_var]))
+                        plt.barh(range(var1,max_var),xlist,color='violet',label=var)
                         plt.yticks(range(var1,max_var),df.iloc[0,var1:max_var])
                         plt.title(year+title_name+'의 시간별'+var+' 분석')
-                        canvas = FigureCanvasTkAgg(fig,master=self)         
+                        for i in xlist:
+                            if i==0:
+                                messagebox.showinfo('0의 값을 포함',"해당 조건에서 발생건수가 0인 값이 포함되어 있습니다.")
+                                cnt+=1
+                            if(cnt==1):
+                                break
+                        canvas = FigureCanvasTkAgg(fig,master=self)    
                         canvas.get_tk_widget().pack()
                     else:
                         continue   
@@ -456,7 +493,7 @@ class Graph():
                 drunk_list=[]
                 for i in range(1,26):
                     drunk_list.append(df1.iloc[i,4]+df1.iloc[i,7]+df1.iloc[i,10]+df1.iloc[i,13]+df1.iloc[i,16])
-                fig=plt.figure(figsize=(20, 13))
+                fig=plt.figure(figsize=(10, 35))
                 # scatterplot() 함수 사용
                 sns.scatterplot(x=seoul_list, y=drunk_list, size=drunk_list, sizes=(300, 8000), hue=drunk_list, palette=colors, alpha=0.7, legend=False)
                 # 버블 안에 텍스트 삽입하기
@@ -481,7 +518,7 @@ class Graph():
                 drunk_list=[]
                 for i in range(1,26):
                     drunk_list.append(df1.iloc[i,4]+df1.iloc[i,7]+df1.iloc[i,10]+df1.iloc[i,13]+df1.iloc[i,16])
-                fig=plt.figure(figsize=(20, 13))
+                fig=plt.figure(figsize=(10, 35))
                 # scatterplot() 함수 사용
                 sns.scatterplot(x=seoul_list, y=drunk_list, size=drunk_list, sizes=(300, 8000), hue=drunk_list, palette=colors, alpha=0.7, legend=False)
                 # 버블 안에 텍스트 삽입하기
@@ -507,7 +544,7 @@ class Graph():
                           '#7FB3D5', '#77DD77', '#FFC300', '#F4D03F','red']
                 for i in range(1,26):
                     school_list.append(df1.iloc[i,5]+df1.iloc[i,8]+df1.iloc[i,11]+df1.iloc[i,14]+df1.iloc[i,17])
-                fig=plt.figure(figsize=(10, 13))
+                fig=plt.figure(figsize=(10, 35))
                 # scatterplot() 함수 사용
                 sns.scatterplot(x=seoul_list, y=school_list, size=school_list, sizes=(300, 8000), hue=school_list, palette=colors, alpha=0.7, legend=False)
                 # 버블 안에 텍스트 삽입하기
@@ -532,7 +569,7 @@ class Graph():
                 school_list=[]
                 for i in range(1,26):
                     school_list.append(df1.iloc[i,5]+df1.iloc[i,8]+df1.iloc[i,11]+df1.iloc[i,14]+df1.iloc[i,17])
-                fig=plt.figure(figsize=(10, 13))
+                fig=plt.figure(figsize=(10, 35))
                 # scatterplot() 함수 사용
                 sns.scatterplot(x=seoul_list, y=school_list, size=school_list, sizes=(300, 8000), hue=school_list, palette=colors, alpha=0.7, legend=False)
                 # 버블 안에 텍스트 삽입하기
@@ -559,7 +596,7 @@ class Graph():
                 ul_list=[]
                 for i in range(1,26):
                     ul_list.append(df1.iloc[i,6]+df1.iloc[i,9]+df1.iloc[i,12]+df1.iloc[i,15]+df1.iloc[i,18])
-                fig=plt.figure(figsize=(10, 13))
+                fig=plt.figure(figsize=(10, 35))
                 # scatterplot() 함수 사용
                 sns.scatterplot(x=seoul_list, y=ul_list, size=ul_list, sizes=(300, 8000), hue=ul_list, palette=colors, alpha=0.7, legend=False)
                 # 버블 안에 텍스트 삽입하기
@@ -584,7 +621,7 @@ class Graph():
                 ul_list=[]
                 for i in range(1,26):
                     ul_list.append(df1.iloc[i,6]+df1.iloc[i,9]+df1.iloc[i,12]+df1.iloc[i,15]+df1.iloc[i,18])
-                fig=plt.figure(figsize=(10, 13))
+                fig=plt.figure(figsize=(10, 35))
                 # scatterplot() 함수 사용
                 sns.scatterplot(x=seoul_list, y=ul_list, size=ul_list, sizes=(300, 8000), hue=ul_list, palette=colors, alpha=0.7, legend=False)
                 # 버블 안에 텍스트 삽입하기
