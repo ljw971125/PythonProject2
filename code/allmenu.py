@@ -24,7 +24,7 @@ class StartMenu(tk.Frame):
     def __init__(self, master):
         tk.Frame.__init__(self, master)
         ep_menu = tk.Menu(self)
-        ep_menu.add_command(label='도움말',command=lambda :self.openExplainWindow())    
+        ep_menu.add_command(label='사용설명서',command=lambda :self.openExplainWindow())    
         master.config(menu=ep_menu)
         tk.Label(self, text="서울시 교통사고 조사", font=('Helvetica', 18, "bold")).pack(side="top", fill="x", pady=5) # 시작 화면 상단 라벨
         self.photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
