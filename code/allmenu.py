@@ -14,7 +14,7 @@ os.chdir(PATH)
            
 class StartMenu(tk.Frame):
     '''
-    함수명:_init__
+    함수명:__init__
                 변수명    자료형    설명
     매개변수 : ep_menu     menu
     반환값 : 없음
@@ -29,14 +29,12 @@ class StartMenu(tk.Frame):
         self.photo = ImageTk.PhotoImage(Image.open('car.png')) # ui 아이콘 불러오기
         tk.Label(self,image=self.photo).pack() # 이미지 라벨
         tk.Label(self, text="2팀 : 김민수, 이지운, 장기헌, 장윤종, 전장현", font=('Helvetica', 10, "bold")).pack(side="top", fill="x", pady=5) #시작 화면 팀 라벨
-        tk.Button(self, text="start",width=20,height=2,command=lambda: master.switch_frame(Menu1)).pack(side=BOTTOM) # 시작 버튼
+        tk.Button(self, text="start",width=20,height=2,command=lambda: master.switchFrame(Menu1)).pack(side=BOTTOM) # 시작 버튼
 
     '''
     함수명:openExplainWindow
                 변수명          자료형      설명
-    매개변수 :  image_viewer   Toplevel   새창을 띄우는 기능
-    매개변수 :  image_list     list       사용설명서에  띄울 사진 리스트
-    매개변수 :  app               새창을 띄우는 기능
+    매개변수 :  없음
     반환값 : 없음
     기능설명: 사용설명서 새창을 띄우는 함수
     '''  
@@ -52,18 +50,16 @@ class Menu1(tk.Frame):
     '''
     함수명:__init__
                 변수명          자료형      설명
-    매개변수 :  frame1,2,3,4    Frame     위젯 위치설정 기능
-    매개변수 :  scrollbar       Scrolbar  스크롤바 생성
-    매개변수 :  mylist          Listbox   리스트박스 생성          
+    매개변수 :  master    
     반환값 : 없음
     기능설명: GUI 화면 생성 및 위젯 설정
     '''  
     def __init__(self,master):
         tk.Frame.__init__(self,master)
         menu = tk.Menu(self)
-        menu.add_command(label="그래프 저장",command=lambda: [saveimg.SaveImg.save_image(self,mylist,1,None,None,None,None,None,None,None,None)])
+        menu.add_command(label="그래프 저장",command=lambda: [saveimg.SaveImg.saveImage(self,mylist,1,None,None,None,None,None,None,None,None)])
         menu.add_command(label="데이터 프레임 보기",command=lambda :self.openDataWindow(mylist))
-        menu.add_command(label="데이터 프레임 저장",command=lambda :saveimg.SaveImg.save_data_image(self,mylist,1,None,None,None,None,None,None,None,None))
+        menu.add_command(label="데이터 프레임 저장",command=lambda :saveimg.SaveImg.saveDataImage(self,mylist,1,None,None,None,None,None,None,None,None))
         master.config(menu=menu)
         frame1=tk.Frame() # 프레임 생성
         frame1.pack(fill='both') # 프레임의 위치 지정
@@ -88,23 +84,20 @@ class Menu1(tk.Frame):
         scrollbar.config(command=mylist.yview) #스크롤바와 리스트 박스를 연결하는 함수
         bt=Button(frame1,text="사고 유형 분석",width=40,height=3,background='grey',cursor='hand2',font=20)
         bt.pack(side=LEFT,expand=True,fill=BOTH) # 버튼의 위치를 조정(side는 방향, expand는 확장 여부, fill은 공간 채움 여부)
-        bt2=Button(frame1,text="사고 유형 상세 분석" ,width=40,height=3,background='white',font=20,cursor='hand2',command=lambda:[master.del_frame(),master.switch_frame(Menu2)])
+        bt2=Button(frame1,text="사고 유형 상세 분석" ,width=40,height=3,background='white',font=20,cursor='hand2',command=lambda:[master.delFrame(),master.switchFrame(Menu2)])
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
-        bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='white',font=20,cursor='hand2',command=lambda:[master.del_frame(),master.switch_frame(Menu3)])
+        bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='white',font=20,cursor='hand2',command=lambda:[master.delFrame(),master.switchFrame(Menu3)])
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
-        tk.Label(frame4,textvariable=self.text,font=('Helvetica', 18, "bold")).pack(side=RIGHT,padx=10)
-        mylist.bind("<<ListboxSelect>>", lambda event : [graph.Graph.graph(self,mylist,event),self.showRank(mylist)]) # 리스트바에서 값을 선택 할 때 바로 그래프가 출력 되도록 해줌
+        tk.Label(frame4,textvariable=self.text,font=('Helvetica', 18, "bold"),anchor='w',justify=LEFT).pack(side=RIGHT,padx=10)
+        mylist.bind("<<ListboxSelect>>", lambda event : [graph.Graph.showGraph(self,mylist,event),self.showRank(mylist)]) # 리스트바에서 값을 선택 할 때 바로 그래프가 출력 되도록 해줌
 
 
     '''
     함수명: openDataWindow
                 변수명          자료형      설명
-    매개변수 :  new_window      Toplevel   새창 생성
-    매개변수 :  ta_df           DataFrame  구별 사고 발생 건수 데이터 프래임
-    매개변수 :  mylist_index    int         리스트박스에 선택한 인덱스 반환
-    매개변수 :  mylist_selection str        리스트박스에 선택값 반환
+    매개변수 :  mylist          listbox    리스트박스
     반환값 : 없음
-    기능설명: 데이터프래임 값 보여주는 기능
+    기능설명: 데이터프래임 값 보여주는 모듈
     '''  
 
     def openDataWindow(self,mylist):
@@ -126,15 +119,10 @@ class Menu1(tk.Frame):
     '''
     함수명: showRank
                 변수명          자료형      설명
-    매개변수 :  new_window      Toplevel   새창 생성
-    매개변수 :  ta_df           DataFrame  구별 사고 발생 건수 데이터 프래임
-    매개변수 :  ta_df_int       DataFrame  데이터 프래임 정수화
-    매개변수 :  mylist_index    int        리스트박스에 선택한 인덱스 반환
-    매개변수 :  mylist_selection str       리스트박스에 선택값 반환
+    매개변수 :  mylist          listbox    리스트박스
     반환값 : 없음
-    기능설명: 데이터프래임 값 보여주는 기능
-    '''    
-    
+    기능설명: 라벨에 각 자치구별 사고유형의 순위를 나타내주는 모듈
+    '''   
     # 자료의 발생 건수를 모두 더하고 순위를 보여주는 함수
     def showRank(self,mylist):
         ta_df=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
@@ -158,9 +146,9 @@ class Menu2(tk.Frame):
     def __init__(self,master):
         tk.Frame.__init__(self, master)
         menu = tk.Menu(self)
-        menu.add_command(label="그래프 저장",command=lambda:saveimg.SaveImg.save_image(self,mylist,2,var.get(),var1.get(),var2.get(),var3.get(),var4.get(),var5.get(),bt5.cget('text'),bt6.cget('text')))
-        menu.add_command(label="데이터 프레임 보기",command=lambda :self.open_data_Frame2(mylist,var.get(),var1.get(),var2.get(),var3.get(),var4.get(),var5.get(),bt5.cget('text'),bt6.cget('text')))
-        menu.add_command(label="데이터 프레임 저장",command=lambda :saveimg.SaveImg.save_data_image(self,mylist,2,var.get(),var1.get(),var2.get(),var3.get(),var4.get(),var5.get(),bt5.cget('text'),bt6.cget('text')))
+        menu.add_command(label="그래프 저장",command=lambda:saveimg.SaveImg.saveImage(self,mylist,2,var.get(),var1.get(),var2.get(),var3.get(),var4.get(),var5.get(),bt5.cget('text'),bt6.cget('text')))
+        menu.add_command(label="데이터 프레임 보기",command=lambda :self.openDataWindow2(mylist,var.get(),var1.get(),var2.get(),var3.get(),var4.get(),var5.get(),bt5.cget('text'),bt6.cget('text')))
+        menu.add_command(label="데이터 프레임 저장",command=lambda :saveimg.SaveImg.saveDataImage(self,mylist,2,var.get(),var1.get(),var2.get(),var3.get(),var4.get(),var5.get(),bt5.cget('text'),bt6.cget('text')))
         master.config(menu=menu)
         frame1=tk.Frame()
         frame1.pack(fill='both')
@@ -192,16 +180,16 @@ class Menu2(tk.Frame):
         R2.pack(anchor='w')
         R3 = Radiobutton(frame4, text='어린이 보호구역',variable=var, value="어린이 보호구역",font=20)
         R3.pack(anchor='w')
-        bt3=Button(frame4,text="연령별",width=10,height=5,background='white',font=20,cursor='hand2',command=lambda: [self.hide_widget(option_menu4),self.hide_widget(label2),self.hide_widget(option_menu5),self.hide_widget(bt6),self.change_text(bt6,1),self.change_text(bt5,1),self.change_option(var1,1),self.change_option(var2,2),self.change_option(var3,2),self.show_widget(option_menu1),self.show_widget(option_menu2),self.show_widget(label1),self.show_widget(option_menu3),self.show_widget(bt5),graph.Graph.show_graph1(self,mylist,var.get())])
+        bt3=Button(frame4,text="연령별",width=10,height=5,background='white',font=20,cursor='hand2',command=lambda: [self.hideWidget(option_menu4),self.hideWidget(label2),self.hideWidget(option_menu5),self.hideWidget(bt6),self.changeText(bt6,1),self.changeText(bt5,1),self.changeOption(var1,1),self.changeOption(var2,2),self.changeOption(var3,2),self.showWidget(option_menu1),self.showWidget(option_menu2),self.showWidget(label1),self.showWidget(option_menu3),self.showWidget(bt5),graph.Graph.showGraph1(self,mylist,var.get())])
         bt3.pack()
-        bt4=Button(frame4,text="시간별",width=10,height=5,background='white',font=20,cursor='hand2',command=lambda: [self.hide_widget(option_menu2),self.hide_widget(label1),self.hide_widget(option_menu3),self.hide_widget(bt5),self.change_text(bt6,2),self.change_text(bt5,2),self.change_option(var1,1),self.change_option(var4,3),self.change_option(var5,3),self.show_widget(option_menu1),self.show_widget(option_menu4),self.show_widget(label2),self.show_widget(option_menu5),self.show_widget(bt6),graph.Graph.show_graph2(self,mylist,var.get())])
+        bt4=Button(frame4,text="시간별",width=10,height=5,background='white',font=20,cursor='hand2',command=lambda: [self.hideWidget(option_menu2),self.hideWidget(label1),self.hideWidget(option_menu3),self.hideWidget(bt5),self.changeText(bt6,2),self.changeText(bt5,2),self.changeOption(var1,1),self.changeOption(var4,3),self.changeOption(var5,3),self.showWidget(option_menu1),self.showWidget(option_menu4),self.showWidget(label2),self.showWidget(option_menu5),self.showWidget(bt6),graph.Graph.showGraph2(self,mylist,var.get())])
         bt4.pack()
     
-        bt=Button(frame1,text="사고 유형 분석",width=40,height=3,background='white',font=20,cursor='hand2',command=lambda: [master.del_frame(),master.switch_frame(Menu1)])
+        bt=Button(frame1,text="사고 유형 분석",width=40,height=3,background='white',font=20,cursor='hand2',command=lambda: [master.delFrame(),master.switchFrame(Menu1)])
         bt.pack(side=LEFT,expand=True,fill=BOTH)
-        bt1=Button(frame1,text="사고 유형 상세 분석" ,width=40,height=3,background='grey',font=20,cursor='hand2',command=lambda:[master.del_frame(),master.switch_frame(Menu2)])
+        bt1=Button(frame1,text="사고 유형 상세 분석" ,width=40,height=3,background='grey',font=20,cursor='hand2',command=lambda:[master.delFrame(),master.switchFrame(Menu2)])
         bt1.pack(side=LEFT,expand=True,fill=BOTH)
-        bt2=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='white',font=20,cursor='hand2',command=lambda:[master.del_frame(),master.switch_frame(Menu3)])
+        bt2=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='white',font=20,cursor='hand2',command=lambda:[master.delFrame(),master.switchFrame(Menu3)])
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
 
         var1 = tk.StringVar()
@@ -233,37 +221,76 @@ class Menu2(tk.Frame):
         option_menu5 = tk.OptionMenu(frame3, var5, '02:00','04:00','06:00','08:00','10:00','12:00','14:00','16:00','18:00','20:00','22:00','24:00')
         option_menu5.config(width=8)
 
-        bt5=Button(frame3,text="연령 설정",width=8,font=10,cursor='hand2',command=lambda: graph.Graph.show_graph3(self,mylist,var.get(),var1.get(),var2.get(),var3.get()))
-        bt6=Button(frame3,text="시간 설정",width=8,font=10,cursor='hand2',command=lambda: graph.Graph.show_graph4(self,mylist,var.get(),var1.get(),var4.get(),var5.get()))
+        bt5=Button(frame3,text="연령 설정",width=8,font=10,cursor='hand2',command=lambda: graph.Graph.showGraph3(self,mylist,var.get(),var1.get(),var2.get(),var3.get()))
+        bt6=Button(frame3,text="시간 설정",width=8,font=10,cursor='hand2',command=lambda: graph.Graph.showGraph4(self,mylist,var.get(),var1.get(),var4.get(),var5.get()))
     
-    def change_text(self,bt,value):
+    '''
+    함수명: changeText
+                변수명          자료형      설명
+    매개변수 :  bt              widget     텍스트를 변경시켜줄 버튼 위젯
+    매개변수 :  value           int        연도와 나이 텍스트를 구별할 정수형 값   
+    반환값 : 없음
+    기능설명: 버튼의 텍스트 내용을 변경하는 모듈
+    '''    
+    def changeText(self,bt,value):
         if(value==1):
             bt['text'] = '나이 설정'
         else:
             bt['text'] = '시간 설정'
 
-    def change_option(self,var,value):
+    '''
+    함수명: changeOption
+                변수명          자료형      설명
+    매개변수 :  var             string     옵션메뉴 위젯의 value값
+    매개변수 :  value           int        연도와 나이 텍스트를 구별할 정수형 값   
+    반환값 : 없음
+    기능설명: 옵션 메뉴의 기본 텍스트 설정으로 변경할 모듈
+    '''  
+    def changeOption(self,var,value):
         if(value==1):
             var.set('연도')
         elif(value==2):
             var.set('연령대')
         elif(value==3):
             var.set('시간대')
-
-    def hide_widget(self,widget):
+    '''
+    함수명: hideWidget
+                변수명          자료형      설명
+    매개변수 :  widget           widget    위젯
+    반환값 : 없음
+    기능설명: 위젯을 unpack 시키는 모듈
+    '''  
+    def hideWidget(self,widget):
         try:
             widget.pack_forget()
         except:
             widget.pack_forget()
-    def show_widget(self,widget):
+    '''
+    함수명: showWidget
+                변수명          자료형      설명
+    매개변수 :  widget           widget    위젯
+    반환값 : 없음
+    기능설명: 위젯을 pack 시켜주는 모듈
+    '''     
+    def showWidget(self,widget):
         widget.pack(side=LEFT)
 
-    def del_frame(self,master):
-        for widget in master.winfo_children():
-            widget.destroy()
-
-
-    def open_data_Frame2(self,mylist,var,var1,var2,var3,var4,var5,bt1,bt2):
+    '''
+    함수명: openDataWindow2
+                변수명          자료형      설명
+    매개변수 :  mylist          list       리스트박스에서 읽어올 리스트
+    매개변수 :  var             string     라디오박스에서 읽어올 문자열
+    매개변수 :  var1            string     옵션메뉴에서 읽어올 연도를 나타내는 문자열
+    매개변수 :  var2            string     옵션메뉴에서 읽어올 나이의 시작 범위를 나타내는 문자열
+    매개변수 :  var3            string     옵션메뉴에서 읽어올 나이의  끝 범위를 나타내는 문자열
+    매개변수 :  var4            string     옵션메뉴에서 읽어올 시간의 시작 범위를 나타내는 문자열
+    매개변수 :  var5            string     옵션메뉴에서 읽어올 시간의  끝 범위를 나타내는 문자열
+    매개변수 :  bt1             string     조건설정 버튼을 나타내는 문자열
+    매개변수 :  bt2             string     조건설정 버튼을 나타내는 문자열  
+    반환값 : 없음
+    기능설명: 데이터프래임 값 보여주는 모듈
+    ''' 
+    def openDataWindow2(self,mylist,var,var1,var2,var3,var4,var5,bt1,bt2):
 
         mylist_index = mylist.curselection()[0]
         mylist_seletion = mylist.get(mylist_index)
@@ -621,9 +648,9 @@ class Menu3(tk.Frame):
     def __init__(self,master):
         tk.Frame.__init__(self, master)
         menu = tk.Menu(self)
-        menu.add_command(label="그래프 저장",command=lambda:saveimg.SaveImg.save_image(self,None,3,var.get(),None,None,None,None,None,None,None))
-        menu.add_command(label="데이터 프래임 보기",command=lambda :self.open_data_Frame3(var.get()))
-        menu.add_command(label="데이터 프래임 저장",command=lambda :saveimg.SaveImg.save_data_image(self,None,3,var.get(),None,None,None,None,None,None,None))
+        menu.add_command(label="그래프 저장",command=lambda:saveimg.SaveImg.saveImage(self,None,3,var.get(),None,None,None,None,None,None,None))
+        menu.add_command(label="데이터 프래임 보기",command=lambda :self.openDataWindow3(var.get()))
+        menu.add_command(label="데이터 프래임 저장",command=lambda :saveimg.SaveImg.saveDataImage(self,None,3,var.get(),None,None,None,None,None,None,None))
         master.config(menu=menu)
 
         frame1=tk.Frame()
@@ -646,32 +673,45 @@ class Menu3(tk.Frame):
         R3.pack(anchor='w')
         
         
-        bt=Button(frame1,text="사고 유형 분석",width=40,height=3,background='white',font=20,cursor='hand2',command=lambda: [master.del_frame(),master.switch_frame(Menu1)])
+        bt=Button(frame1,text="사고 유형 분석",width=40,height=3,background='white',font=20,cursor='hand2',command=lambda: [master.delFrame(),master.switchFrame(Menu1)])
         bt.pack(side=LEFT,expand=True,fill=BOTH)
-        bt2=Button(frame1,text="사고 유형 상세 분석" ,width=40,height=3,background='white',font=20,cursor='hand2',command=lambda:[master.del_frame(),master.switch_frame(Menu2)])
+        bt2=Button(frame1,text="사고 유형 상세 분석" ,width=40,height=3,background='white',font=20,cursor='hand2',command=lambda:[master.delFrame(),master.switchFrame(Menu2)])
         bt2.pack(side=LEFT,expand=True,fill=BOTH)
         bt3=Button(frame1,text="유형별 최다 사고",width=40,height=3,background='grey',font=20,cursor='hand2')
         bt3.pack(side=LEFT,expand=True,fill=BOTH)
-        tk.Label(frame3,textvariable=self.text,font=('Helvetica', 18, "bold")).pack(side=BOTTOM,padx=10)
+        tk.Label(frame3,textvariable=self.text,font=('Helvetica', 18, "bold"),anchor='w',justify=LEFT).pack(side=BOTTOM,padx=10,anchor='w')
 
+    '''
+    함수명: show3Rank
+                변수명          자료형      설명
+    매개변수 :  var             string     라디오박스에서 읽어올 문자열
+    반환값 : 없음
+    기능설명: 라벨에 각 자치구별 사고유형의 순위를 나타내주는 모듈
+    ''' 
     def show3Rank(self,var):
         if var =='음주운전':
-            self.text.set('음주운전 사고 자치구 순위: 1위 강남구 1693건'+'\n'
+            self.text.set('음주운전 사고 자치구 순위\n1위 강남구 1693건'+'\n'
                                                    +        '2위 송파구 854건'+'\n'
                                                    +        '3위 서초구 795건')
             
         elif var =='무면허':
-            self.text.set('무면허 사고 자치구 순위: 1위 강남구 298건'+'\n'
+            self.text.set('무면허 사고 자치구 순위\n1위 강남구 298건'+'\n'
                                                    +        '2위 송파구 169건'+'\n'
                                                    +        '3위 마포구 154건')
             
         else:
-            self.text.set('어린이 보호구역 사고 자치구 순위: 1위 구로구 40건'+'\n'
-                                                   +        '2위 강서구 36건'+'\n'
-                                                   +        '3위 강남구 29건')
+            self.text.set('어린이 보호구역 사고 자치구 순위\n1위 강남구 3750건'+'\n'
+                                                   +        '2위 송파구 2783건'+'\n'
+                                                   +        '3위 영등포구 2371건')
 
-
-    def open_data_Frame3(self,var):
+    '''
+    함수명: openDataWindow3
+                변수명          자료형      설명
+    매개변수 :  var             string    라디오박스에서 읽어온 value값
+    반환값 : 없음
+    기능설명: 데이터프래임 값 보여주는 모듈
+    '''  
+    def openDataWindow3(self,var):
         if var != None:
             new_window = tk.Toplevel(self.master)
             new_window.title('사고유형 데이터 프레임')
