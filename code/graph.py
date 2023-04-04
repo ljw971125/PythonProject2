@@ -218,6 +218,7 @@ class Graph():
         df.iloc[0,7:38:7]='51~60세'
         df.iloc[0,8:38:7]='61~64세'
 
+<<<<<<< HEAD
         if(var1=='연도'):
             messagebox.showinfo("연도 선택", "연도를 설정해 주세요.")
         elif(var2=='연령대'):
@@ -525,6 +526,300 @@ class Graph():
                 canvas = FigureCanvasTkAgg(fig,master=self)         
                 canvas.get_tk_widget().pack()
             except:
+=======
+        if(var2=='20세이하'):
+            var2=0
+        elif(var2=='21세'):
+            var2=1
+        elif(var2=='31세'):
+            var2=2
+        elif(var2=='41세'):
+            var2=3
+        elif(var2=='51세'):
+            var2=4
+        elif(var2=='61세'):
+            var2=5
+        elif(var2=='65세이상'):
+            var2=6
+
+        if(var3=='20세이하'):
+            var3=6
+        elif(var3=='30세'):
+            var3=5
+        elif(var3=='40세'):
+            var3=4
+        elif(var3=='50세'):
+            var3=3
+        elif(var3=='60세'):
+            var3=2
+        elif(var3=='64세'):
+            var3=1
+        else:
+            var3=0
+
+        if(var1=='2017'):
+            var1=3+var2
+            max_var=10-var3
+            year='2017년 '
+        elif(var1=='2018'):
+            var1=10+var2
+            max_var=17-var3
+            year='2018년 '
+        elif(var1=='2019'):
+            var1=17+var2
+            max_var=24-var3
+            year='2019년 '
+        elif(var1=='2020'):
+            var1=24+var2
+            max_var=31-var3
+            year='2020년 '
+        elif(var1=='2021'):
+            var1=31+var2
+            max_var=38-var3
+            year='2021년 '
+
+        if(var2+var3 >= 7):
+            messagebox.showinfo("범위를 잘못 설정하셨습니다.", "처음 나이가 두번째 나이보다 작아야 합니다.")
+        else:
+            try:
+                canvas.get_tk_widget().pack_forget()
+                for i in range(2,27):
+                    if(info == df.loc[i][2]):
+                        title_name=df.loc[i][2]
+                        fig=plt.figure()
+                        plt.rc('font', family='Malgun Gothic')
+                        xlist=[]
+                        cnt=0
+                        xlist=list(map(int,df.iloc[i,var1:max_var]))
+                        plt.barh(range(var1,max_var),xlist,color='skyblue',label=var)
+                        plt.yticks(range(var1,max_var),df.iloc[0,var1:max_var])
+                        plt.title(year+title_name+'의 나이별 '+var+' 분석')
+                        for i in xlist:
+                            if i==0:
+                                messagebox.showinfo('0의 값을 포함',"해당 조건에서 발생건수가 0인 값이 포함되어 있습니다.")
+                                cnt+=1
+                            if(cnt==1):
+                                break
+                        canvas = FigureCanvasTkAgg(fig,master=self)         
+                        canvas.get_tk_widget().pack()
+                    else:
+                        continue
+            except:
+                for i in range(2,27):
+                    if(info == df.loc[i][2]):
+                        title_name=df.loc[i][2]
+                        fig=plt.figure()
+                        plt.rc('font', family='Malgun Gothic')
+                        xlist=[]
+                        cnt=0
+                        xlist=list(map(int,df.iloc[i,var1:max_var]))
+                        plt.barh(range(var1,max_var),xlist,color='skyblue',label=var)
+                        plt.yticks(range(var1,max_var),df.iloc[0,var1:max_var])
+                        plt.title(year+title_name+'의 나이별 '+var+' 분석')
+
+                        for i in xlist:
+                            if i==0:
+                                messagebox.showinfo('0의 값을 포함',"해당 조건에서 발생건수가 0인 값이 포함되어 있습니다.")
+                                cnt+=1
+                            if(cnt==1):
+                                break
+                        canvas = FigureCanvasTkAgg(fig,master=self)         
+                        canvas.get_tk_widget().pack()
+                    else:
+                        continue
+
+    '''
+    함수명: showGraph4
+                변수명          자료형      설명
+    매개변수 :  self  
+    매개변수 :  mylist          list       리스트박스에서 읽어올 리스트
+    매개변수 :  var             string     라디오박스에서 읽어올 문자열
+    매개변수 :  var1            string     옵션메뉴에서 읽어올 연도를 나타내는 문자열
+    매개변수 :  var4            string     옵션메뉴에서 읽어올 시간의 시작 범위를 나타내는 문자열
+    매개변수 :  var5            string     옵션메뉴에서 읽어올 시간의  끝 범위를 나타내는 문자열
+    반환값 : 없음
+    기능설명: 조건을 설정한 후 해당 조건에 맞는 그래프를 보여주는 모듈
+    '''      
+    # 시간 그래프
+    def showGraph4(self,mylist,var,var1,var4,var5):
+        if not mylist.curselection():
+            messagebox.showinfo("리스트 박스 선택", "리스트박스 선택을 확인해 주세요.")
+        global canvas
+        index = mylist.curselection()[0]
+        info = mylist.get(index)
+        if(var=='음주운전'):
+            df=pd.read_csv('음주_시간별_re.csv',encoding='cp949')
+        elif(var=='무면허'):
+            df=pd.read_csv('무면허_시간별_re.csv',encoding='cp949')
+        elif(var=='어린이 보호구역'):
+            df=pd.read_csv('어린이_시간별.csv',encoding='cp949')
+        else:
+            messagebox.showinfo("라디오 박스 선택", "라디오박스 체크를 확인해 주세요.")
+        #year_list=['2017','2018','2019','2020','2021']
+        if(var4=='00:00'):
+            var4=0
+        elif(var4=='02:00'):
+            var4=1
+        elif(var4=='04:00'):
+            var4=2
+        elif(var4=='06:00'):
+            var4=3
+        elif(var4=='08:00'):
+            var4=4
+        elif(var4=='10:00'):
+            var4=5
+        elif(var4=='12:00'):
+            var4=6
+        elif(var4=='14:00'):
+            var4=7
+        elif(var4=='16:00'):
+            var4=8
+        elif(var4=='18:00'):
+            var4=9
+        elif(var4=='20:00'):
+            var4=10
+        else:
+            var4=11
+
+        if(var5=='02:00'):
+            var5=0
+        elif(var5=='04:00'):
+            var5=1
+        elif(var5=='06:00'):
+            var5=2
+        elif(var5=='08:00'):
+            var5=3
+        elif(var5=='10:00'):
+            var5=4
+        elif(var5=='12:00'):
+            var5=5
+        elif(var5=='14:00'):
+            var5=6
+        elif(var5=='16:00'):
+            var5=7
+        elif(var5=='18:00'):
+            var5=8
+        elif(var5=='20:00'):
+            var5=9
+        elif(var5=='22:00'):
+            var5=10
+        else:
+            var5=11
+
+        if(var1=='2017'):
+            var1=3+var4
+            max_var=4+var5
+            year='2017년 '
+        elif(var1=='2018'):
+            var1=15+var4
+            max_var=16+var5
+            year='2018년 '
+        elif(var1=='2019'):
+            var1=27+var4
+            max_var=28+var5
+            year='2019년 '
+        elif(var1=='2020'):
+            var1=39+var4
+            max_var=40+var5
+            year='2020년 '
+        elif(var1=='2021'):
+            var1=51+var4
+            max_var=52+var5
+            year='2021년 '
+
+        if(var4-var5 > 0):
+            messagebox.showinfo("범위를 잘못 설정하셨습니다.", "처음 시간이 두번째 시간보다 작아야 합니다.")
+        else:
+            try:
+                canvas.get_tk_widget().pack_forget()
+                for i in range(2,27):
+                    if(info == df.loc[i][2]):
+                        title_name=df.loc[i][2]
+                        fig=plt.figure()
+                        plt.rc('font', family='Malgun Gothic')
+                        xlist=[]
+                        cnt=0
+                        xlist=list(map(int,df.iloc[i,var1:max_var]))
+                        plt.barh(range(var1,max_var),xlist,color='violet',label=var)
+                        plt.yticks(range(var1,max_var),df.iloc[0,var1:max_var])
+                        plt.title(year+title_name+'의 시간별'+var+' 분석')
+                        for i in xlist:
+                            if i==0:
+                                messagebox.showinfo('0의 값을 포함',"해당 조건에서 발생건수가 0인 값이 포함되어 있습니다.")
+                                cnt+=1
+                            if(cnt==1):
+                                break
+                        canvas = FigureCanvasTkAgg(fig,master=self)         
+                        canvas.get_tk_widget().pack()
+                    else:
+                        continue
+            except:
+                for i in range(2,27):
+                    if(info == df.loc[i][2]):
+                        title_name=df.loc[i][2]
+                        fig=plt.figure()
+                        plt.rc('font', family='Malgun Gothic')
+                        xlist=[]
+                        cnt=0
+                        xlist=list(map(int,df.iloc[i,var1:max_var]))
+                        plt.barh(range(var1,max_var),xlist,color='violet',label=var)
+                        plt.yticks(range(var1,max_var),df.iloc[0,var1:max_var])
+                        plt.title(year+title_name+'의 시간별'+var+' 분석')
+                        for i in xlist:
+                            if i==0:
+                                messagebox.showinfo('0의 값을 포함',"해당 조건에서 발생건수가 0인 값이 포함되어 있습니다.")
+                                cnt+=1
+                            if(cnt==1):
+                                break
+                        canvas = FigureCanvasTkAgg(fig,master=self)    
+                        canvas.get_tk_widget().pack()
+                    else:
+                        continue   
+
+    '''
+    함수명: graphBubble
+                변수명          자료형      설명
+    매개변수 :  self  
+    매개변수 :  var             string     라디오박스에서 읽어올 문자열
+    반환값 : 없음
+    기능설명: 17~21년간의 사고유형별 모든 자치구의 사고발생건수를 버블차트로 표현해주는 모듈 
+    '''      
+    def graphBubble(self,var):
+        plt.rc('font', family='Malgun Gothic')
+        df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
+        df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
+        seoul_list = ['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구', '도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
+        plt.rcParams['font.family'] = 'Malgun Gothic'
+        global canvas
+        if var == '음주운전':
+            try:
+                canvas.get_tk_widget().pack_forget()
+                colors = ['#FF5733', '#C70039', '#900C3F', '#581845', '#2E294E',
+                          '#1B4F72', '#0E6251', '#196F3D', '#7D6608', '#A04000',
+                          '#78281F', '#4A235A', '#1B2631', '#B7950B', '#8D6E63',
+                          '#2C3E50', '#8E44AD', '#16A085', '#F39C12', '#F5B7B1',
+                          '#7FB3D5', '#77DD77', '#FFC300', '#F4D03F','red']
+                drunk_list=[]
+                for i in range(1,26):
+                    drunk_list.append(df1.iloc[i,4]+df1.iloc[i,7]+df1.iloc[i,10]+df1.iloc[i,13]+df1.iloc[i,16])
+                fig=plt.figure(figsize=(10, 35))
+                # scatterplot() 함수 사용
+                sns.scatterplot(x=seoul_list, y=drunk_list, size=drunk_list, sizes=(300, 8000), hue=drunk_list, palette=colors, alpha=0.7, legend=False)
+                # 버블 안에 텍스트 삽입하기
+                for i, txt in enumerate(seoul_list):
+                    plt.annotate(txt, (seoul_list[i], drunk_list[i]), fontsize=10, ha='center', va='center')
+                # 그래프 타이틀 설정
+                plt.title('서울시 구별 음주운전 교통사고 발생 건수', fontsize=16)
+                # x축, y축 라벨 설정
+                plt.xlabel('서울시 구', fontsize=14)
+                plt.ylabel('음주운전 교통사고 발생 건수', fontsize=14)
+                plt.xticks([])
+                plt.yticks([])
+                plt.ylim(0,2000)
+                canvas = FigureCanvasTkAgg(fig,master=self)         
+                canvas.get_tk_widget().pack()
+            except:
+>>>>>>> 5148df0ecfdd020898d8497a13cf933f212e6e98
                 colors = ['#FF5733', '#C70039', '#900C3F', '#581845', '#2E294E',
                           '#1B4F72', '#0E6251', '#196F3D', '#7D6608', '#A04000',
                           '#78281F', '#4A235A', '#1B2631', '#B7950B', '#8D6E63',

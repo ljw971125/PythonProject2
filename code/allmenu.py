@@ -319,7 +319,12 @@ class Menu2(tk.Frame):
 
                 df1.iloc[1:,3:]=df1.iloc[1:,3:].astype(int)
 
+<<<<<<< HEAD
                 if(var1=='연도' and var2=='연령대' or var3=='연령대'):
+=======
+                if(var2=='연령대' or var3=='연령대'):
+                    
+>>>>>>> 5148df0ecfdd020898d8497a13cf933f212e6e98
                     new_window = tk.Toplevel(self.master)
                     new_window.title('17~21년간의 '+mylist_seletion+'의 '+var+'의 전체 연령 데이터 프레임')
                     for i in range(2,27):
@@ -337,6 +342,7 @@ class Menu2(tk.Frame):
                     table.show()
 
                 else:
+<<<<<<< HEAD
                     if(var1=='연도'):
                         messagebox.showinfo("연도 선택", "연도를 설정해 주세요.")
                     elif(var2=='연령대'):
@@ -445,6 +451,109 @@ class Menu2(tk.Frame):
                                     ta_df.insert(0,'연도',year)
                                     table=Table(new_window,dataframe=ta_df)
                                     table.show()
+=======
+                    if(var2=='20세이하'):
+                        var2=0
+                    elif(var2=='21세'):
+                        var2=1
+                    elif(var2=='31세'):
+                        var2=2
+                    elif(var2=='41세'):
+                        var2=3
+                    elif(var2=='51세'):
+                        var2=4
+                    elif(var2=='61세'):
+                        var2=5
+                    elif(var2=='65세이상'):
+                        var2=6
+
+                    if(var3=='20세이하'):
+                        var3=6
+                    elif(var3=='30세'):
+                        var3=5
+                    elif(var3=='40세'):
+                        var3=4
+                    elif(var3=='50세'):
+                        var3=3
+                    elif(var3=='60세'):
+                        var3=2
+                    elif(var3=='64세'):
+                        var3=1
+                    else:
+                        var3=0
+
+                    if(var1=='2017'):
+                        var1=3+var2
+                        max_var=10-var3
+                        year='2017년 '
+                    elif(var1=='2018'):
+                        var1=10+var2
+                        max_var=17-var3
+                        year='2018년 '
+                    elif(var1=='2019'):
+                        var1=17+var2
+                        max_var=24-var3
+                        year='2019년 '
+                    elif(var1=='2020'):
+                        var1=24+var2
+                        max_var=31-var3
+                        year='2020년 '
+                    elif(var1=='2021'):
+                        var1=31+var2
+                        max_var=38
+                        year='2021년 '
+
+                    if(var2+var3 < 7):
+                        for i in range(2,27):
+                            if(mylist_seletion == df1.loc[i][2]):
+                                new_window = tk.Toplevel(self.master)
+                                new_window.title(year+mylist_seletion+'의 '+var+' 의 연령별 데이터 프레임')
+
+                                if(max_var-var1==1):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1]}])
+
+                                elif(max_var-var1==2):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1]}])
+                                        
+                                elif(max_var-var1==3):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
+                                                    df1.iloc[0,var1+2]:df1.iloc[i,var1+2]}])
+                                                    
+                                        
+                                elif(max_var-var1==4):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
+                                                    df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
+                                                    df1.iloc[0,var1+3]:df1.iloc[i,var1+3]}])
+                                        
+                                elif(max_var-var1==5):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
+                                                    df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
+                                                    df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
+                                                    df1.iloc[0,var1+4]:df1.iloc[i,var1+4]}])
+                                elif(max_var-var1==6):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
+                                                    df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
+                                                    df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
+                                                    df1.iloc[0,var1+4]:df1.iloc[i,var1+4],
+                                                    df1.iloc[0,var1+5]:df1.iloc[i,var1+5]}])
+                                        
+                                elif(max_var-var1==7):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
+                                                    df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
+                                                    df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
+                                                    df1.iloc[0,var1+4]:df1.iloc[i,var1+4],
+                                                    df1.iloc[0,var1+5]:df1.iloc[i,var1+5],
+                                                    df1.iloc[0,var1+6]:df1.iloc[i,var1+6]}])
+                                ta_df.insert(0,'연도',year)
+                                table=Table(new_window,dataframe=ta_df)
+                                table.show()
+>>>>>>> 5148df0ecfdd020898d8497a13cf933f212e6e98
 
             elif bt1=='시간 설정' and bt2=='시간 설정':
                 if(var=='음주운전'):
@@ -458,7 +567,11 @@ class Menu2(tk.Frame):
 
                 df1.iloc[1:,3:]=df1.iloc[1:,3:].astype(int)
 
+<<<<<<< HEAD
                 if(var1=='연도' and var4=='시간대' or var5=='시간대'):
+=======
+                if(var4=='시간대' or var5=='시간대'):
+>>>>>>> 5148df0ecfdd020898d8497a13cf933f212e6e98
                     new_window = tk.Toplevel(self.master)
                     new_window.title('17~21년간의 '+mylist_seletion+'의 '+var+'의 전체 시간 데이터 프레임')
                     for i in range(2,27):
@@ -480,6 +593,7 @@ class Menu2(tk.Frame):
                     table=Table(new_window,dataframe=ta_df)
                     table.show()
                 else:
+<<<<<<< HEAD
                     if(var1=='연도'):
                         messagebox.showinfo("연도 선택", "연도를 설정해 주세요.")
                     elif(var4=='시간대'):
@@ -667,6 +781,188 @@ class Menu2(tk.Frame):
                             ta_df.insert(0,'연도',year)
                             table=Table(new_window,dataframe=ta_df)
                             table.show()
+=======
+                    if(var4=='00:00'):
+                        var4=0
+                    elif(var4=='02:00'):
+                        var4=1
+                    elif(var4=='04:00'):
+                        var4=2
+                    elif(var4=='06:00'):
+                        var4=3
+                    elif(var4=='08:00'):
+                        var4=4
+                    elif(var4=='10:00'):
+                        var4=5
+                    elif(var4=='12:00'):
+                        var4=6
+                    elif(var4=='14:00'):
+                        var4=7
+                    elif(var4=='16:00'):
+                        var4=8
+                    elif(var4=='18:00'):
+                        var4=9
+                    elif(var4=='20:00'):
+                        var4=10
+                    else:
+                        var4=11
+
+                    if(var5=='02:00'):
+                        var5=0
+                    elif(var5=='04:00'):
+                        var5=1
+                    elif(var5=='06:00'):
+                        var5=2
+                    elif(var5=='08:00'):
+                        var5=3
+                    elif(var5=='10:00'):
+                        var5=4
+                    elif(var5=='12:00'):
+                        var5=5
+                    elif(var5=='14:00'):
+                        var5=6
+                    elif(var5=='16:00'):
+                        var5=7
+                    elif(var5=='18:00'):
+                        var5=8
+                    elif(var5=='20:00'):
+                        var5=9
+                    elif(var5=='22:00'):
+                        var5=10
+                    else:
+                        var5=11
+
+                    if(var1=='2017'):
+                        var1=3+var4
+                        max_var=4+var5
+                        year='2017년 '
+                    elif(var1=='2018'):
+                        var1=15+var4
+                        max_var=16+var5
+                        year='2018년 '
+                    elif(var1=='2019'):
+                        var1=27+var4
+                        max_var=28+var5
+                        year='2019년 '
+                    elif(var1=='2020'):
+                        var1=39+var4
+                        max_var=40+var5
+                        year='2020년 '
+                    elif(var1=='2021'):
+                        var1=51+var4
+                        max_var=52+var5
+                        year='2021년 '
+
+                    new_window = tk.Toplevel(self.master)
+                    new_window.title(year+mylist_seletion+'의 '+var+ '의 시간별 데이터 프레임')
+                    if(var4-var5 <= 0):
+                        for i in range(2,27):
+                            if(mylist_seletion == df1.loc[i][2]):
+                                if(var5-var4==0):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1]}])
+
+                                elif(var5-var4==1):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1]}])
+                                    
+                                elif(var5-var4==2):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
+                                                    df1.iloc[0,var1+2]:df1.iloc[i,var1+2]}])
+                                    
+                                elif(var5-var4==3):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
+                                                    df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
+                                                    df1.iloc[0,var1+3]:df1.iloc[i,var1+3]}])
+                                    
+                                elif(var5-var4==4):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
+                                                    df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
+                                                    df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
+                                                    df1.iloc[0,var1+4]:df1.iloc[i,var1+4]}])
+                                    
+                                elif(var5-var4==5):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
+                                                    df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
+                                                    df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
+                                                    df1.iloc[0,var1+4]:df1.iloc[i,var1+4],
+                                                    df1.iloc[0,var1+5]:df1.iloc[i,var1+5]}])
+                                    
+                                elif(var5-var4==6):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
+                                                    df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
+                                                    df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
+                                                    df1.iloc[0,var1+4]:df1.iloc[i,var1+4],
+                                                    df1.iloc[0,var1+5]:df1.iloc[i,var1+5],
+                                                    df1.iloc[0,var1+6]:df1.iloc[i,var1+6]}])
+                                    
+                                elif(var5-var4==7):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
+                                                    df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
+                                                    df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
+                                                    df1.iloc[0,var1+4]:df1.iloc[i,var1+4],
+                                                    df1.iloc[0,var1+5]:df1.iloc[i,var1+5],
+                                                    df1.iloc[0,var1+6]:df1.iloc[i,var1+6],
+                                                    df1.iloc[0,var1+7]:df1.iloc[i,var1+7]}])
+                                    
+                                elif(var5-var4==8):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
+                                                    df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
+                                                    df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
+                                                    df1.iloc[0,var1+4]:df1.iloc[i,var1+4],
+                                                    df1.iloc[0,var1+5]:df1.iloc[i,var1+5],
+                                                    df1.iloc[0,var1+6]:df1.iloc[i,var1+6],
+                                                    df1.iloc[0,var1+7]:df1.iloc[i,var1+7],
+                                                    df1.iloc[0,var1+8]:df1.iloc[i,var1+8]}])
+                                    
+                                elif(var5-var4==9):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
+                                                    df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
+                                                    df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
+                                                    df1.iloc[0,var1+4]:df1.iloc[i,var1+4],
+                                                    df1.iloc[0,var1+5]:df1.iloc[i,var1+5],
+                                                    df1.iloc[0,var1+6]:df1.iloc[i,var1+6],
+                                                    df1.iloc[0,var1+7]:df1.iloc[i,var1+7],
+                                                    df1.iloc[0,var1+8]:df1.iloc[i,var1+8],
+                                                    df1.iloc[0,var1+9]:df1.iloc[i,var1+9]}])
+                                    
+                                elif(var5-var4==10):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
+                                                    df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
+                                                    df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
+                                                    df1.iloc[0,var1+4]:df1.iloc[i,var1+4],
+                                                    df1.iloc[0,var1+5]:df1.iloc[i,var1+5],
+                                                    df1.iloc[0,var1+6]:df1.iloc[i,var1+6],
+                                                    df1.iloc[0,var1+7]:df1.iloc[i,var1+7],
+                                                    df1.iloc[0,var1+8]:df1.iloc[i,var1+8],
+                                                    df1.iloc[0,var1+9]:df1.iloc[i,var1+9],
+                                                    df1.iloc[0,var1+10]:df1.iloc[i,var1+10]}])
+                                    
+                                elif(var5-var4==11):
+                                    ta_df=pd.DataFrame([{df1.iloc[0,var1]:df1.iloc[i,var1],
+                                                    df1.iloc[0,var1+1]:df1.iloc[i,var1+1],
+                                                    df1.iloc[0,var1+2]:df1.iloc[i,var1+2],
+                                                    df1.iloc[0,var1+3]:df1.iloc[i,var1+3],
+                                                    df1.iloc[0,var1+4]:df1.iloc[i,var1+4],
+                                                    df1.iloc[0,var1+5]:df1.iloc[i,var1+5],
+                                                    df1.iloc[0,var1+6]:df1.iloc[i,var1+6],
+                                                    df1.iloc[0,var1+7]:df1.iloc[i,var1+7],
+                                                    df1.iloc[0,var1+8]:df1.iloc[i,var1+8],
+                                                    df1.iloc[0,var1+9]:df1.iloc[i,var1+9],
+                                                    df1.iloc[0,var1+10]:df1.iloc[i,var1+10],
+                                                    df1.iloc[0,var1+11]:df1.iloc[i,var1+11]}])
+                        ta_df.insert(0,'연도',year)
+                        table=Table(new_window,dataframe=ta_df)
+                        table.show()
+>>>>>>> 5148df0ecfdd020898d8497a13cf933f212e6e98
 
 
 class Menu3(tk.Frame):
