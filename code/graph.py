@@ -515,7 +515,7 @@ class Graph():
                 for i, txt in enumerate(seoul_list):
                     plt.annotate(txt, (seoul_list[i], drunk_list[i]), fontsize=10, ha='center', va='center')
                 # 그래프 타이틀 설정
-                plt.title('서울시 구별 음주운전 교통사고 발생 건수', fontsize=16)
+                plt.title('2017~2021년 서울시 구별 음주운전 교통사고 종합 발생 건수', fontsize=16)
                 # x축, y축 라벨 설정
                 plt.xlabel('서울시 구', fontsize=14)
                 plt.ylabel('음주운전 교통사고 발생 건수', fontsize=14)
@@ -540,7 +540,7 @@ class Graph():
                 for i, txt in enumerate(seoul_list):
                     plt.annotate(txt, (seoul_list[i], drunk_list[i]), fontsize=10, ha='center', va='center')
                 # 그래프 타이틀 설정
-                plt.title('서울시 구별 음주운전 교통사고 발생 건수', fontsize=16)
+                plt.title('2017~2021년 서울시 구별 음주운전 교통사고 종합 발생 건수', fontsize=16)
                 # x축, y축 라벨 설정
                 plt.xlabel('서울시 구', fontsize=14)
                 plt.ylabel('음주운전 교통사고 발생 건수', fontsize=14)
@@ -566,7 +566,7 @@ class Graph():
                 for i, txt in enumerate(seoul_list):
                     plt.annotate(txt, (seoul_list[i], school_list[i]), fontsize=10, ha='center', va='center')
                 # 그래프 타이틀 설정
-                plt.title('서울시 구별 어린이 보호구역 교통사고 발생 건수', fontsize=16)
+                plt.title('2017~2021년 서울시 구별 어린이 보호구역 교통사고 종합 발생 건수', fontsize=16)
                 # x축, y축 라벨 설정
                 plt.xlabel('서울시 구', fontsize=14)
                 plt.ylabel('교통사고 발생 건수', fontsize=14)
@@ -591,7 +591,7 @@ class Graph():
                 for i, txt in enumerate(seoul_list):
                     plt.annotate(txt, (seoul_list[i], school_list[i]), fontsize=10, ha='center', va='center')
                 # 그래프 타이틀 설정
-                plt.title('서울시 구별 어린이 보호구역 교통사고 발생 건수', fontsize=16)
+                plt.title('2017~2021년 서울시 구별 어린이 보호구역 교통사고 종합 발생 건수', fontsize=16)
                 # x축, y축 라벨 설정
                 plt.xlabel('서울시 구', fontsize=14)
                 plt.ylabel('교통사고 발생 건수', fontsize=14)
@@ -618,7 +618,7 @@ class Graph():
                 for i, txt in enumerate(seoul_list):
                     plt.annotate(txt, (seoul_list[i], ul_list[i]), fontsize=10, ha='center', va='center')
                 # 그래프 타이틀 설정
-                plt.title('서울시 구별 무면허 교통사고 발생 건수', fontsize=16)
+                plt.title('2017~2021년 서울시 구별 무면허 교통사고 종합 발생 건수', fontsize=16)
                 # x축, y축 라벨 설정
                 plt.xlabel('서울시 구', fontsize=14)
                 plt.ylabel('교통사고 발생 건수', fontsize=14)
@@ -643,7 +643,7 @@ class Graph():
                 for i, txt in enumerate(seoul_list):
                     plt.annotate(txt, (seoul_list[i], ul_list[i]), fontsize=10, ha='center', va='center')
                 # 그래프 타이틀 설정
-                plt.title('서울시 구별 무면허 교통사고 발생 건수', fontsize=16)
+                plt.title('2017~2021년 서울시 구별 무면허 교통사고 종합 발생 건수', fontsize=16)
                 # x축, y축 라벨 설정
                 plt.xlabel('서울시 구', fontsize=14)
                 plt.ylabel('교통사고 발생 건수', fontsize=14)

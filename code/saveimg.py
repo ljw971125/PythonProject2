@@ -31,11 +31,12 @@ class SaveImg():
             # 이미지 저장 대화상자 띄우기
             df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
             if not mylist.curselection():
-                messagebox.showinfo("자치구 선택", "자치구를 선택해주세요.")
+                messagebox.showinfo("경고","리스트 박스가 선택되지 않았습니다.")
             else:
                 index = mylist.curselection()[0]
                 info = mylist.get(index)
-                file_path = filedialog.asksaveasfilename(defaultextension='.png')              
+                filetypes = [('PNG images', '*.png')]
+                file_path = filedialog.asksaveasfilename(filetypes=filetypes)  
                 # 이미지 저장하기
                 if file_path != None:
 
@@ -56,11 +57,12 @@ class SaveImg():
                             plt.savefig(file_path)
         elif value == 2:
             if not mylist.curselection():
-                messagebox.showinfo("자치구 선택", "자치구를 선택해주세요.")
+                messagebox.showinfo("경고","리스트 박스가 선택되지 않았습니다.")
             elif(var!='음주운전' and var!='무면허' and var!='어린이 보호구역'):
-                messagebox.showinfo("사고유형 선택", "사고유형을 선택해주세요.")
+                messagebox.showinfo("라디오 박스 선택", "라디오박스 체크를 확인해 주세요.")
             else:
-                file_path = filedialog.asksaveasfilename(defaultextension='.png')
+                filetypes = [('PNG images', '*.png')]
+                file_path = filedialog.asksaveasfilename(filetypes=filetypes)  
                 index = mylist.curselection()[0]
                 info = mylist.get(index)
                 if bt1=='나이 설정' and bt2=='나이 설정':
@@ -289,10 +291,11 @@ class SaveImg():
 
         elif value == 3:
             if(var!='음주운전' and var!='무면허' and var!='어린이 보호구역'):
-                messagebox.showinfo("사고유형 선택", "사고유형을 선택해주세요.")
+                messagebox.showinfo("라디오 박스 선택", "라디오박스 체크를 확인해 주세요.")
             else:
                 if var == '음주운전':
-                    file_path = filedialog.asksaveasfilename(defaultextension='.png')
+                    filetypes = [('PNG images', '*.png')]
+                    file_path = filedialog.asksaveasfilename(filetypes=filetypes)  
                     df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
                     df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
                     df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
@@ -309,7 +312,7 @@ class SaveImg():
                     sns.scatterplot(x=seoul_list, y=drunk_list, size=drunk_list, sizes=(300, 8000), hue=drunk_list, palette=colors, alpha=0.7, legend=False)
                     for i, txt in enumerate(seoul_list):
                         plt.annotate(txt, (seoul_list[i], drunk_list[i]), fontsize=10, ha='center', va='center')
-                    plt.title('서울시 구별 음주운전 교통사고 발생 건수', fontsize=16)
+                    plt.title('2017~2021년 서울시 구별 음주운전 교통사고 종합 발생 건수', fontsize=16)
                     plt.xlabel('서울시 구', fontsize=14)
                     plt.ylabel('음주운전 교통사고 발생 건수', fontsize=14)
                     plt.xticks([])
@@ -320,7 +323,8 @@ class SaveImg():
                     plt.savefig(file_path)
     
                 elif var == '어린이 보호구역':
-                    file_path = filedialog.asksaveasfilename(defaultextension='.png')        
+                    filetypes = [('PNG images', '*.png')]
+                    file_path = filedialog.asksaveasfilename(filetypes=filetypes)         
                     df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
                     df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
                     seoul_list = ['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구', '도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
@@ -335,7 +339,7 @@ class SaveImg():
                     sns.scatterplot(x=seoul_list, y=school_list, size=school_list, sizes=(300, 8000), hue=school_list, palette=colors, alpha=0.7, legend=False)
                     for i, txt in enumerate(seoul_list):
                         plt.annotate(txt, (seoul_list[i], school_list[i]), fontsize=10, ha='center', va='center')
-                    plt.title('서울시 구별 어린이 보호구역 교통사고 발생 건수', fontsize=16)
+                    plt.title('2017~2021년 서울시 구별 어린이 보호구역 교통사고 종합 발생 건수', fontsize=16)
                     plt.xlabel('서울시 구', fontsize=14)
                     plt.ylabel('교통사고 발생 건수', fontsize=14)
                     plt.xticks([])
@@ -346,7 +350,8 @@ class SaveImg():
                     plt.savefig(file_path)
 
                 elif var == '무면허':
-                    file_path = filedialog.asksaveasfilename(defaultextension='.png')
+                    filetypes = [('PNG images', '*.png')]
+                    file_path = filedialog.asksaveasfilename(filetypes=filetypes)  
                     df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
                     df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
                     seoul_list = ['종로구', '중구', '용산구', '성동구', '광진구', '동대문구', '중랑구', '성북구', '강북구', '도봉구', '노원구', '은평구', '서대문구', '마포구', '양천구', '강서구', '구로구', '금천구', '영등포구', '동작구', '관악구', '서초구', '강남구', '송파구', '강동구']
@@ -364,7 +369,7 @@ class SaveImg():
 
                     for i, txt in enumerate(seoul_list):
                         plt.annotate(txt, (seoul_list[i], ul_list[i]), fontsize=10, ha='center', va='center')
-                    plt.title('서울시 구별 무면허 교통사고 발생 건수', fontsize=16)
+                    plt.title('2017~2021년 서울시 구별 무면허 교통사고 종합 발생 건수', fontsize=16)
                     plt.xlabel('서울시 구', fontsize=14)
                     plt.ylabel('교통사고 발생 건수', fontsize=14)
                     plt.xticks([])
@@ -392,14 +397,15 @@ class SaveImg():
     def saveDataImage(self,mylist,value,var,var1,var2,var3,var4,var5,bt1,bt2):
         if value==1:
             if not mylist.curselection():
-                messagebox.showinfo("자치구 선택", "자치구를 선택해주세요.")
+                messagebox.showinfo("리스트 박스 선택", "리스트박스 체크를 확인해 주세요.")
             else:
                 # 이미지 저장 대화상자 띄우기
                 index = mylist.curselection()[0]
                 info = mylist.get(index)
                 df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
                 if info != None :
-                    file_path = filedialog.asksaveasfilename(defaultextension='.png')
+                    filetypes = [('PNG images', '*.png')]
+                    file_path = filedialog.asksaveasfilename(filetypes=filetypes,defaultextension='.png')  
                     # 이미지 저장하기
                     if file_path != None:
                         for i in range(1,26):
@@ -409,17 +415,18 @@ class SaveImg():
                                                 '무면허':[df1.loc[i][6], df1.loc[i][9], df1.loc[i][12],df1.loc[i][15],df1.loc[i][18]]},
                                                 index=['2017','2018','2019','2020','2021'])
                     df=df.rename_axis('연도') 
-                    dfi.export(df,file_path,max_cols = -1, max_rows = -1)
+                    dfi.export(df,file_path,max_cols = -1, max_rows = -1,table_conversion='matplotlib')
         elif value==2:
             if not mylist.curselection():
-                messagebox.showinfo("자치구 선택", "자치구를 선택해주세요.")
+                messagebox.showinfo("리스트 박스 선택","리스트 박스 선택을 확인해 주세요.")
             elif(var!='음주운전' and var!='무면허' and var!='어린이 보호구역'):
-                messagebox.showinfo("사고유형 선택", "사고유형을 선택해주세요.")
+                messagebox.showinfo("라디오 박스 선택", "라디오박스 체크를 확인해 주세요.")
             else:
                 index = mylist.curselection()[0]
                 info = mylist.get(index)
                 if info != None :
-                    file_path = filedialog.asksaveasfilename(defaultextension='.png')
+                    filetypes = [('PNG images', '*.png')]
+                    file_path = filedialog.asksaveasfilename(filetypes=filetypes,defaultextension='.png')  
                     # 이미지 저장하기
                     if file_path != None:
                         index = mylist.curselection()[0]
@@ -446,7 +453,7 @@ class SaveImg():
                                                 '51~60세':df1.iloc[i,7::7].sum(),
                                                 '61~64세':df1.iloc[i,8::7].sum(),
                                                 '65세이상':df1.iloc[i,9::7].sum()}],index=['17~21년'])                             
-                                dfi.export(df,file_path,max_cols = -1, max_rows = -1)    
+                                dfi.export(df,file_path,max_cols = -1, max_rows = -1,table_conversion='matplotlib')    
 
                             else:
                                 if(var1=='연도'):
@@ -551,7 +558,7 @@ class SaveImg():
                                                                     df1.iloc[0,var1+4]:df1.iloc[i,var1+4],
                                                                     df1.iloc[0,var1+5]:df1.iloc[i,var1+5],
                                                                     df1.iloc[0,var1+6]:df1.iloc[i,var1+6]}],index=[year])   
-                                        dfi.export(df,file_path,max_cols = -1, max_rows = -1)            
+                                        dfi.export(df,file_path,max_cols = -1, max_rows = -1,table_conversion='matplotlib')            
 
                         elif bt1=='시간 설정' and bt2=='시간 설정':
                             if(var=='음주운전'):
@@ -581,7 +588,7 @@ class SaveImg():
                                                         '20시~22시':df1.iloc[i,13::12].sum(),
                                                         '22시~24시':df1.iloc[i,14::12].sum()}
                                                         ],index=['17~21년'])
-                                dfi.export(df,file_path,fontsize=8)
+                                dfi.export(df,file_path,fontsize=8,table_conversion='matplotlib')
 
                             else:
                                 if(var1=='연도'):
@@ -766,12 +773,13 @@ class SaveImg():
                                                                     df1.iloc[0,var1+9]:df1.iloc[i,var1+9],
                                                                     df1.iloc[0,var1+10]:df1.iloc[i,var1+10],
                                                                     df1.iloc[0,var1+11]:df1.iloc[i,var1+11]}],index=[year])
-                                        dfi.export(df,file_path,fontsize=8)
+                                        dfi.export(df,file_path,fontsize=8,table_conversion='matplotlib')
         else:
             if(var!='음주운전' and var!='무면허' and var!='어린이 보호구역'):
-                messagebox.showinfo("사고유형 선택", "사고유형을 선택해주세요.")
+                messagebox.showinfo("라디오 박스 선택", "라디오박스 체크를 확인해 주세요.")
             else:
-                file_path = filedialog.asksaveasfilename(defaultextension='.png')
+                filetypes = [('PNG images', '*.png')]
+                file_path = filedialog.asksaveasfilename(filetypes=filetypes,defaultextension='.png')  
                 df1=pd.read_csv('All_TrafficAccident.csv',encoding='cp949')
                 #구 ,발생건수
                 df1.iloc[1:,4:]=df1.iloc[1:,4:].astype(int)
@@ -785,18 +793,18 @@ class SaveImg():
                     df=pd.DataFrame({'무면허':ul_list},index=seoul_list)
                     df=df.rename_axis('자치구')
                     df =df.sort_values(by='무면허', ascending=False)
-                    dfi.export(df,file_path,max_cols = -1, max_rows = -1,fontsize=8)
+                    dfi.export(df,file_path,max_cols = -1, max_rows = -1,fontsize=8,table_conversion='matplotlib')
                 elif var=='음주운전':
                     for i in range(1,26):
                         drunk_list.append(df1.iloc[i,5]+df1.iloc[i,8]+df1.iloc[i,11]+df1.iloc[i,14]+df1.iloc[i,17])
                     df=pd.DataFrame({'음주운전':drunk_list},index=seoul_list)
                     df=df.rename_axis('자치구')
                     df =df.sort_values(by='음주운전', ascending=False)
-                    dfi.export(df,file_path,max_cols = -1, max_rows = -1,fontsize=8)
+                    dfi.export(df,file_path,max_cols = -1, max_rows = -1,fontsize=8,table_conversion='matplotlib')
                 elif var=='어린이 보호구역':
                     for i in range(1,26):
                         school_list.append(df1.iloc[i,4]+df1.iloc[i,7]+df1.iloc[i,10]+df1.iloc[i,13]+df1.iloc[i,16])
                     df=pd.DataFrame({'어린이 보호구역':school_list},index=seoul_list)
                     df=df.rename_axis('자치구')
                     df =df.sort_values(by='어린이 보호구역', ascending=False)
-                    dfi.export(df,file_path,max_cols = -1, max_rows = -1,fontsize=8)
+                    dfi.export(df,file_path,max_cols = -1, max_rows = -1,fontsize=8,table_conversion='matplotlib')
